@@ -5,7 +5,7 @@ import Container from "../../Reusable/Container/Container";
 const Hero = () => {
   return (
     <Container>
-      <div className="pt-24">
+      <div className="pt-24 pb-[149px]">
         <h1 className="text-[65px] font-Satoshi font-bold leading-17.75 text-center max-w-282 mx-auto">
           Clarity for your next move, powered by astrology
         </h1>

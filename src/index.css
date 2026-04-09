@@ -34,7 +34,8 @@
 
 @font-face {
   font-family: "GeneralSans";
-  src: url("./assets/fonts/general-sans/GeneralSans-Regular.otf") format("opentype");
+  src: url("./assets/fonts/general-sans/GeneralSans-Regular.otf")
+    format("opentype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -42,7 +43,8 @@
 
 @font-face {
   font-family: "GeneralSans";
-  src: url("./assets/fonts/general-sans/GeneralSans-Medium.otf") format("opentype");
+  src: url("./assets/fonts/general-sans/GeneralSans-Medium.otf")
+    format("opentype");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -50,7 +52,8 @@
 
 @font-face {
   font-family: "GeneralSans";
-  src: url("./assets/fonts/general-sans/GeneralSans-Semibold.otf") format("opentype");
+  src: url("./assets/fonts/general-sans/GeneralSans-Semibold.otf")
+    format("opentype");
   font-weight: 600;
   font-style: normal;
   font-display: swap;
@@ -58,7 +61,8 @@
 
 @font-face {
   font-family: "GeneralSans";
-  src: url("./assets/fonts/general-sans/GeneralSans-Bold.otf") format("opentype");
+  src: url("./assets/fonts/general-sans/GeneralSans-Bold.otf")
+    format("opentype");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -76,14 +80,10 @@
   --color-primary-10: #dd9427;
   --color-primary-15: #9b681b;
 
-
-
   /* neutral */
-  --color-neutral-5: #0D0D0D;
+  --color-neutral-5: #0d0d0d;
   --color-neutral-10: #1c1c1c;
-  --color-neutral-15: #dedede;
-  --color-neutral-20: #b0b0b0;
-  --color-neutral-25: #0d0d0d;
+  --color-neutral-15: #FBF7EB;
 
   /* accent */
   --color-accent-10: #f17556;
@@ -100,7 +100,7 @@ button {
 
 @layer components {
   .heading {
-    @apply text-2xl font-bold text-center text-neutral-25 font-Satoshi;
+    @apply text-[28px] md:text-[37px] xl:text-[42px] 2xl:text-[49px] leading-9 md:leading-11.5 xl:leading-13 2xl:leading-14 font-bold text-center text-neutral-5 font-bold font-Satoshi max-w-250 mx-auto;
     line-height: 2rem;
   }
 
