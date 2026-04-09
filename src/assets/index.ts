@@ -9,6 +9,7 @@ import calendar from "./icons/calendar.svg";
 import facebook from "./icons/facebook.svg";
 import instagram from "./icons/instagram.svg";
 import twitter from "./icons/twitter.svg";
+import arrowDown from "./icons/arrow-down.svg";
 
 // Images
 import heroImg1 from "./images/hero-img-1.webp";
@@ -61,5 +62,6 @@ export const ICONS = {
     calendar,
     facebook,
     instagram,
-    twitter
+    twitter,
+    arrowDown
 };

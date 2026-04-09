@@ -8,6 +8,7 @@ import ExploreRemedies from "../../components/HomePage/ExploreRemedies/ExploreRe
 import ExploreBlogs from "../../components/HomePage/ExploreBlogs/ExploreBlogs";
 import GetMyPersonalizedInsights from "../../components/HomePage/GetMyPersonalizedInsights/GetMyPersonalizedInsights";
 import CTA from "../../components/Shared/CTA/CTA";
+import FAQ from "../../components/Shared/FAQ/FAQ";
 
 const Home = () => {
   return (
@@ -21,6 +22,7 @@ const Home = () => {
       <ExploreRemedies />
       <GetMyPersonalizedInsights/>
       <ExploreBlogs/>
+      <FAQ/>
       <CTA/>
     </div>
   );
