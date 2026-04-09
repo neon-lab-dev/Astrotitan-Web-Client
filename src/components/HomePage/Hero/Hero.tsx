@@ -6,7 +6,7 @@ const Hero = () => {
   return (
     <Container>
       <div className="pt-12 md:pt-24 pb-20 xl:pb-37.25">
-        <h1 className="text-[34px] md:text-[49px] xl:text-[55px] 2xl:text-[65px] font-Satoshi font-bold leading-11.5 md:leading-14 2xl:leading-17.75 text-center max-w-282 mx-auto">
+        <h1 className="text-[34px] md:text-[49px] xl:text-[55px] 2xl:text-[65px] font-Satoshi font-semibold leading-11.5 md:leading-14 2xl:leading-17.75 text-center max-w-282 mx-auto">
           Clarity for your next move, powered by astrology
         </h1>
         <p className="text-base md:text-[21px] font-GeneralSans leading-7.75 text-center max-w-282 mx-auto mt-3">

@@ -35,7 +35,7 @@ const Footer = () => {
       links: [
         {
           label: "About Astrotitan",
-          path: "",
+          path: "/about-us",
         },
         {
           label: "Contact Us",

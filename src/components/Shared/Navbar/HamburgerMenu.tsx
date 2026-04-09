@@ -46,9 +46,7 @@ const HamburgerMenu = () => {
 
   return (
     <div className="relative hamburgerMenu flex lg:hidden">
-      <button
-        onClick={toggleHamburgerMenu}
-      >
+      <button onClick={toggleHamburgerMenu}>
         <img src={ICONS.menu} alt="menu-icon" />
       </button>
 
@@ -62,11 +60,11 @@ const HamburgerMenu = () => {
 
       {/* Side Menu */}
       <div
-        className={`fixed inset-y-0 right-0 z-50 bg-white py-8 p-6 w-75 overflow-y-auto transition-all duration-300 transform flex flex-col items-start justify-between ${
+        className={`fixed inset-y-0 right-0 z-50 bg-white py-8 p-6 w-77 overflow-y-auto transition-all duration-300 transform flex flex-col items-start justify-between ${
           isHamburgerOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="flex flex-col gap-10 w-full"> 
+        <div className="flex flex-col gap-10 w-full">
           {/* Header */}
           <div className="flex justify-between items-center gap-5 w-full border-b border-neutral-10/50 pb-4">
             <Link to="/" onClick={toggleHamburgerMenu}>
@@ -98,24 +96,15 @@ const HamburgerMenu = () => {
 
         {/* Auth Buttons */}
         {!user ? (
-          <a
-            href={`/`}
-            className="w-full"
-          >
+          <a href={`/`} className="w-full">
             <Button label="Dashboard" className="w-full" />
           </a>
         ) : (
           <div className="flex gap-3 w-full text-center">
-            <a
-              href={`/`}
-              className="w-full"
-            >
+            <a href={`/`} className="w-full">
               <Button variant="secondary" label="Sign In" className="w-full" />
             </a>
-            <a
-              href={`/`}
-              className="w-full"
-            >
+            <a href={`/`} className="w-full">
               <Button label="Sign Up" className="w-full" />
             </a>
           </div>
