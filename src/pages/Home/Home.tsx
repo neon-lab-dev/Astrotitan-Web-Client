@@ -17,13 +17,13 @@ const Home = () => {
       <TrustedBy />
       <DailyHoroscope />
       <GenerateInsights />
-      <Benefits/>
+      <Benefits />
       <TalkToAstrologer />
       <ExploreRemedies />
-      <GetMyPersonalizedInsights/>
-      <ExploreBlogs/>
-      <FAQ/>
-      <CTA/>
+      <GetMyPersonalizedInsights />
+      <ExploreBlogs />
+      <FAQ />
+      <CTA />
     </div>
   );
 };
