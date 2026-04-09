@@ -82,8 +82,9 @@
 
   /* neutral */
   --color-neutral-5: #0d0d0d;
-  --color-neutral-10: #1c1c1c;
-  --color-neutral-15: #FBF7EB;
+  --color-neutral-10: #4A4A4A;
+  --color-neutral-15: #fbf7eb;
+  --color-neutral-20: #f4f0e5;
 
   /* accent */
   --color-accent-10: #f17556;
@@ -100,14 +101,13 @@ button {
 
 @layer components {
   .heading {
-    @apply text-[28px] md:text-[37px] xl:text-[42px] 2xl:text-[49px] leading-9 md:leading-11.5 xl:leading-13 2xl:leading-14 font-bold text-center text-neutral-5 font-bold font-Satoshi max-w-250 mx-auto;
-    line-height: 2rem;
+    @apply text-[28px] md:text-[37px] xl:text-[42px] 2xl:text-[49px] 
+           leading-9 md:leading-11.5 xl:leading-13 2xl:leading-14 
+           font-semibold text-center text-neutral-5 
+           font-Satoshi max-w-250 mx-auto;
   }
 
-  @media (min-width: 768px) {
-    .heading {
-      @apply text-[39px];
-      line-height: 2.9375rem;
-    }
+  .description {
+    @apply text-base md:text-[21px] font-GeneralSans leading-6 md:leading-7.75 text-center max-w-282 mx-auto;
   }
 }
