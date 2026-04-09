@@ -31,7 +31,7 @@ const Benefits = () => {
           movements support your current priorities.
         </p>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 md:gap-6 mt-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 md:gap-6 mt-6 md:mt-12">
           {benefits?.map((item) => (
             <HighlightCard key={item?.id} item={item} />
           ))}

@@ -2,32 +2,20 @@ import { Link } from "react-router-dom";
 import { ICONS } from "../../../assets";
 import Container from "../../Reusable/Container/Container";
 import Button from "../../Reusable/Button/Button";
+import { navLinks } from "./navlinks";
+import HamburgerMenu from "./HamburgerMenu";
 
 const Navbar = () => {
-  const navLinks = [
-    {
-      label: "Consult Astrologers",
-      path: "/consult-astrologers",
-    },
-    {
-      label: "How It Works",
-      path: "/how-it-works",
-    },
-    {
-      label: "Insights",
-      path: "/insights",
-    },
-  ];
-
+  
   return (
     <div className="pt-14 pb-6">
       <Container>
         <div className="flex items-center justify-between">
           <Link to="/">
-            <img src={ICONS.astrotitanLogo} alt="" />
+            <img src={ICONS.astrotitanLogo} alt="" className="size-13 xl:size-18" />
           </Link>
 
-          <div className="flex items-center gap-6">
+          <div className="hidden md:flex items-center gap-6">
             {navLinks?.map((item, index) => (
               <Link
                 key={index}
@@ -43,6 +31,7 @@ const Navbar = () => {
               <Button label="Login" />
             </Link>
           </div>
+          <HamburgerMenu/>
         </div>
       </Container>
     </div>

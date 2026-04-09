@@ -5,16 +5,16 @@ import Container from "../../Reusable/Container/Container";
 const Hero = () => {
   return (
     <Container>
-      <div className="pt-24 pb-[149px]">
-        <h1 className="text-[65px] font-Satoshi font-bold leading-17.75 text-center max-w-282 mx-auto">
+      <div className="pt-12 md:pt-24 pb-20 xl:pb-37.25">
+        <h1 className="text-[34px] md:text-[49px] xl:text-[55px] 2xl:text-[65px] font-Satoshi font-bold leading-11.5 md:leading-14 2xl:leading-17.75 text-center max-w-282 mx-auto">
           Clarity for your next move, powered by astrology
         </h1>
-        <p className="text-[21px] font-GeneralSans leading-7.75 text-center max-w-282 mx-auto mt-3">
+        <p className="text-base md:text-[21px] font-GeneralSans leading-7.75 text-center max-w-282 mx-auto mt-3">
           Personalized insights based on your birth details and intent
           preferences — so you know what to do, not just what’s happening.
         </p>
 
-        <div className="flex items-center justify-center gap-3 mt-6">
+        <div className="flex flex-col md:flex-row items-center justify-center gap-3 mt-6">
           <Button label="Get My Personalized Insights" />
           <Button variant="secondary" label="Explore Today’s Insights" />
         </div>
@@ -23,10 +23,22 @@ const Hero = () => {
           Takes less than 60 seconds • No astrology knowledge needed
         </p>
 
-        <div className="flex items-center justify-center gap-14 mt-12">
-          <img src={IMAGES.heroImg1} alt="" />
-          <img src={IMAGES.heroImg2} alt="" />
-          <img src={IMAGES.heroImg3} alt="" />
+        <div className="w-full overflow-x-auto flex items-center xl:justify-center gap-5 md:gap-14 mt-12">
+          <img
+            src={IMAGES.heroImg1}
+            alt=""
+            className="w-1/2 md:w-2/5 xl:w-fit"
+          />
+          <img
+            src={IMAGES.heroImg2}
+            alt=""
+            className="w-1/2 md:w-2/5 xl:w-fit"
+          />
+          <img
+            src={IMAGES.heroImg3}
+            alt=""
+            className="w-1/2 md:w-2/5 xl:w-fit"
+          />
         </div>
       </div>
     </Container>

@@ -180,7 +180,7 @@ const Footer = () => {
           </div>
 
           <hr className="border border-neutral-10/50 mt-12 mb-6" />
-          <p className="text-start md:text-center text-base md:text-[21px] font-GeneralSans leading-6 md:leading-7.75">
+          <p className="text-center text-base md:text-[21px] font-GeneralSans leading-6 md:leading-7.75">
             © All Rights Reserved by 2026 Astrotitan
           </p>
 

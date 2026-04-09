@@ -29,7 +29,7 @@ const TrustedBy = () => {
           Trusted by thousands seeking clarity in everyday decisions
         </h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 md:gap-6 mt-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 md:gap-6 mt-6 md:mt-12">
           {features?.map((item) => (
             <div
               key={item?.id}

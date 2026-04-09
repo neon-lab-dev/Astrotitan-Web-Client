@@ -42,9 +42,9 @@ const FeatureSection: React.FC<TFeatureSectionProps> = ({
           </p>
         )}
 
-        <div className="flex items-center justify-center gap-14 mt-12">
+        <div className="w-full overflow-x-auto flex items-center xl:justify-center gap-3 md:gap-14 mt-12">
           {images?.map((image: any) => (
-            <img src={image} alt="" />
+            <img src={image} alt="" className="w-1/2 md:w-2/5 xl:w-fit" />
           ))}
         </div>
       </div>

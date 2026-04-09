@@ -10,6 +10,7 @@ import facebook from "./icons/facebook.svg";
 import instagram from "./icons/instagram.svg";
 import twitter from "./icons/twitter.svg";
 import arrowDown from "./icons/arrow-down.svg";
+import menu from "./icons/menu.svg";
 
 // Images
 import heroImg1 from "./images/hero-img-1.webp";
@@ -63,5 +64,6 @@ export const ICONS = {
     facebook,
     instagram,
     twitter,
-    arrowDown
+    arrowDown,
+    menu
 };

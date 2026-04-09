@@ -49,7 +49,7 @@ const GetMyPersonalizedInsights = () => {
           {steps?.map((item) => (
             <div
               key={item?.id}
-              className="bg-neutral-15 border border-primary-5 rounded-xl p-6 flex flex-col items-center text-center"
+              className="bg-neutral-15 border border-primary-5 rounded-xl p-4 md:p-6 flex flex-col items-center text-center"
             >
               <img src={item?.icon} alt="" className="size-12" />
               <h2 className="text-neutral-10 font-Satoshi font-semibold text-[28px] leading-9 mt-6">

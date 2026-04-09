@@ -70,7 +70,7 @@ const FAQ = () => {
           {faqs?.map((according, index) => (
             <motion.article
               key={index}
-              className={`bg-neutral-15 rounded-xl border border-primary-5 p-6 transform duration-300`}
+              className={`bg-neutral-15 rounded-xl border border-primary-5 p-4 md:p-6 transform duration-300`}
               variants={itemVariants}
               layout
             >
