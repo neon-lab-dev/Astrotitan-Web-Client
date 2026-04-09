@@ -7,6 +7,7 @@ import Benefits from "../../components/HomePage/Benefits/Benefits";
 import ExploreRemedies from "../../components/HomePage/ExploreRemedies/ExploreRemedies";
 import ExploreBlogs from "../../components/HomePage/ExploreBlogs/ExploreBlogs";
 import GetMyPersonalizedInsights from "../../components/HomePage/GetMyPersonalizedInsights/GetMyPersonalizedInsights";
+import CTA from "../../components/Shared/CTA/CTA";
 
 const Home = () => {
   return (
@@ -20,6 +21,7 @@ const Home = () => {
       <ExploreRemedies />
       <GetMyPersonalizedInsights/>
       <ExploreBlogs/>
+      <CTA/>
     </div>
   );
 };

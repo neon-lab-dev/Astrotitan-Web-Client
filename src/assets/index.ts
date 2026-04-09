@@ -27,6 +27,7 @@ import remediesImg1 from "./images/remedies-img-1.webp";
 import remediesImg2 from "./images/remedies-img-2.webp";
 import blogImg1 from "./images/blog-img-1.webp";
 import blogImg2 from "./images/blog-img-2.webp";
+import ctaImg from "./images/cta-img.webp";
 
 
 export const IMAGES = {
@@ -45,7 +46,8 @@ export const IMAGES = {
     remediesImg1,
     remediesImg2,
     blogImg1,
-    blogImg2
+    blogImg2,
+    ctaImg
 };
 
 export const ICONS = {
