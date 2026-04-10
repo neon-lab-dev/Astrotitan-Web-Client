@@ -8,7 +8,17 @@ const CTA = () => {
       <img
         src={IMAGES.ctaImg}
         alt=""
-        className="absolute top-0 left-0 w-full h-full object-cover"
+        className="absolute top-0 left-0 w-full h-full object-cover hidden lg:block"
+      />
+      <img
+        src={IMAGES.ctaImgMobile}
+        alt=""
+        className="absolute top-0 left-0 w-full h-full object-cover block md:hidden"
+      />
+      <img
+        src={IMAGES.ctaImgTab}
+        alt=""
+        className="absolute top-0 left-0 w-full h-full object-cover hidden md:block lg:hidden"
       />
       <Container>
         <div className="flex flex-col items-center justify-center text-center relative">
