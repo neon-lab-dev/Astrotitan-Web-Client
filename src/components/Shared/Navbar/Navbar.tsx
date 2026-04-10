@@ -7,14 +7,14 @@ import HamburgerMenu from "./HamburgerMenu";
 
 const Navbar = () => {
   return (
-    <div className="pt-14 pb-6">
+    <div className="pt-14 pb-6 bg-background-5 sticky top-0 z-50">
       <Container>
         <div className="flex items-center justify-between">
           <Link to="/">
             <img
               src={ICONS.astrotitanLogo}
               alt=""
-              className="size-13 xl:size-18"
+              className="size-13 xl:size-20"
             />
           </Link>
 
