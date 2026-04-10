@@ -11,6 +11,8 @@ import instagram from "./icons/instagram.svg";
 import twitter from "./icons/twitter.svg";
 import arrowDown from "./icons/arrow-down.svg";
 import menu from "./icons/menu.svg";
+import call from "./icons/call.svg";
+import mail from "./icons/mail.svg";
 
 // Images
 import heroImg1 from "./images/hero-img-1.webp";
@@ -65,5 +67,7 @@ export const ICONS = {
     instagram,
     twitter,
     arrowDown,
-    menu
+    menu,
+    call,
+    mail
 };

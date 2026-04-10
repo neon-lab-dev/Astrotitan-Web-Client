@@ -39,7 +39,7 @@ const Footer = () => {
         },
         {
           label: "Contact Us",
-          path: "",
+          path: "/contact-us",
         },
       ],
     },
