@@ -35,6 +35,9 @@ import blogImg2 from "./images/blog-img-2.webp";
 import ctaImg from "./images/cta-img.webp";
 import ctaImgMobile from "./images/cta-img-mobile.webp";
 import ctaImgTab from "./images/cta-img-tab.webp";
+import linnerShape from "./images/linner-shape.webp";
+import linnerShape2 from "./images/linner-shape2.webp";
+import featureSectionBg from "./images/feature-section-bg.webp";
 
 
 export const IMAGES = {
@@ -57,7 +60,10 @@ export const IMAGES = {
     blogImg2,
     ctaImg,
     ctaImgMobile,
-    ctaImgTab
+    ctaImgTab,
+    linnerShape,
+    linnerShape2,
+    featureSectionBg,
 };
 
 export const ICONS = {

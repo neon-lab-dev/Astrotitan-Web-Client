@@ -7,7 +7,7 @@ import HamburgerMenu from "./HamburgerMenu";
 
 const Navbar = () => {
   return (
-    <div className="py-6 bg-background-5 sticky top-0 z-50 font-Satoshi">
+    <div className="py-6 bg-background-5 font-Satoshi">
       <Container>
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3">

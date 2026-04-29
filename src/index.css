@@ -80,6 +80,7 @@
   --color-primary-10: #dd9427;
   --color-primary-15: #9b681b;
   --color-primary-20: #DBBD59;
+  --color-primary-25: #EDDEAD;
 
   /* neutral */
   --color-neutral-5: #0d0d0d;
@@ -104,11 +105,14 @@ button {
   .heading {
     @apply text-[28px] md:text-[37px] xl:text-[42px] 2xl:text-[49px] 
            leading-9 md:leading-11.5 xl:leading-13 2xl:leading-14 
-           font-semibold text-center text-neutral-5 
-           font-Satoshi max-w-250 mx-auto;
+           font-semibold text-neutral-5 
+           font-Satoshi;
   }
 
+  /* max-w-250 mx-auto */
+
   .description {
-    @apply text-base md:text-[21px] font-GeneralSans leading-6 md:leading-7.75 text-center max-w-282 mx-auto;
+    @apply text-base md:text-[21px] font-GeneralSans leading-6 md:leading-7.75;
   }
+  /* max-w-282 mx-auto */
 }
