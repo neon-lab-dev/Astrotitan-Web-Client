@@ -4,7 +4,7 @@ import Container from "../../Reusable/Container/Container";
 
 const Hero = () => {
   return (
-    <div className="relative h-[1096px] 2xl:h-[1400px] md:h-[1350px]">
+    <div className="relative h-[950px] md:h-[1250px] 2xl:h-[1400px]">
       <Container>
         <div className="pt-12 md:pt-24 pb-20 xl:pb-37.25">
           <h1 className="text-[34px] md:text-[49px] xl:text-[55px] 2xl:text-[65px] font-Satoshi font-semibold leading-11.5 md:leading-14 2xl:leading-17.75 text-center max-w-282 mx-auto">
