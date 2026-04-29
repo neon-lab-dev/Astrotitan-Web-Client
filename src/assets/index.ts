@@ -18,6 +18,7 @@ import mail from "./icons/mail.svg";
 import heroImg1 from "./images/hero-img-1.webp";
 import heroImg2 from "./images/hero-img-2.webp";
 import heroImg3 from "./images/hero-img-3.webp";
+import heroBg from "./images/hero-bg.webp";
 import dailyHoroscopeImg1 from "./images/daily-horoscope-img-1.webp";
 import dailyHoroscopeImg2 from "./images/daily-horoscope-img-2.webp";
 import dailyHoroscopeImg3 from "./images/daily-horoscope-img-3.webp";
@@ -40,6 +41,7 @@ export const IMAGES = {
     heroImg1,
     heroImg2,
     heroImg3,
+    heroBg,
     dailyHoroscopeImg1,
     dailyHoroscopeImg2,
     dailyHoroscopeImg3,
