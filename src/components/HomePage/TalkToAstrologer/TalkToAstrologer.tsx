@@ -13,7 +13,6 @@ const TalkToAstrologer = () => {
           onClick: () => {},
         },
       ]}
-      subDescription="Available via chat & call"
       images={[
         IMAGES.talkToAstorlogerImg1,
         IMAGES.talkToAstorlogerImg2,

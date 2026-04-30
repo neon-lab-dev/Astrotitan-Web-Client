@@ -14,6 +14,7 @@ const GenerateInsights = () => {
         },
       ]}
       images={[IMAGES.kundliImg1, IMAGES.kundliImg2, IMAGES.kundliImg3]}
+      direction="rightContent"
     />
   );
 };

@@ -13,8 +13,8 @@ const ExploreRemedies = () => {
           onClick: () => {},
         },
       ]}
-      subDescription="Intent-based recommendations • Zodiac-specific suggestions • Trusted by the community"
       images={[IMAGES.remediesImg1, IMAGES.remediesImg2]}
+      direction="rightContent"
     />
   );
 };

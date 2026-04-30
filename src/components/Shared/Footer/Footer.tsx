@@ -115,8 +115,11 @@ const Footer = () => {
           {/* Company info and social links */}
           <div className="flex flex-col gap-9">
             <div>
-              <Link to="/">
-                <img src={ICONS.astrotitanLogo} alt="" className="w-21 h-23" />
+              <Link to="/" className="flex items-center gap-3">
+                <img src={ICONS.astrotitanLogo} alt="" className="size-9" />
+                <p className="text-primary-5 text-[28px] font-bold">
+                  Astrotitan
+                </p>
               </Link>
               <p className="mt-4 font-GeneralSans max-w-282">
                 AstroTitan helps you make better decisions with personalized
@@ -137,17 +140,17 @@ const Footer = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-10 xl:gap-14 justify-between w-full mt-12">
             {quickLinks?.map((item: any) => (
               <div key={item?.heading} className="">
-                <h1 className="font-Satoshi font-semibold text-[28px] leading-9">
+                <h1 className="font-Satoshi font-semibold text-xl leading-3">
                   {item?.heading}
                 </h1>
 
-                <div className="mt-5 flex flex-col gap-4 font-OpenSans leading-6">
+                <div className="mt-5 flex flex-col gap-3 font-OpenSans leading-6">
                   {item?.links?.map((link: any) =>
                     link?.path ? (
                       <a
                         key={link?.label}
                         href={link?.path}
-                        className="hover:underline flex gap-3 w-fit text-base md:text-[21px] font-GeneralSans leading-6 md:leading-7.75"
+                        className="hover:underline flex gap-3 w-fit font-GeneralSans leading-6 md:leading-7.75"
                       >
                         {link?.icon && (
                           <img
@@ -161,7 +164,7 @@ const Footer = () => {
                     ) : (
                       <div
                         key={link?.label}
-                        className="flex gap-3 text-base md:text-[21px] font-GeneralSans leading-6 md:leading-7.75"
+                        className="flex gap-3 font-GeneralSans leading-6 md:leading-7.75"
                       >
                         {link?.icon && (
                           <img
@@ -180,7 +183,7 @@ const Footer = () => {
           </div>
 
           <hr className="border border-neutral-10/50 mt-12 mb-6" />
-          <p className="text-center text-base md:text-[21px] font-GeneralSans leading-6 md:leading-7.75">
+          <p className="text-center font-GeneralSans leading-6 md:leading-7.75">
             © All Rights Reserved by 2026 Astrotitan
           </p>
 

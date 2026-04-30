@@ -57,7 +57,7 @@ const FAQ = () => {
 
   return (
     <Container>
-      <div className="py-14">
+      <div className="py-14 xl:py-28">
         <h2 className="heading text-center">
           FAQs (Frequently Asked Questions)
         </h2>

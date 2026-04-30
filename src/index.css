@@ -112,7 +112,7 @@ button {
   /* max-w-250 mx-auto */
 
   .description {
-    @apply text-base md:text-[21px] font-GeneralSans leading-6 md:leading-7.75;
+    @apply text-base font-GeneralSans leading-6 md:leading-7.75;
   }
   /* max-w-282 mx-auto */
 }

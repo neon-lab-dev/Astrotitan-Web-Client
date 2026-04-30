@@ -1,4 +1,4 @@
-import { ICONS } from "../../../assets";
+import { ICONS, IMAGES } from "../../../assets";
 import Button from "../../Reusable/Button/Button";
 import Container from "../../Reusable/Container/Container";
 
@@ -30,7 +30,7 @@ const GetMyPersonalizedInsights = () => {
     },
   ];
   return (
-    <div className="pt-14 pb-18">
+    <div className="py-14 bg-primary-25 relative">
       <Container>
         <h2 className="heading text-center">Get clarity in 3 simple steps</h2>
         <p className="description text-center mt-3">
@@ -45,13 +45,15 @@ const GetMyPersonalizedInsights = () => {
           Takes less than a minute
         </p>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 md:gap-6 mt-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 md:gap-6 mt-12 relative z-10">
           {steps?.map((item) => (
             <div
               key={item?.id}
               className="bg-neutral-15 border border-primary-5 rounded-xl p-4 md:p-6 flex flex-col items-center text-center"
             >
-              <img src={item?.icon} alt="" className="size-12" />
+              <div className="size-9 rounded-full bg-primary-25 flex items-center justify-center">
+                <img src={item?.icon} alt="" className="size-6" />
+              </div>
               <h2 className="text-neutral-10 font-Satoshi font-semibold text-[28px] leading-9 mt-6">
                 {item?.step}
               </h2>
@@ -63,6 +65,17 @@ const GetMyPersonalizedInsights = () => {
           ))}
         </div>
       </Container>
+
+      <img
+        src={IMAGES.linnerShape}
+        alt=""
+        className="absolute left-0 bottom-0"
+      />
+      <img
+        src={IMAGES.linnerShape}
+        alt=""
+        className="absolute top-0 right-0 rotate-180"
+      />
     </div>
   );
 };
