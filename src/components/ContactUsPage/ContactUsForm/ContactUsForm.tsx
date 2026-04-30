@@ -12,7 +12,7 @@ const ContactUsForm = () => {
   return (
     <div className="py-14">
       <Container>
-        <h2 className="heading">Contact Us</h2>
+        <h2 className="heading text-center">Contact Us</h2>
 
         <form className="space-y-8.25 flex items-center flex-col w-full mt-12 lg:mt-24.75">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8.25 w-full">
