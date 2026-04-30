@@ -11,11 +11,11 @@ const HighlightCard = ({ item }: THighlightCardProps) => {
       <div className="size-9 rounded-full bg-primary-25 flex items-center justify-center">
         <img src={item?.icon} alt="" className="size-6" />
       </div>
-      <h3 className="font-Satoshi text-xl leading-8 text-neutral-5 text-center mt-6 xl:max-w-[86%] mx-auto">
+      <h3 className="font-Satoshi text-xl font-bold leading-8 text-neutral-5 text-center mt-6 xl:max-w-[86%] mx-auto">
         {item?.title}
       </h3>
       {item?.description && (
-        <p className="description mt-3">{item?.description}</p>
+        <p className="description mt-3 text-center">{item?.description}</p>
       )}
     </div>
   );

@@ -105,7 +105,7 @@ button {
   .heading {
     @apply text-[28px] md:text-[37px] xl:text-[42px] 2xl:text-[49px] 
            leading-9 md:leading-11.5 xl:leading-13 2xl:leading-14 
-           font-semibold text-neutral-5 
+           font-medium text-neutral-5 
            font-Satoshi;
   }
 

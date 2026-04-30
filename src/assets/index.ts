@@ -38,6 +38,8 @@ import ctaImgTab from "./images/cta-img-tab.webp";
 import linnerShape from "./images/linner-shape.webp";
 import linnerShape2 from "./images/linner-shape2.webp";
 import featureSectionBg from "./images/feature-section-bg.webp";
+import saturn from "./images/saturn.webp";
+import zodiacSign from "./images/zodiac-sign.webp";
 
 
 export const IMAGES = {
@@ -64,6 +66,8 @@ export const IMAGES = {
     linnerShape,
     linnerShape2,
     featureSectionBg,
+    saturn,
+    zodiacSign,
 };
 
 export const ICONS = {

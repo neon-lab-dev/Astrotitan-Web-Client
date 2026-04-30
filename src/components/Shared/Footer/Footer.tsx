@@ -2,6 +2,7 @@
 import { ICONS } from "../../../assets";
 import { Link } from "react-router-dom";
 import Container from "../../Reusable/Container/Container";
+import Button from "../../Reusable/Button/Button";
 
 const Footer = () => {
   const quickLinks: any = [
@@ -180,6 +181,11 @@ const Footer = () => {
                 </div>
               </div>
             ))}
+          </div>
+
+          <div className="flex flex-col md:flex-row gap-6">
+            <Button label="Download From Play Store" />
+            <Button label="Download From App Store" />
           </div>
 
           <hr className="border border-neutral-10/50 mt-12 mb-6" />
