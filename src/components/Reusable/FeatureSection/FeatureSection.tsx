@@ -113,7 +113,7 @@ const FeatureSection: React.FC<TFeatureSectionProps> = ({
                 >
                   <img
                     src={images[(index + 1) % images.length]}
-                    className="w-full h-full object-cover rounded-[1.5rem] md:rounded-[2rem] shadow-lg border-2 md:border-4 border-white/10"
+                    className="w-full h-full object-cover rounded-[1.5rem] md:rounded-[2rem] border-2 md:border-4 border-white/10 absolute bottom-2"
                     alt="next-card"
                   />
                 </motion.div>
@@ -135,7 +135,7 @@ const FeatureSection: React.FC<TFeatureSectionProps> = ({
                 >
                   <img
                     src={images[index]}
-                    className="w-full h-full object-cover rounded-[1.5rem] md:rounded-[2rem] shadow-2xl border-2 md:border-4 border-white/20"
+                    className="w-full h-full object-cover rounded-[1.5rem] md:rounded-[2rem] border-2 md:border-4 border-white/20"
                     alt="active-card"
                   />
                 </motion.div>
@@ -147,7 +147,7 @@ const FeatureSection: React.FC<TFeatureSectionProps> = ({
                   <img
                     src={images[0]}
                     alt="feature"
-                    className="w-full h-full object-cover rounded-[1.5rem] md:rounded-[2rem] shadow-xl"
+                    className="w-full h-full object-cover rounded-[1.5rem] md:rounded-[2rem]"
                   />
                 </div>
               )
