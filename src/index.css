@@ -77,16 +77,18 @@
 
   /* Primary */
   --color-primary-5: #d4af37;
-  --color-primary-10: #dd9427;
+  --color-primary-10: #947A27;
   --color-primary-15: #9b681b;
   --color-primary-20: #DBBD59;
   --color-primary-25: #EDDEAD;
+  --color-primary-30: #E6D18B;
 
   /* neutral */
   --color-neutral-5: #0d0d0d;
   --color-neutral-10: #4A4A4A;
   --color-neutral-15: #fbf7eb;
   --color-neutral-20: #f4f0e5;
+  --color-neutral-25: #949494;
 
   /* accent */
   --color-accent-10: #f17556;
@@ -95,6 +97,21 @@
   --color-accent-30: #ae0000;
 
   --color-background-5: #F8F6F1;
+
+  /* Shadows */
+  --shadow-auth-header:  0 4px 4px 0 rgba(237, 222, 173, 0.24);
+
+   /* Gradients */
+  --bg-gradient-dashboard: linear-gradient(169deg, #EDDEAD 0%, #F1E8C9 45%, #F5F5F5 100%);
+
+
+  
+ 
+  
+}
+
+.bg-gradient-dashboard {
+  background: var(--bg-gradient-dashboard);
 }
 
 button {

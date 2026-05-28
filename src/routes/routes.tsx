@@ -4,6 +4,9 @@ import NotFound from "../pages/NotFound/NotFound";
 import Home from "../pages/Home/Home";
 import AboutUs from "../pages/AboutUs/AboutUs";
 import ContactUs from "../pages/ContactUs/ContactUs";
+import AuthLayout from "../layouts/AuthLayout/AuthLayout";
+import Login from "../pages/AuthPages/Login/Login";
+import Signup from "../pages/AuthPages/Signup/Signup";
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +25,21 @@ export const router = createBrowserRouter([
       {
         path: "/contact-us",
         element: <ContactUs />,
+      },
+    ],
+  },
+  {
+    path: "/auth",
+    element: <AuthLayout />,
+    errorElement: <NotFound />,
+    children: [
+      {
+        path: "signup",
+        element: <Signup />,
+      },
+      {
+        path: "login",
+        element: <Login />,
       },
     ],
   },

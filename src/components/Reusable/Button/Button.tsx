@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { twMerge } from "tailwind-merge";
 
 type TButtonProps = {
@@ -7,6 +8,8 @@ type TButtonProps = {
   onClick?: () => void;
   type?: "button" | "submit" | "reset";
   disabled?: boolean;
+  leftIcon?: any;
+  rightIcon?: any;
 };
 
 const Button = ({
@@ -16,13 +19,18 @@ const Button = ({
   onClick,
   type = "button",
   disabled = false,
+  leftIcon,
+  rightIcon,
 }: TButtonProps) => {
   const baseStyles =
-    "px-6 md:px-8 py-4 rounded-[48px] text-neutral-5 font-GeneralSans font-medium leading-5 transition-all duration-200";
+    "inline-flex items-center justify-center gap-2 md:gap-3 px-5 md:px-8 py-3 md:py-4 rounded-[48px] font-GeneralSans font-medium leading-5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed";
 
   const variants = {
-    primary: "bg-primary-5 border border-primary-5 hover:opacity-90",
-    secondary: "border border-primary-10 hover:bg-primary-5 hover:text-white",
+    primary:
+      "bg-primary-5 border border-primary-5 text-neutral-5 hover:opacity-90",
+
+    secondary:
+      "border border-primary-5 text-neutral-5 hover:bg-primary-5/20",
   };
 
   return (
@@ -32,7 +40,15 @@ const Button = ({
       disabled={disabled}
       className={twMerge(baseStyles, variants[variant], className)}
     >
-      {label}
+      {leftIcon && (
+        <img src={leftIcon} alt="" className="size-6" />
+      )}
+
+      <span>{label}</span>
+
+      {rightIcon && (
+        <img src={rightIcon} alt="" className="size-6" />
+      )}
     </button>
   );
 };

@@ -10,11 +10,15 @@ import facebook from "./icons/facebook.svg";
 import instagram from "./icons/instagram.svg";
 import twitter from "./icons/twitter.svg";
 import arrowDown from "./icons/arrow-down.svg";
+import arrowRight from "./icons/arrow-right.svg";
 import menu from "./icons/menu.svg";
 import call from "./icons/call.svg";
+import phone from "./icons/phone.svg";
 import mail from "./icons/mail.svg";
+import email from "./icons/email.svg";
 
 // Images
+import logo from "./images/logo.webp";
 import heroImg1 from "./images/hero-img-1.webp";
 import heroImg2 from "./images/hero-img-2.webp";
 import heroImg3 from "./images/hero-img-3.webp";
@@ -43,6 +47,7 @@ import zodiacSign from "./images/zodiac-sign.webp";
 
 
 export const IMAGES = {
+    logo,
     heroImg1,
     heroImg2,
     heroImg3,
@@ -83,7 +88,10 @@ export const ICONS = {
     instagram,
     twitter,
     arrowDown,
+    arrowRight,
     menu,
     call,
-    mail
+    phone,
+    mail,
+    email
 };
