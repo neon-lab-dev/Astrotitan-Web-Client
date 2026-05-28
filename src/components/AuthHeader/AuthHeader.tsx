@@ -20,7 +20,7 @@ const AuthHeader = () => {
       description: "Log in to continue accessing your personalized dashboard.",
     },
 
-    "/auth/otp": {
+    "/auth/verify-otp": {
       heading: "Verify OTP",
       description: "Enter the verification code sent to your email or phone.",
     },

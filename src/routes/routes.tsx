@@ -7,6 +7,7 @@ import ContactUs from "../pages/ContactUs/ContactUs";
 import AuthLayout from "../layouts/AuthLayout/AuthLayout";
 import Login from "../pages/AuthPages/Login/Login";
 import Signup from "../pages/AuthPages/Signup/Signup";
+import VerifyOtp from "../pages/AuthPages/VerifyOtp/VerifyOtp";
 
 export const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ export const router = createBrowserRouter([
       {
         path: "login",
         element: <Login />,
+      },
+      {
+        path: "verify-otp",
+        element: <VerifyOtp />,
       },
     ],
   },
