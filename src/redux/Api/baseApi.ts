@@ -1,35 +1,60 @@
-import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import type { BaseQueryApi } from "@reduxjs/toolkit/query/react";
+import type { BaseQueryFn } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import type { FetchArgs } from "@reduxjs/toolkit/query/react";
+import { setUser } from "../Features/Auth/authSlice";
+import type { RootState } from "../store";
 
-// export const backendBaseUrl = 'http://localhost:5000';
-export const backendBaseUrl = 'https://astrotitan-server.onrender.com';
-const baseQuery: BaseQueryFn<FetchArgs, unknown, FetchBaseQueryError> = async (args, api, extraOptions) => {
-  const rawBaseQuery = fetchBaseQuery({
-    baseUrl: `${backendBaseUrl}/api/v1`,
-    credentials: 'include',
-  });
+// export const backendBaseUrl = "http://localhost:5000";
+export const backendBaseUrl = "https://astrotitan-server.onrender.com";
+const baseQuery = fetchBaseQuery({
+  baseUrl: `${backendBaseUrl}/api/v1`,
+  credentials: "include",
+  prepareHeaders: (headers, { getState }) => {
+    const token = (getState() as RootState).auth.token;
 
-  const result = await rawBaseQuery(args, api, extraOptions);
+    if (token) {
+      headers.set("authorization", `${token}`);
+    }
+    return headers;
+  },
+});
 
-  // Check if there's an error and handle it
-  if (result.error) {
-    return {
-      error: {
-        status: result.error.status,
-        data: result.error.data || 'Something went wrong!',
-      } as FetchBaseQueryError,
-    };
+const baseQueryWithRefreshToken: BaseQueryFn<
+  string | FetchArgs,
+  BaseQueryApi,
+  unknown
+> = async (args, api, extraOptions): Promise<any> => {
+  let result = await baseQuery(args, api, extraOptions);
+
+  if (result.error?.status === 401) {
+    const res = await fetch(`${backendBaseUrl}/api/v1/auth/refresh-token`, {
+      credentials: "include",
+      method: "POST",
+    });
+
+    const data = await res.json();
+    // const user = (api.getState() as RootState).auth.user;
+    api.dispatch(
+      setUser({
+        user: data?.data?.user,
+        token: data?.data?.accessToken,
+      })
+    );
+    result = await baseQuery(args, api, extraOptions);
   }
 
-  // Return result as expected by BaseQueryFn
-  return {
-    data: result.data,
-  };
+  return result;
 };
 
 export const baseApi = createApi({
-  reducerPath: 'baseApi',
-  baseQuery,
-  tagTypes: ['user'],
+  reducerPath: "baseApi",
+  baseQuery: baseQueryWithRefreshToken,
+  refetchOnReconnect: true,
+  refetchOnFocus: true,
+  tagTypes: [
+    "user",
+  ],
   endpoints: () => ({}),
 });

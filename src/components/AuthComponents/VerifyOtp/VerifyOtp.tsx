@@ -277,7 +277,7 @@ const VerifyOtp = ({
       {/* Success Message */}
       {isVerified && (
         <p className="text-center text-neutral-5 font-GeneralSans text-sm mt-2">
-          <span className="text-green-700">OTP is verified.</span> Navigating to
+          <span className="text-green-700">OTP is verified.</span> Redirecting to
           next step in{" "}
           <span className="font-medium text-primary-10">
             {countdown} seconds

@@ -5,9 +5,10 @@ import GenderInfo from "./GenderInfo";
 import IntentsInfo from "./IntentsInfo";
 import NameInfo from "./NameInfo";
 import ProfileCompleted from "./ProfileCompleted";
-import { useNavigate } from "react-router-dom";
 import { FormProvider, useProfileForm } from "../../../contexts/FormContext";
 import Button from "../../Reusable/Button/Button";
+import { useCompleteUserProfileMutation } from "../../../redux/Features/Auth/authApi";
+import { useNavigate } from "react-router-dom";
 
 type TModalProps = {
   isModalOpen: boolean;
@@ -19,11 +20,25 @@ const ModalContent = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState<number>(1);
   const [progress, setProgress] = useState<number>(20);
+  const [countdown, setCountdown] = useState<number>(5);
   const { trigger, getValues } = useProfileForm();
+  const [completeUserProfile] = useCompleteUserProfileMutation();
 
   useEffect(() => {
     setProgress((step / 5) * 100);
   }, [step]);
+
+  // Countdown effect for step 5
+  useEffect(() => {
+    if (step === 5 && countdown > 0) {
+      const timer = setTimeout(() => {
+        setCountdown((prev) => prev - 1);
+      }, 1000);
+      return () => clearTimeout(timer);
+    } else if (step === 5 && countdown === 0) {
+      navigate("/dashboard");
+    }
+  }, [step, countdown, navigate]);
 
   const validateStep = async (currentStep: number): Promise<boolean> => {
     switch (currentStep) {
@@ -57,25 +72,13 @@ const ModalContent = () => {
 
   const handleSubmit = async () => {
     const formData = getValues();
-    console.log("Profile submitted successfully:", formData);
 
     try {
-      // Make API call
-      const response = await fetch("/api/user/profile", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await completeUserProfile(formData).unwrap();
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Profile submitted successfully:", data);
-        // Move to success step
+      if (response.success) {
         setStep(5);
-      } else {
-        // console.error("Submission failed");
+        setCountdown(5);
       }
     } catch (error) {
       console.error("Error submitting profile:", error);
@@ -196,7 +199,9 @@ const ModalContent = () => {
             {step === 5 && (
               <p className="text-center text-neutral-5 font-GeneralSans text-sm mt-2">
                 Redirecting to dashboard in{" "}
-                <span className="font-medium text-primary-10">10 seconds</span>
+                <span className="font-medium text-primary-10">
+                  {countdown} seconds
+                </span>
               </p>
             )}
           </div>
