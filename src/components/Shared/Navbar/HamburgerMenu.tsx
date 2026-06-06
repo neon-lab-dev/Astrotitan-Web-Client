@@ -1,16 +1,49 @@
 import { Link, useLocation } from "react-router-dom";
-import { ICONS } from "../../../assets";
+import { ICONS, IMAGES } from "../../../assets";
 import { useEffect, useState } from "react";
 import { navLinks } from "./navlinks";
 import { RxCross2 } from "react-icons/rx";
+import { IoChevronDown } from "react-icons/io5";
+import { FaStar, FaGem, FaComments } from "react-icons/fa";
 import Button from "../../Reusable/Button/Button";
+import { motion, AnimatePresence } from "framer-motion";
 
 const HamburgerMenu = () => {
   const location = useLocation();
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
+
+  const services = [
+    {
+      label: "Kundli",
+      path: "/services/kundli",
+      description: "Get your detailed birth chart analysis",
+      icon: FaStar,
+    },
+    {
+      label: "Remedies",
+      path: "/services/remedies",
+      description: "Personalized astrological remedies",
+      icon: FaGem,
+    },
+    {
+      label: "Connect with Astrologer",
+      path: "/services/connect",
+      description: "Chat with expert astrologers",
+      icon: FaComments,
+    },
+  ];
 
   const toggleHamburgerMenu = () => {
     setIsHamburgerOpen(!isHamburgerOpen);
+    // Close services dropdown when closing hamburger
+    if (!isHamburgerOpen) {
+      setIsServicesOpen(false);
+    }
+  };
+
+  const toggleServices = () => {
+    setIsServicesOpen(!isServicesOpen);
   };
 
   useEffect(() => {
@@ -19,6 +52,7 @@ const HamburgerMenu = () => {
       const closestDropdown = target.closest(".hamburgerMenu");
       if (isHamburgerOpen && closestDropdown === null) {
         setIsHamburgerOpen(false);
+        setIsServicesOpen(false);
       }
     };
 
@@ -68,7 +102,7 @@ const HamburgerMenu = () => {
           {/* Header */}
           <div className="flex justify-between items-center gap-5 w-full border-b border-neutral-10/50 pb-4">
             <Link to="/" onClick={toggleHamburgerMenu}>
-              <img src={ICONS.astrotitanLogo} alt="Logo" className="size-16" />
+              <img src={IMAGES.logo} alt="Logo" className="size-16" />
             </Link>
             <button onClick={toggleHamburgerMenu}>
               <RxCross2 className="text-neutral-10 text-2xl" />
@@ -82,15 +116,60 @@ const HamburgerMenu = () => {
                 key={link.path}
                 to={link.path}
                 onClick={toggleHamburgerMenu}
-                className={`text-lg font-semibold transition ${
+                className={`transition ${
                   location.pathname === link.path
-                    ? "text-primary-40 font-bold"
+                    ? "text-primary-5 font-medium"
                     : "text-neutral-10"
                 }`}
               >
                 {link.label}
               </Link>
             ))}
+
+            {/* Services Dropdown for Mobile */}
+            <div className="flex flex-col">
+              <button
+                onClick={toggleServices}
+                className={`flex items-center justify-between w-full transition ${
+                  isServicesOpen ? "text-primary-5" : "text-neutral-10"
+                }`}
+              >
+                Services
+                <motion.div
+                  animate={{ rotate: isServicesOpen ? 180 : 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <IoChevronDown className="text-base" />
+                </motion.div>
+              </button>
+
+              <AnimatePresence>
+                {isServicesOpen && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden mt-2"
+                  >
+                    <div className="flex flex-col gap-2">
+                      {services.map((service, idx) => (
+                        <Link
+                          key={idx}
+                          to={service.path}
+                          onClick={toggleHamburgerMenu}
+                          className="flex items-center gap-3 py-2 px-3 rounded-lg hover:bg-primary-5/5 transition-all duration-200 group"
+                        >
+                            <p className="text-sm font-medium text-neutral-10 group-hover:text-primary-5 transition-colors">
+                              {service.label}
+                            </p>
+                        </Link>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </div>
 

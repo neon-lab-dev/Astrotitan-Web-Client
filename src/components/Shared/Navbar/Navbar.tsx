@@ -6,16 +6,56 @@ import { navLinks } from "./navlinks";
 import HamburgerMenu from "./HamburgerMenu";
 import Modal from "../../Reusable/Modal/Modal";
 import Login from "../../AuthComponents/Login/Login";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import VerifyOtp from "../../AuthComponents/VerifyOtp/VerifyOtp";
 import Signup from "../../AuthComponents/Signup/Signup";
+import { motion, AnimatePresence } from "framer-motion";
+import { IoChevronDown } from "react-icons/io5";
+import { FaStar, FaGem, FaComments } from "react-icons/fa";
+
 export type TAuthModalType = "login" | "verifyOtp" | "signup";
+
 const Navbar = () => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
   const [authModalType, setAuthModalType] = useState<TAuthModalType>("login");
   const [verifyOtpFor, setVerifyOtpFor] = useState<"login" | "signup" | null>(
     null,
   );
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const services = [
+    {
+      label: "Kundli",
+      path: "/services/kundli",
+      description: "Get your detailed birth chart analysis",
+      icon: FaStar,
+    },
+    {
+      label: "Remedies",
+      path: "/services/remedies",
+      description: "Personalized astrological remedies",
+      icon: FaGem,
+    },
+    {
+      label: "Connect with Astrologer",
+      path: "/services/connect",
+      description: "Chat with expert astrologers",
+      icon: FaComments,
+    },
+  ];
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsServicesOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const getModalContent = () => {
     switch (authModalType) {
@@ -38,6 +78,7 @@ const Navbar = () => {
   };
 
   const { heading, description } = getModalContent();
+
   return (
     <div>
       <div className="py-6 bg-background-5 font-Satoshi">
@@ -48,7 +89,7 @@ const Navbar = () => {
               <p className="text-primary-5 text-[28px] font-bold">Astrotitan</p>
             </Link>
 
-            <div className="hidden lg:flex items-center gap-6">
+            <div className="hidden lg:flex items-center gap-8">
               {navLinks?.map((item, index) => (
                 <Link
                   key={index}
@@ -59,6 +100,60 @@ const Navbar = () => {
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-5 transition-all duration-300 group-hover:w-full"></span>
                 </Link>
               ))}
+
+              {/* Services Dropdown */}
+              <div ref={dropdownRef} className="relative">
+                <div
+                  onMouseEnter={() => setIsServicesOpen(true)}
+                  className="relative text-neutral-5 pb-1 group text-lg cursor-pointer flex items-center gap-1"
+                >
+                  Services
+                  <motion.div
+                    animate={{ rotate: isServicesOpen ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex items-center"
+                  >
+                    <IoChevronDown className="text-sm mt-0.5" />
+                  </motion.div>
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-5 transition-all duration-300 group-hover:w-full"></span>
+                </div>
+
+                <AnimatePresence>
+                  {isServicesOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.2 }}
+                      onMouseLeave={() => setIsServicesOpen(false)}
+                      className="absolute top-full left-0 w-80 p-4 bg-white rounded-xl shadow-lg border border-neutral-35/30 overflow-hidden z-50"
+                    >
+                      {services.map((service, idx) => (
+                        <Link
+                          key={idx}
+                          to={service.path}
+                          className="flex transition-all duration-200 group"
+                          onClick={() => setIsServicesOpen(false)}
+                        >
+                          <div className="flex-1">
+                            <div className="text-neutral-5 group-hover:text-primary-10 transition-colors">
+                              {service.label}
+                            </div>
+                            <div className="text-xs text-neutral-50">
+                              {service.description}
+                            </div>
+                          </div>
+                          <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 mt-1">
+                            <svg className="w-4 h-4 text-primary-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                          </div>
+                        </Link>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
 
               <Button
                 onClick={() => {
@@ -87,7 +182,10 @@ const Navbar = () => {
           />
         )}
         {authModalType === "signup" && (
-          <Signup setAuthModalType={setAuthModalType} setVerifyOtpFor={setVerifyOtpFor} />
+          <Signup
+            setAuthModalType={setAuthModalType}
+            setVerifyOtpFor={setVerifyOtpFor}
+          />
         )}
         {authModalType === "verifyOtp" && (
           <VerifyOtp verifyOtpFor={verifyOtpFor} />

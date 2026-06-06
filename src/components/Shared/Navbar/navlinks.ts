@@ -1,14 +1,14 @@
 export const navLinks = [
     {
-        label: "Consult Astrologers",
-        path: "/consult-astrologers",
+        label: "Home",
+        path: "/",
+    },
+    {
+        label: "About Us",
+        path: "/about-us",
     },
     {
         label: "How It Works",
         path: "/how-it-works",
-    },
-    {
-        label: "Insights",
-        path: "/insights",
     },
 ];
