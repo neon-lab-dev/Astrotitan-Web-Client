@@ -1,4 +1,4 @@
-import CompleteProfileHero from "../../../components/CompleteProfilePage/CompleteProfileHero/CompleteProfileHero";
+import CompleteProfileHero from "../../CompleteProfilePage/CompleteProfileHero/CompleteProfileHero";
 
 const CompleteProfile = () => {
     return (

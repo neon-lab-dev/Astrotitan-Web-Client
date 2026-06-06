@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ICONS } from "../../../assets";
+import { ICONS, IMAGES } from "../../../assets";
 import { Link } from "react-router-dom";
 import Container from "../../Reusable/Container/Container";
 import Button from "../../Reusable/Button/Button";
@@ -58,15 +58,15 @@ const Footer = () => {
       links: [
         {
           label: "Privacy Policy",
-          path: "/",
+          path: "/privacy-policy",
         },
         {
-          label: "Terms of Service",
-          path: "/",
+          label: "Terms & Conditions",
+          path: "/terms-and-conditions",
         },
         {
           label: "Refund Policy",
-          path: "/",
+          path: "/refund-policy",
         },
       ],
     },
@@ -117,7 +117,7 @@ const Footer = () => {
           <div className="flex flex-col gap-9">
             <div>
               <Link to="/" className="flex items-center gap-3">
-                <img src={ICONS.astrotitanLogo} alt="" className="size-9" />
+                <img src={IMAGES.logo} alt="" className="size-9" />
                 <p className="text-primary-5 text-[28px] font-bold">
                   Astrotitan
                 </p>

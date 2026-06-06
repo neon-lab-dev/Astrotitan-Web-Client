@@ -1,4 +1,3 @@
-import astrotitanLogo from "./icons/astrotitan-logo.svg";
 import personalizedLife from "./icons/personalized-life.svg";
 import pauseOrRethink from "./icons/pause-rethink.svg";
 import privacy from "./icons/privacy.svg";
@@ -85,7 +84,6 @@ export const IMAGES = {
 };
 
 export const ICONS = {
-    astrotitanLogo,
     personalizedLife,
     pauseOrRethink,
     privacy,

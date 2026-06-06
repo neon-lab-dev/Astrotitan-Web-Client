@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import Button from "../../../components/Reusable/Button/Button";
+import Button from "../../Reusable/Button/Button";
 import { ICONS } from "../../../assets";
 // import { useDispatch } from "react-redux";
 // import { useNavigate } from "react-router-dom";

@@ -4,7 +4,8 @@ import NotFound from "../pages/NotFound/NotFound";
 import Home from "../pages/Home/Home";
 import AboutUs from "../pages/AboutUs/AboutUs";
 import ContactUs from "../pages/ContactUs/ContactUs";
-import CompleteProfile from "../pages/AuthPages/CompleteProfile/CompleteProfile";
+import CompleteProfile from "../components/AuthComponents/CompleteProfile/CompleteProfile";
+import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
 
 export const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ export const router = createBrowserRouter([
       {
         path: "/complete-profile",
         element: <CompleteProfile />,
+      },
+      {
+        path: "/privacy-policy",
+        element: <PrivacyPolicy />,
       },
     ],
   },

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { ICONS } from "../../../assets";
-import Button from "../Button/Button";
 import BirthInfo from "./BirthInfo";
 import GenderInfo from "./GenderInfo";
 import IntentsInfo from "./IntentsInfo";
@@ -8,6 +7,7 @@ import NameInfo from "./NameInfo";
 import ProfileCompleted from "./ProfileCompleted";
 import { useNavigate } from "react-router-dom";
 import { FormProvider, useProfileForm } from "../../../contexts/FormContext";
+import Button from "../../Reusable/Button/Button";
 
 type TModalProps = {
   isModalOpen: boolean;

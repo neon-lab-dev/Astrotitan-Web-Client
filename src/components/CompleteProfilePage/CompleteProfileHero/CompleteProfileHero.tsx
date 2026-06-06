@@ -1,6 +1,6 @@
 import { IMAGES } from "../../../assets";
+import CompleteProfileModal from "../../AuthComponents/CompleteProfileModal/CompleteProfileModal";
 import Button from "../../Reusable/Button/Button";
-import CompleteProfileModal from "../../Reusable/CompleteProfileModal/CompleteProfileModal";
 import Container from "../../Reusable/Container/Container";
 
 const CompleteProfileHero = () => {

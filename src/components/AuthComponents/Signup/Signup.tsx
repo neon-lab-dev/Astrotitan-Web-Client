@@ -2,12 +2,12 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-import TextInput from "../../../components/Reusable/TextInput/TextInput";
-import Button from "../../../components/Reusable/Button/Button";
+import TextInput from "../../Reusable/TextInput/TextInput";
+import Button from "../../Reusable/Button/Button";
 
 import { ICONS } from "../../../assets";
 import { emailValidator } from "../../../utils/emailValidator";
-import type { TAuthModalType } from "../../../components/Shared/Navbar/Navbar";
+import type { TAuthModalType } from "../../Shared/Navbar/Navbar";
 
 type TFormData = {
   email: string;

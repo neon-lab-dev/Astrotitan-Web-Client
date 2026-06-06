@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
-import TextInput from "../../../components/Reusable/TextInput/TextInput";
+import TextInput from "../../Reusable/TextInput/TextInput";
 import { emailValidator } from "../../../utils/emailValidator";
-import Button from "../../../components/Reusable/Button/Button";
+import Button from "../../Reusable/Button/Button";
 import { ICONS } from "../../../assets";
 import { useState } from "react";
-import type { TAuthModalType } from "../../../components/Shared/Navbar/Navbar";
+import type { TAuthModalType } from "../../Shared/Navbar/Navbar";
 
 type TFormData = {
   email: string;

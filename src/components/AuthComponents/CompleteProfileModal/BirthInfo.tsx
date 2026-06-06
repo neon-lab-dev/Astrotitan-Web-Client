@@ -1,5 +1,5 @@
 import { useProfileForm } from "../../../contexts/FormContext";
-import TextInput from "../TextInput/TextInput";
+import TextInput from "../../Reusable/TextInput/TextInput";
 
 const BirthInfo = () => {
   const {

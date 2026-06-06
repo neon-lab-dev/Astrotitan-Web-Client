@@ -10,12 +10,12 @@ const ContactUsForm = () => {
     formState: { errors },
   } = useForm();
   return (
-    <div className="py-14">
+    <div className="py-14 ">
       <Container>
         <h2 className="heading text-center">Contact Us</h2>
 
-        <form className="space-y-8.25 flex items-center flex-col w-full mt-12 lg:mt-24.75">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8.25 w-full">
+        <form className="space-y-5 flex items-center flex-col w-full mt-12 bg-neutral-15 px-4 py-5 rounded-lg border border-neutral-35/50 max-w-[700px] mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
             <TextInput
               label="Full Name"
               placeholder="Enter your full name"
@@ -44,10 +44,10 @@ const ContactUsForm = () => {
           />
 
           <Button label="Send Message" type="submit" />
+          <p className="text-xs font-GeneralSans text-center">
+            We usually respond within 24 hours
+          </p>
         </form>
-        <p className="text-xs font-GeneralSans text-center mt-6">
-          We usually respond within 24 hours
-        </p>
       </Container>
     </div>
   );

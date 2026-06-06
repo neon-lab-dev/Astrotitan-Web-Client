@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
-import { ICONS } from "../../../assets";
+import {IMAGES } from "../../../assets";
 import Container from "../../Reusable/Container/Container";
 import Button from "../../Reusable/Button/Button";
 import { navLinks } from "./navlinks";
 import HamburgerMenu from "./HamburgerMenu";
 import Modal from "../../Reusable/Modal/Modal";
-import Login from "../../../pages/AuthPages/Login/Login";
+import Login from "../../AuthComponents/Login/Login";
 import { useState } from "react";
-import VerifyOtp from "../../../pages/AuthPages/VerifyOtp/VerifyOtp";
-import Signup from "../../../pages/AuthPages/Signup/Signup";
+import VerifyOtp from "../../AuthComponents/VerifyOtp/VerifyOtp";
+import Signup from "../../AuthComponents/Signup/Signup";
 export type TAuthModalType = "login" | "verifyOtp" | "signup";
 const Navbar = () => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
@@ -44,7 +44,7 @@ const Navbar = () => {
         <Container>
           <div className="flex items-center justify-between">
             <Link to="/" className="flex items-center gap-3">
-              <img src={ICONS.astrotitanLogo} alt="" className="size-9" />
+              <img src={IMAGES.logo} alt="" className="size-9" />
               <p className="text-primary-5 text-[28px] font-bold">Astrotitan</p>
             </Link>
 
