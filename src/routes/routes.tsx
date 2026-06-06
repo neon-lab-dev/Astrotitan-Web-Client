@@ -6,6 +6,8 @@ import AboutUs from "../pages/AboutUs/AboutUs";
 import ContactUs from "../pages/ContactUs/ContactUs";
 import CompleteProfile from "../components/AuthComponents/CompleteProfile/CompleteProfile";
 import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
+import TermsAndConditions from "../pages/TermsAndConditions/TermsAndConditions";
+import RefundPolicy from "../pages/RefundPolicy/RefundPolicy";
 
 export const router = createBrowserRouter([
   {
@@ -32,6 +34,14 @@ export const router = createBrowserRouter([
       {
         path: "/privacy-policy",
         element: <PrivacyPolicy />,
+      },
+      {
+        path: "/terms-and-conditions",
+        element: <TermsAndConditions />,
+      },
+      {
+        path: "/refund-policy",
+        element: <RefundPolicy />,
       },
     ],
   },
