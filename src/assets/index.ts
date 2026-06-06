@@ -17,6 +17,12 @@ import call from "./icons/call.svg";
 import phone from "./icons/phone.svg";
 import mail from "./icons/mail.svg";
 import email from "./icons/email.svg";
+import love from "./icons/love.svg";
+import job from "./icons/job.svg";
+import education from "./icons/education.svg";
+import marriage from "./icons/marriage.svg";
+import health from "./icons/health.svg";
+import business from "./icons/business.svg";
 
 // Images
 import logo from "./images/logo.webp";
@@ -45,6 +51,7 @@ import linnerShape2 from "./images/linner-shape2.webp";
 import featureSectionBg from "./images/feature-section-bg.webp";
 import saturn from "./images/saturn.webp";
 import zodiacSign from "./images/zodiac-sign.webp";
+import profileCompleted from "./images/profile-completed.png";
 
 
 export const IMAGES = {
@@ -74,6 +81,7 @@ export const IMAGES = {
     featureSectionBg,
     saturn,
     zodiacSign,
+    profileCompleted,
 };
 
 export const ICONS = {
@@ -95,5 +103,11 @@ export const ICONS = {
     call,
     phone,
     mail,
-    email
+    email,
+    love,
+    job,
+    education,
+    marriage,
+    health,
+    business,
 };

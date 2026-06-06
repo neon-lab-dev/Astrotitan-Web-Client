@@ -23,7 +23,7 @@ const Button = ({
   rightIcon,
 }: TButtonProps) => {
   const baseStyles =
-    "inline-flex items-center justify-center gap-2 md:gap-3 px-5 2xl:px-8 py-3 rounded-[48px] font-Satoshi font-medium leading-5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed";
+    "inline-flex items-center justify-center gap-2 px-5 2xl:px-8 py-3 rounded-[48px] font-Satoshi font-medium leading-5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed";
 
   const variants = {
     primary:
@@ -47,7 +47,7 @@ const Button = ({
       <span>{label}</span>
 
       {rightIcon && (
-        <img src={rightIcon} alt="" className="size-5.25" />
+        <img src={rightIcon} alt="" className="size-5.25 mt-0.5" />
       )}
     </button>
   );

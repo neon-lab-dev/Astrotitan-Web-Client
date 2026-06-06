@@ -9,6 +9,7 @@ import Login from "../../../pages/AuthPages/Login/Login";
 import { useState } from "react";
 import VerifyOtp from "../../../pages/AuthPages/VerifyOtp/VerifyOtp";
 import Signup from "../../../pages/AuthPages/Signup/Signup";
+import CompleteProfileModal from "../../Reusable/CompleteProfileModal/CompleteProfileModal";
 export type TAuthModalType = "login" | "verifyOtp" | "signup";
 const Navbar = () => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
@@ -70,6 +71,8 @@ const Navbar = () => {
           </div>
         </Container>
       </div>
+
+      <CompleteProfileModal isModalOpen={true}/>
 
       <Modal isModalOpen={isAuthModalOpen} setIsModalOpen={setIsAuthModalOpen}>
         <h2 className="text-2xl font-Satoshi font-semibold text-center text-neutral-5">
