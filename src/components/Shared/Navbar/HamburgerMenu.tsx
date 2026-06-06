@@ -7,8 +7,11 @@ import { IoChevronDown } from "react-icons/io5";
 import { FaStar, FaGem, FaComments } from "react-icons/fa";
 import Button from "../../Reusable/Button/Button";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSelector } from "react-redux";
+import { useCurrentUser } from "../../../redux/Features/Auth/authSlice";
 
 const HamburgerMenu = () => {
+  const user = useSelector(useCurrentUser);
   const location = useLocation();
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
@@ -75,8 +78,6 @@ const HamburgerMenu = () => {
       document.body.style.overflow = "";
     };
   }, [isHamburgerOpen]);
-
-  const user = true;
 
   return (
     <div className="relative hamburgerMenu flex lg:hidden">
@@ -174,7 +175,7 @@ const HamburgerMenu = () => {
         </div>
 
         {/* Auth Buttons */}
-        {!user ? (
+        {user ? (
           <a href={`/`} className="w-full">
             <Button label="Dashboard" className="w-full" />
           </a>

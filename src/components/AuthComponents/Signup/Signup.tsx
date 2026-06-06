@@ -123,7 +123,7 @@ const Signup = ({
           variant="primary"
           rightIcon={ICONS.arrowRight}
           className="w-full"
-          disabled={isLoading}
+          isDisabled={isLoading}
           isLoading={isLoading}
         />
 

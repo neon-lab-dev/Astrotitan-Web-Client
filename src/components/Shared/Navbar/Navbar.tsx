@@ -12,10 +12,13 @@ import Signup from "../../AuthComponents/Signup/Signup";
 import { motion, AnimatePresence } from "framer-motion";
 import { IoChevronDown } from "react-icons/io5";
 import { FaStar, FaGem, FaComments } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { useCurrentUser } from "../../../redux/Features/Auth/authSlice";
 
 export type TAuthModalType = "login" | "verifyOtp" | "signup";
 
 const Navbar = () => {
+  const user = useSelector(useCurrentUser);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
   const [authModalType, setAuthModalType] = useState<TAuthModalType>("login");
   const [verifyOtpFor, setVerifyOtpFor] = useState<"login" | "signup" | null>(
@@ -48,7 +51,10 @@ const Navbar = () => {
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsServicesOpen(false);
       }
     };
@@ -144,8 +150,18 @@ const Navbar = () => {
                             </div>
                           </div>
                           <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 mt-1">
-                            <svg className="w-4 h-4 text-primary-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            <svg
+                              className="w-4 h-4 text-primary-10"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M9 5l7 7-7 7"
+                              />
                             </svg>
                           </div>
                         </Link>
@@ -155,13 +171,19 @@ const Navbar = () => {
                 </AnimatePresence>
               </div>
 
-              <Button
-                onClick={() => {
-                  setAuthModalType("login");
-                  setIsAuthModalOpen(true);
-                }}
-                label="Login"
-              />
+              {user ? (
+                <Link to="/dashboard">
+                  <Button label="Dashboard" />
+                </Link>
+              ) : (
+                <Button
+                  onClick={() => {
+                    setAuthModalType("login");
+                    setIsAuthModalOpen(true);
+                  }}
+                  label="Login"
+                />
+              )}
             </div>
             <HamburgerMenu />
           </div>

@@ -13,6 +13,7 @@ import {
   useVerifySignupOtpMutation,
 } from "../../../redux/Features/Auth/authApi";
 import { setUser } from "../../../redux/Features/Auth/authSlice";
+import { useNavigate } from "react-router-dom";
 
 type TFormData = {
   email: string;
@@ -24,6 +25,7 @@ const VerifyOtp = ({
 }: {
   verifyOtpFor: "login" | "signup" | null;
 }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   // API Integrations
@@ -170,8 +172,7 @@ const VerifyOtp = ({
               token: response?.data?.accessToken,
             }),
           );
-          setIsVerified(true);
-          setCountdown(5);
+          navigate("/dashboard");
         } else {
           setError("otp", {
             type: "manual",

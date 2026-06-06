@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
 import TextInput from "../../Reusable/TextInput/TextInput";
 import { emailValidator } from "../../../utils/emailValidator";
@@ -5,6 +6,7 @@ import Button from "../../Reusable/Button/Button";
 import { ICONS } from "../../../assets";
 import { useState } from "react";
 import type { TAuthModalType } from "../../Shared/Navbar/Navbar";
+import { useLoginMutation } from "../../../redux/Features/Auth/authApi";
 
 type TFormData = {
   email: string;
@@ -23,22 +25,38 @@ const Login = ({
   const [loginType, setLoginType] = useState<"email" | "phoneNumber">(
     "phoneNumber",
   );
+
+  const [login, { isLoading }] = useLoginMutation();
+  const [loginError, setLoginError] = useState<string | null>(null);
+
   const {
     register,
-    // handleSubmit,
+    handleSubmit,
     // reset,
     formState: { errors },
   } = useForm<TFormData>();
 
-  const handleLogin = async () => {
-    setVerifyOtpFor("login");
-    setAuthModalType("verifyOtp");
+  const handleSignup = async (data: TFormData) => {
+    try {
+      const payload = {
+        phoneNumber: data.phoneNumber || "",
+        email: data.email || "",
+        role: "user",
+      };
+
+      const response = await login(payload).unwrap();
+      if (response?.success) {
+        localStorage.setItem("emailOrPhone", data.email || data.phoneNumber);
+        setVerifyOtpFor("login");
+        setAuthModalType("verifyOtp");
+      }
+    } catch (err: any) {
+      setLoginError(err?.data?.message);
+    }
   };
   return (
-    <form
-    //   onSubmit={handleSubmit(handleSigIn)}
-    >
-      <div className="flex flex-col gap-3 md:gap-6">
+    <form onSubmit={handleSubmit(handleSignup)}>
+      <div className="flex flex-col">
         <div className="flex flex-col gap-6">
           {loginType === "email" ? (
             <TextInput
@@ -84,16 +102,19 @@ const Login = ({
           )}
         </div>
 
-        <div className="flex flex-col items-center justify-between">
+        {loginError && (
+          <p className="text-red-500 text-sm mt-2">{loginError}</p>
+        )}
+
+        <div className="flex flex-col items-center justify-between mt-3 md:mt-6">
           <Button
             type="submit"
             label="Send OTP"
             variant="primary"
             rightIcon={ICONS.arrowRight}
             className="w-full"
-            onClick={handleLogin}
-            // isLoading={isLoading}
-            // isDisabled={isLoading}
+            isLoading={isLoading}
+            isDisabled={isLoading}
           />
 
           <div className="flex items-center justify-center gap-3 my-4">

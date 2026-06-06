@@ -7,7 +7,7 @@ type TButtonProps = {
   className?: string;
   onClick?: () => void;
   type?: "button" | "submit" | "reset";
-  disabled?: boolean;
+  isDisabled?: boolean;
   leftIcon?: any;
   rightIcon?: any;
   isLoading?: boolean;
@@ -20,7 +20,7 @@ const Button = ({
   className,
   onClick,
   type = "button",
-  disabled = false,
+  isDisabled = false,
   leftIcon,
   rightIcon,
   isLoading = false,
@@ -41,7 +41,7 @@ const Button = ({
     <button
       type={type}
       onClick={onClick}
-      disabled={disabled || isLoading}
+      disabled={isDisabled || isLoading}
       className={twMerge(baseStyles, variants[variant], className)}
     >
       {isLoading ? (
