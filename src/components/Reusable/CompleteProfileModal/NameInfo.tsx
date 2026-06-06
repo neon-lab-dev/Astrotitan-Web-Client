@@ -1,20 +1,24 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { useForm } from "react-hook-form";
+import { useProfileForm } from "../../../contexts/FormContext";
 import TextInput from "../TextInput/TextInput";
 
 const NameInfo = () => {
   const {
     register,
     formState: { errors },
-  } = useForm<any>();
+  } = useProfileForm();
+
   return (
-    <form className="flex flex-col gap-3 md:gap-5">
+    <div className="flex flex-col gap-3 md:gap-5">
       <TextInput
         label="First Name"
         placeholder="Enter your first name"
         error={errors.firstName}
         {...register("firstName", {
           required: "First name is required",
+          minLength: {
+            value: 2,
+            message: "First name must be at least 2 characters",
+          },
         })}
       />
 
@@ -24,9 +28,13 @@ const NameInfo = () => {
         error={errors.lastName}
         {...register("lastName", {
           required: "Last name is required",
+          minLength: {
+            value: 2,
+            message: "Last name must be at least 2 characters",
+          },
         })}
       />
-    </form>
+    </div>
   );
 };
 

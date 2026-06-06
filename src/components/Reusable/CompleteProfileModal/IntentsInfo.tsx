@@ -1,8 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ICONS } from "../../../assets";
+import { useProfileForm } from "../../../contexts/FormContext";
 
 const IntentsInfo = () => {
-  const [selectedIntents, setSelectedIntents] = useState<string[]>([]);
+  const { setValue, watch } = useProfileForm();
+  const formSelectedIntents = watch("intents") || [];
+  
+  // Use local state but sync with form state
+  const [selectedIntents, setSelectedIntents] = useState<string[]>(formSelectedIntents);
+
+  // Sync local state with form state when form changes
+  useEffect(() => {
+    setSelectedIntents(formSelectedIntents);
+  }, [formSelectedIntents]);
 
   const intents = [
     { label: "Love", icon: ICONS.love },
@@ -14,11 +24,12 @@ const IntentsInfo = () => {
   ];
 
   const toggleIntent = (intentLabel: string) => {
-    setSelectedIntents(prev =>
-      prev.includes(intentLabel)
-        ? prev.filter(item => item !== intentLabel)
-        : [...prev, intentLabel]
-    );
+    const newSelection = selectedIntents.includes(intentLabel)
+      ? selectedIntents.filter(item => item !== intentLabel)
+      : [...selectedIntents, intentLabel];
+    
+    setSelectedIntents(newSelection);
+    setValue("intents", newSelection, { shouldValidate: true });
   };
 
   return (

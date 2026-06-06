@@ -1,8 +1,17 @@
-import { useState } from "react";
+/* eslint-disable react-hooks/set-state-in-effect */
+import { useState, useEffect } from "react";
 import { FaMars, FaVenus, FaGenderless } from "react-icons/fa";
+import { useProfileForm } from "../../../contexts/FormContext";
 
 const GenderInfo = () => {
-  const [selectedGender, setSelectedGender] = useState<string>("");
+  const { setValue, watch } = useProfileForm();
+  const formSelectedGender = watch("gender");
+  const [selectedGender, setSelectedGender] = useState<string>(formSelectedGender || "");
+
+  // Sync local state with form state
+  useEffect(() => {
+    setSelectedGender(formSelectedGender || "");
+  }, [formSelectedGender]);
 
   const genders = [
     {
@@ -22,6 +31,11 @@ const GenderInfo = () => {
     },
   ];
 
+  const handleGenderSelect = (genderId: string) => {
+    setSelectedGender(genderId);
+    setValue("gender", genderId, { shouldValidate: true });
+  };
+
   return (
     <form className="w-full">
       <div className="flex flex-col gap-3">
@@ -33,7 +47,7 @@ const GenderInfo = () => {
             <button
               key={gender.id}
               type="button"
-              onClick={() => setSelectedGender(gender.id)}
+              onClick={() => handleGenderSelect(gender.id)}
               className={`
                 w-full px-4 py-3.5 rounded-lg border transition-all duration-300
                 flex items-center gap-3
@@ -65,13 +79,6 @@ const GenderInfo = () => {
           );
         })}
       </div>
-
-      {selectedGender && (
-        <div className="mt-6 text-center text-sm text-gray-500">
-          Selected:{" "}
-          <span className="font-medium text-gray-700">{selectedGender}</span>
-        </div>
-      )}
     </form>
   );
 };
