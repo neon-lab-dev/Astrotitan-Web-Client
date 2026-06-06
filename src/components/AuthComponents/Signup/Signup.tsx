@@ -42,8 +42,8 @@ const Signup = ({
   const handleSignup = async (data: TFormData) => {
     try {
       const payload = {
-        phoneNumber: data.phoneNumber || "",
-        email: data.email || "",
+        phoneNumber: data.phoneNumber || undefined,
+        email: data.email || undefined,
         role: "user",
       };
 

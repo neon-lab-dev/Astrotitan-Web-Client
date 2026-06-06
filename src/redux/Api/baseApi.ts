@@ -55,6 +55,7 @@ export const baseApi = createApi({
   refetchOnFocus: true,
   tagTypes: [
     "user",
+    "course"
   ],
   endpoints: () => ({}),
 });
