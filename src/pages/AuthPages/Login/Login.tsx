@@ -3,15 +3,23 @@ import TextInput from "../../../components/Reusable/TextInput/TextInput";
 import { emailValidator } from "../../../utils/emailValidator";
 import Button from "../../../components/Reusable/Button/Button";
 import { ICONS } from "../../../assets";
-import { Link } from "react-router-dom";
 import { useState } from "react";
+import type { TAuthModalType } from "../../../components/Shared/Navbar/Navbar";
 
 type TFormData = {
   email: string;
   phoneNumber: string;
 };
 
-const Login = () => {
+const Login = ({
+  setAuthModalType,
+  setVerifyOtpFor,
+}: {
+  setAuthModalType: React.Dispatch<React.SetStateAction<TAuthModalType>>;
+  setVerifyOtpFor: React.Dispatch<
+    React.SetStateAction<"login" | "signup" | null>
+  >;
+}) => {
   const [loginType, setLoginType] = useState<"email" | "phoneNumber">(
     "phoneNumber",
   );
@@ -21,6 +29,11 @@ const Login = () => {
     // reset,
     formState: { errors },
   } = useForm<TFormData>();
+
+  const handleLogin = async () => {
+    setVerifyOtpFor("login");
+    setAuthModalType("verifyOtp");
+  };
   return (
     <form
     //   onSubmit={handleSubmit(handleSigIn)}
@@ -71,49 +84,53 @@ const Login = () => {
           )}
         </div>
 
-        <div className="flex flex-col gap-6 items-center justify-between">
+        <div className="flex flex-col items-center justify-between">
           <Button
             type="submit"
             label="Send OTP"
             variant="primary"
             rightIcon={ICONS.arrowRight}
-            className="w-full max-w-125"
+            className="w-full"
+            onClick={handleLogin}
             // isLoading={isLoading}
             // isDisabled={isLoading}
           />
 
-          <div className="font-GeneralSans flex items-center gap-1">
-            <p className="text-neutral-5">New User?</p>
-            <Link to="/auth/signup" className="text-primary-10 font-medium">
-              Signup Now
-            </Link>
-          </div>
-
-          <div className="flex items-center justify-center gap-3">
+          <div className="flex items-center justify-center gap-3 my-4">
             <hr className="w-37 h-px border border-neutral-25/60" />
-            <p className="text-neutral-25 font-GeneralSans text-sm">OR</p>
+            <p className="text-neutral-25 font-Satoshi text-sm">OR</p>
             <hr className="w-37 h-px border border-neutral-25/60" />
           </div>
           <Button
             label={
               loginType === "email"
-                ? "Login with Email Address"
-                : "Login with Mobile Number"
+                ? "Login with Mobile Number"
+                : "Login with Email Address"
             }
             variant="secondary"
-            leftIcon={loginType === "email" ? ICONS.email : ICONS.phone}
+            leftIcon={loginType === "email" ? ICONS.phone : ICONS.email}
             className="w-full max-w-125"
             onClick={() =>
               setLoginType(loginType === "email" ? "phoneNumber" : "email")
             }
           />
 
-          <p className="text-neutral-5 font-GeneralSans text-sm">
+          <div className="font-Satoshi flex items-center gap-1 mt-7">
+            <p className="text-neutral-5">New to Astrotitan?</p>
+            <button
+              onClick={() => setAuthModalType("signup")}
+              className="text-primary-10 font-medium underline"
+            >
+              Signup Now
+            </button>
+          </div>
+
+          {/* <p className="text-neutral-5 font-Satoshi text-sm">
             By continuing, you agree to our{" "}
             <Link to="/terms-and-conditions" className="font-medium underline">
               Terms & Conditions
             </Link>
-          </p>
+          </p> */}
         </div>
       </div>
     </form>

@@ -11,6 +11,7 @@ import instagram from "./icons/instagram.svg";
 import twitter from "./icons/twitter.svg";
 import arrowDown from "./icons/arrow-down.svg";
 import arrowRight from "./icons/arrow-right.svg";
+import arrowLeft from "./icons/arrow-left.svg";
 import menu from "./icons/menu.svg";
 import call from "./icons/call.svg";
 import phone from "./icons/phone.svg";
@@ -89,6 +90,7 @@ export const ICONS = {
     twitter,
     arrowDown,
     arrowRight,
+    arrowLeft,
     menu,
     call,
     phone,

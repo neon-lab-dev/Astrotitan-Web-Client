@@ -17,7 +17,8 @@ type TFormData = {
   otp: string;
 };
 
-const VerifyOtp = () => {
+const VerifyOtp = ({verifyOtpFor} : {verifyOtpFor: "login" | "signup" | null}) => {
+  console.log(verifyOtpFor);
   // API Integrations
   // const [verifyOtp] = useVerifyOtpMutation();
   // const [resendOtp, { isLoading: isResendOtpLoading }] =
@@ -175,7 +176,7 @@ const VerifyOtp = () => {
   return (
     <form
       onSubmit={handleSubmit(handleVerifyOtp)}
-      className="flex flex-col gap-6 font-Nunito"
+      className="flex flex-col items-center gap-6 font-Nunito"
     >
       {/* OTP Error */}
       {/* {errors?.otp && (
@@ -200,14 +201,14 @@ const VerifyOtp = () => {
               ref={(el: HTMLInputElement | null) => {
                 inputRefs.current[idx] = el;
               }}
-              className={`size-10 md:size-14 2xl:size-17 text-center text-xl rounded-lg lg:rounded-xl border transition-colors focus:outline-none ${
+              className={`bg-neutral-30 size-10 md:size-14 2xl:size-17 text-center text-xl rounded-lg lg:rounded-xl border transition-colors focus:outline-none ${
                 digit && !errors.otp && !isSubmitting
                   ? "border-primary-5 text-primary-5 focus:border-primary-5"
                   : isSubmitting
                     ? "border-primary-5 opacity-40 animate-pulse text-primary-5"
                     : errors?.otp
                       ? "border-red-500 focus:border-red-500 text-red-500"
-                      : "border-neutral-30 focus:border-primary-5 text-primary-5"
+                      : "border-neutral-35 focus:border-primary-5 text-primary-5"
               }`}
             />
           ))}

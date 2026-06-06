@@ -23,7 +23,7 @@ const Button = ({
   rightIcon,
 }: TButtonProps) => {
   const baseStyles =
-    "inline-flex items-center justify-center gap-2 md:gap-3 px-5 md:px-8 py-3 md:py-4 rounded-[48px] font-GeneralSans font-medium leading-5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed";
+    "inline-flex items-center justify-center gap-2 md:gap-3 px-5 2xl:px-8 py-3 rounded-[48px] font-Satoshi font-medium leading-5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed";
 
   const variants = {
     primary:
@@ -41,13 +41,13 @@ const Button = ({
       className={twMerge(baseStyles, variants[variant], className)}
     >
       {leftIcon && (
-        <img src={leftIcon} alt="" className="size-6" />
+        <img src={leftIcon} alt="" className="size-5.25 mt-0.5" />
       )}
 
       <span>{label}</span>
 
       {rightIcon && (
-        <img src={rightIcon} alt="" className="size-6" />
+        <img src={rightIcon} alt="" className="size-5.25" />
       )}
     </button>
   );
