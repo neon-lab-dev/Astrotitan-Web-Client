@@ -17,7 +17,11 @@ type TFormData = {
   otp: string;
 };
 
-const VerifyOtp = ({verifyOtpFor} : {verifyOtpFor: "login" | "signup" | null}) => {
+const VerifyOtp = ({
+  verifyOtpFor,
+}: {
+  verifyOtpFor: "login" | "signup" | null;
+}) => {
   console.log(verifyOtpFor);
   // API Integrations
   // const [verifyOtp] = useVerifyOtpMutation();

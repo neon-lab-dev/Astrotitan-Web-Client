@@ -9,12 +9,13 @@ import Login from "../../../pages/AuthPages/Login/Login";
 import { useState } from "react";
 import VerifyOtp from "../../../pages/AuthPages/VerifyOtp/VerifyOtp";
 import Signup from "../../../pages/AuthPages/Signup/Signup";
-import CompleteProfileModal from "../../Reusable/CompleteProfileModal/CompleteProfileModal";
 export type TAuthModalType = "login" | "verifyOtp" | "signup";
 const Navbar = () => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
   const [authModalType, setAuthModalType] = useState<TAuthModalType>("login");
-  const [verifyOtpFor, setVerifyOtpFor] = useState<"login" | "signup" | null>(null);
+  const [verifyOtpFor, setVerifyOtpFor] = useState<"login" | "signup" | null>(
+    null,
+  );
 
   const getModalContent = () => {
     switch (authModalType) {
@@ -72,7 +73,7 @@ const Navbar = () => {
         </Container>
       </div>
 
-      <CompleteProfileModal isModalOpen={true}/>
+      
 
       <Modal isModalOpen={isAuthModalOpen} setIsModalOpen={setIsAuthModalOpen}>
         <h2 className="text-2xl font-Satoshi font-semibold text-center text-neutral-5">
@@ -82,12 +83,17 @@ const Navbar = () => {
           {description}
         </p>
         {authModalType === "login" && (
-          <Login setAuthModalType={setAuthModalType} setVerifyOtpFor={setVerifyOtpFor} />
+          <Login
+            setAuthModalType={setAuthModalType}
+            setVerifyOtpFor={setVerifyOtpFor}
+          />
         )}
         {authModalType === "signup" && (
           <Signup setAuthModalType={setAuthModalType} />
         )}
-        {authModalType === "verifyOtp" && <VerifyOtp verifyOtpFor={verifyOtpFor} />}
+        {authModalType === "verifyOtp" && (
+          <VerifyOtp verifyOtpFor={verifyOtpFor} />
+        )}
       </Modal>
     </div>
   );
