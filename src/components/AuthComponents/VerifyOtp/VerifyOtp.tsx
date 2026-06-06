@@ -1,16 +1,18 @@
 /* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable react-hooks/immutability */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import Button from "../../Reusable/Button/Button";
 import { ICONS } from "../../../assets";
-// import { useDispatch } from "react-redux";
-// import { useNavigate } from "react-router-dom";
-
-// import {
-//   useVerifyOtpMutation,
-//   useResendOtpMutation,
-//   useVerifyResetPasswordOtpMutation,
-// } from "../../../redux/features/auth/authApi";
+import {
+  useResendLoginOtpMutation,
+  useResendSignupOtpMutation,
+  useVerifyLoginOtpMutation,
+  useVerifySignupOtpMutation,
+} from "../../../redux/Features/Auth/authApi";
+import { setUser } from "../../../redux/Features/Auth/authSlice";
 
 type TFormData = {
   email: string;
@@ -22,17 +24,13 @@ const VerifyOtp = ({
 }: {
   verifyOtpFor: "login" | "signup" | null;
 }) => {
-  console.log(verifyOtpFor);
-  // API Integrations
-  // const [verifyOtp] = useVerifyOtpMutation();
-  // const [resendOtp, { isLoading: isResendOtpLoading }] =
-  //   useResendOtpMutation();
-  // const [verifyResetPasswordOtp] =
-  //   useVerifyResetPasswordOtpMutation();
+  const dispatch = useDispatch();
 
-  // Navigation & Redux
-  // const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  // API Integrations
+  const [verifySignupOtp] = useVerifySignupOtpMutation();
+  const [verifyLoginOtp] = useVerifyLoginOtpMutation();
+  const [resendSignupOtp] = useResendSignupOtpMutation();
+  const [resendLoginOtp] = useResendLoginOtpMutation();
 
   const {
     handleSubmit,
@@ -43,24 +41,20 @@ const VerifyOtp = ({
     clearErrors,
   } = useForm<TFormData>();
 
-  const [email, setEmail] = useState<string | null>(null);
-  const [phoneNumber, setPhoneNumber] = useState<string | null>(null);
-  console.log(email);
-  console.log(phoneNumber);
-
   const [otpValues, setOtpValues] = useState(["", "", "", ""]);
+  const [emailOrPhone, setEmailOrPhone] = useState<string>("");
+  const [isVerified, setIsVerified] = useState(false);
+  const [countdown, setCountdown] = useState(5);
 
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const [timeLeft, setTimeLeft] = useState<number>(120);
   const [canResend, setCanResend] = useState(false);
 
   useEffect(() => {
-    const email = localStorage.getItem("signupEmail");
-    const phoneNumber = localStorage.getItem("forgetPasswordPhNo");
-
-    setEmail(email);
-    setPhoneNumber(phoneNumber);
+    const emailOrPhone = localStorage.getItem("emailOrPhone") || "";
+    setEmailOrPhone(emailOrPhone);
   }, []);
 
   useEffect(() => {
@@ -75,6 +69,21 @@ const VerifyOtp = ({
 
     return () => clearInterval(timer);
   }, [timeLeft]);
+
+  useEffect(() => {
+    if (isVerified && countdown > 0) {
+      const timer = setTimeout(() => {
+        setCountdown((prev) => prev - 1);
+      }, 1000);
+      return () => clearTimeout(timer);
+    } else if (isVerified && countdown === 0) {
+      if (verifyOtpFor === "signup") {
+        window.location.href = "/complete-profile";
+      } else if (verifyOtpFor === "login") {
+        window.location.href = "/dashboard";
+      }
+    }
+  }, [isVerified, countdown, verifyOtpFor]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -103,7 +112,12 @@ const VerifyOtp = ({
 
     // Auto submit when all digits are filled
     if (newOtpValues.every((digit) => digit !== "")) {
-      handleSubmit(handleVerifyOtp)();
+      // Submit the form programmatically
+      if (formRef.current) {
+        formRef.current.dispatchEvent(
+          new Event("submit", { cancelable: true, bubbles: true }),
+        );
+      }
     }
   };
 
@@ -117,53 +131,88 @@ const VerifyOtp = ({
   };
 
   const handleVerifyOtp = async (data: TFormData) => {
-    console.log("OTP Submitted:", data);
-
     try {
-      // API Payload
-      // const payload = {
-      //   phoneNumber,
-      //   otp: data.otp,
-      // };
-      // API Call
-      // const response = await verifyResetPasswordOtp(payload).unwrap();
-      // Success Handling
-      // if (response?.success) {
-      //   navigate("/reset-password", {
-      //     state: { navigateFrom: "verify-otp" },
-      //   });
-      // }
-    } catch (err) {
-      console.error("OTP verification failed:", err);
+      let response;
 
+      if (verifyOtpFor === "signup") {
+        const payload = {
+          emailOrPhone,
+          otp: data.otp,
+        };
+        response = await verifySignupOtp(payload).unwrap();
+
+        if (response?.success) {
+          dispatch(
+            setUser({
+              user: response?.data?.user,
+              token: response?.data?.accessToken,
+            }),
+          );
+          setIsVerified(true);
+          setCountdown(5);
+        } else {
+          setError("otp", {
+            type: "manual",
+            message: response?.message || "Invalid OTP. Please try again.",
+          });
+        }
+      } else if (verifyOtpFor === "login") {
+        const payload = {
+          emailOrPhone,
+          otp: data.otp,
+        };
+        response = await verifyLoginOtp(payload).unwrap();
+
+        if (response?.success) {
+          dispatch(
+            setUser({
+              user: response?.data?.user,
+              token: response?.data?.accessToken,
+            }),
+          );
+          setIsVerified(true);
+          setCountdown(5);
+        } else {
+          setError("otp", {
+            type: "manual",
+            message: response?.message || "Invalid OTP. Please try again.",
+          });
+        }
+      }
+    } catch (err: any) {
       setError("otp", {
         type: "manual",
-        message: "Invalid OTP. Please try again.",
+        message: err?.data?.message || "Invalid OTP. Please try again.",
       });
     }
   };
 
   const handleResend = async () => {
     setOtpValues(["", "", "", ""]);
+    setValue("otp", "");
+    clearErrors("otp");
 
     try {
-      // API Payload
-      // const payload = {
-      //   phoneNumber,
-      // };
+      let response;
 
-      // API Call
-      // const res = await resendOtp(payload);
+      if (verifyOtpFor === "signup") {
+        const payload = {
+          emailOrPhone,
+        };
+        response = await resendSignupOtp(payload).unwrap();
+      } else if (verifyOtpFor === "login") {
+        const payload = {
+          emailOrPhone,
+        };
+        response = await resendLoginOtp(payload).unwrap();
+      }
 
-      // Success Handling
-      // if (res?.data?.success) {
-      //   setTimeLeft(120);
-      //   setCanResend(false);
-      // }
-
-      // Temporary UI Reset
-      setTimeLeft(120);
-      setCanResend(false);
+      if (response?.success) {
+        setTimeLeft(120);
+        setCanResend(false);
+      } else {
+        console.error("Resend failed:", response?.message);
+      }
     } catch (err) {
       console.error("Resend OTP failed:", err);
     }
@@ -171,23 +220,22 @@ const VerifyOtp = ({
 
   const formatTime = (seconds: number) => {
     const m = Math.floor(seconds / 60);
-
     const s = seconds % 60;
-
     return `${m}:${s.toString().padStart(2, "0")}`;
   };
 
   return (
     <form
+      ref={formRef}
       onSubmit={handleSubmit(handleVerifyOtp)}
       className="flex flex-col items-center gap-6 font-Nunito"
     >
       {/* OTP Error */}
-      {/* {errors?.otp && (
-          <p className="text-red-500 text-sm">
-            {errors?.otp?.message}
-          </p>
-        )} */}
+      {errors?.otp && !isVerified && (
+        <p className="text-red-500 text-sm text-center">
+          {errors?.otp?.message}
+        </p>
+      )}
 
       {/* OTP Inputs */}
       <div className="flex items-center gap-5 md:gap-8">
@@ -220,32 +268,43 @@ const VerifyOtp = ({
       </div>
 
       {/* Loading Spinner */}
-      {isSubmitting && (
+      {isSubmitting && !isVerified && (
         <div className="flex justify-center">
           <div className="w-6 h-6 border-2 border-primary-5 border-t-transparent rounded-full animate-spin"></div>
         </div>
       )}
 
-      {/* Resend Section */}
-      <div className="flex items-center">
-        {canResend ? (
-          <Button
-            type="submit"
-            label="Resend OTP"
-            variant="primary"
-            rightIcon={ICONS.arrowRight}
-            className="w-fit"
-            // isLoading={isLoading}
-            // isDisabled={isLoading}
-            onClick={handleResend}
-          />
-        ) : (
-          <p className="text-sm md:text-base leading-6 text-neutral-5">
-            Didn't receive OTP? Resend in{" "}
-            <span className="font-semibold">{formatTime(timeLeft)}</span>
-          </p>
-        )}
-      </div>
+      {/* Success Message */}
+      {isVerified && (
+        <p className="text-center text-neutral-5 font-GeneralSans text-sm mt-2">
+          <span className="text-green-700">OTP is verified.</span> Navigating to
+          next step in{" "}
+          <span className="font-medium text-primary-10">
+            {countdown} seconds
+          </span>
+        </p>
+      )}
+
+      {/* Resend Section - Hide when verified */}
+      {!isVerified && (
+        <div className="flex items-center">
+          {canResend ? (
+            <Button
+              type="button"
+              label="Resend OTP"
+              variant="primary"
+              rightIcon={ICONS.arrowRight}
+              className="w-fit"
+              onClick={handleResend}
+            />
+          ) : (
+            <p className="text-sm md:text-base leading-6 text-neutral-5">
+              Didn't receive OTP? Resend in{" "}
+              <span className="font-semibold">{formatTime(timeLeft)}</span>
+            </p>
+          )}
+        </div>
+      )}
     </form>
   );
 };

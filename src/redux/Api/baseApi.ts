@@ -1,9 +1,8 @@
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-export const backendBaseUrl = 'http://localhost:5000';
-// export const backendBaseUrl = 'https://pmgurukul-server.vercel.app';
-// export const backendBaseUrl = 'https://api.pmgurukkul.com';
+// export const backendBaseUrl = 'http://localhost:5000';
+export const backendBaseUrl = 'https://astrotitan-server.onrender.com';
 const baseQuery: BaseQueryFn<FetchArgs, unknown, FetchBaseQueryError> = async (args, api, extraOptions) => {
   const rawBaseQuery = fetchBaseQuery({
     baseUrl: `${backendBaseUrl}/api/v1`,
@@ -31,6 +30,6 @@ const baseQuery: BaseQueryFn<FetchArgs, unknown, FetchBaseQueryError> = async (a
 export const baseApi = createApi({
   reducerPath: 'baseApi',
   baseQuery,
-  tagTypes: ['user', 'course', 'courseBundle', 'earning', 'payout', 'certificate', 'talent', 'testimonial', 'photoGallery', 'businessPlan'],
+  tagTypes: ['user'],
   endpoints: () => ({}),
 });

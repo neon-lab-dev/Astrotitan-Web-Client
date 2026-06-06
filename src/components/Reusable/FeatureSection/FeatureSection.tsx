@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { IMAGES } from "../../../assets";
@@ -95,7 +94,7 @@ const FeatureSection: React.FC<TFeatureSectionProps> = ({
 
           <div className="relative w-full h-full flex items-center justify-center">
             {images.length > 1 ? (
-              <AnimatePresence mode="wait">
+              <AnimatePresence mode="sync">
                 {/* Background Card */}
                 <motion.div
                   key={`bg-${(index + 1) % images.length}`}

@@ -1,38 +1,59 @@
-import { configureStore } from '@reduxjs/toolkit'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// store.ts
+
+import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./Features/Auth/authSlice";
 import {
-  persistReducer, persistStore, FLUSH,
+  persistReducer,
+  persistStore,
+  FLUSH,
   REHYDRATE,
   PAUSE,
   PERSIST,
   PURGE,
   REGISTER,
-} from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-import { baseApi } from './Api/baseApi';
+} from "redux-persist";
+
+import storageImport from "redux-persist/lib/storage";
+import { baseApi } from "./Api/baseApi";
+
+// Fix for storage.default issue
+const storage =
+  (storageImport as any).default ?? storageImport;
 
 const persistConfig = {
-  key: 'auth',
+  key: "auth",
   storage,
+  whitelist: ["user", "token"],
 };
 
-
-const persistedAuthReducer = persistReducer(persistConfig, authReducer)
+const persistedAuthReducer = persistReducer(
+  persistConfig,
+  authReducer
+);
 
 export const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
-    auth: persistedAuthReducer
+    auth: persistedAuthReducer,
   },
 
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        ignoredActions: [
+          FLUSH,
+          REHYDRATE,
+          PAUSE,
+          PERSIST,
+          PURGE,
+          REGISTER,
+        ],
       },
     }).concat(baseApi.middleware),
 });
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
 
 export const persistor = persistStore(store);
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

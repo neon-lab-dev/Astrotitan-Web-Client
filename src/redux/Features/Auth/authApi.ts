@@ -2,86 +2,85 @@ import { baseApi } from "../../Api/baseApi";
 
 const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    
+
     login: builder.mutation({
       query: (loginData) => ({
-        url: "/login",
+        url: "/account/signup",
         method: "POST",
         body: loginData,
         credentials: "include",
       }),
       invalidatesTags: ["user"],
     }),
-    
-    sendOtp: builder.mutation({
-      query: (userInfo) => ({
-        url: "/send-otp",
+
+    verifyLoginOtp: builder.mutation({
+      query: (data) => ({
+        url: "/account/verify-login-otp",
         method: "POST",
-        body: userInfo,
+        body: data,
         credentials: "include",
       }),
       invalidatesTags: ["user"],
     }),
 
-    setupProfile: builder.mutation({
-      query: (userInfo) => ({
-        url: "/register",
+    resendLoginOtp: builder.mutation({
+      query: (data) => ({
+        url: "/account/resend-login-otp",
         method: "POST",
-        body: userInfo,
+        body: data,
         credentials: "include",
       }),
       invalidatesTags: ["user"],
     }),
 
-    verifyOtp: builder.mutation({
-      query: (verifyOtpData) => ({
-        url: "/verify-otp",
+    signup: builder.mutation({
+      query: (loginData) => ({
+        url: "/account/signup",
         method: "POST",
-        body: verifyOtpData,
+        body: loginData,
         credentials: "include",
       }),
       invalidatesTags: ["user"],
     }),
 
-    logoutUser: builder.query({
-      query: () => ({
+    verifySignupOtp: builder.mutation({
+      query: (data) => ({
+        url: "/account/verify-signup-otp",
+        method: "POST",
+        body: data,
+        credentials: "include",
+      }),
+      invalidatesTags: ["user"],
+    }),
+
+    resendSignupOtp: builder.mutation({
+      query: (data) => ({
+        url: "/account/resend-signup-otp",
+        method: "POST",
+        body: data,
+        credentials: "include",
+      }),
+      invalidatesTags: ["user"],
+    }),
+
+    completeUserProfile: builder.mutation({
+      query: (data) => ({
+        url: "/account/complete-profile",
         method: "PUT",
-        url: `/logout`,
-        credentials: "include",
-      }),
-      providesTags: ["user"],
-    }),
-
-    forgotPassword: builder.mutation({
-      query: (forgotPasswordData) => ({
-        url: "/password/forgot",
-        method: "POST",
-        body: forgotPasswordData,
+        body: data,
         credentials: "include",
       }),
       invalidatesTags: ["user"],
     }),
-
-    resetPassword: builder.mutation({
-      query: ({resetPasswordData, token}) => ({
-        url: `/password/reset/${token}`,
-        method: "PUT",
-        body: resetPasswordData,
-        credentials: "include",
-      }),
-      invalidatesTags: ["user"],
-    }),
-
-
   }),
 });
 
 export const {
   useLoginMutation,
-  useSendOtpMutation,
-  useSetupProfileMutation,
-  useVerifyOtpMutation,
-  useLogoutUserQuery,
-  useForgotPasswordMutation,
-  useResetPasswordMutation
+  useVerifyLoginOtpMutation,
+  useResendLoginOtpMutation,
+  useSignupMutation,
+  useVerifySignupOtpMutation,
+  useResendSignupOtpMutation,
+  useCompleteUserProfileMutation
 } = authApi;

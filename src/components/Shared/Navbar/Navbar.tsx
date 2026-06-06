@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import {IMAGES } from "../../../assets";
+import { IMAGES } from "../../../assets";
 import Container from "../../Reusable/Container/Container";
 import Button from "../../Reusable/Button/Button";
 import { navLinks } from "./navlinks";
@@ -73,8 +73,6 @@ const Navbar = () => {
         </Container>
       </div>
 
-      
-
       <Modal isModalOpen={isAuthModalOpen} setIsModalOpen={setIsAuthModalOpen}>
         <h2 className="text-2xl font-Satoshi font-semibold text-center text-neutral-5">
           {heading}
@@ -89,7 +87,7 @@ const Navbar = () => {
           />
         )}
         {authModalType === "signup" && (
-          <Signup setAuthModalType={setAuthModalType} />
+          <Signup setAuthModalType={setAuthModalType} setVerifyOtpFor={setVerifyOtpFor} />
         )}
         {authModalType === "verifyOtp" && (
           <VerifyOtp verifyOtpFor={verifyOtpFor} />
