@@ -22,6 +22,11 @@ import education from "./icons/education.svg";
 import marriage from "./icons/marriage.svg";
 import health from "./icons/health.svg";
 import business from "./icons/business.svg";
+import aries from "./icons/zodiac-signs/aries.webp";
+import cancer from "./icons/zodiac-signs/cancer.webp";
+import gemini from "./icons/zodiac-signs/gemini.webp";
+import leo from "./icons/zodiac-signs/lio.webp";
+import taurus from "./icons/zodiac-signs/taurus.webp";
 
 // Images
 import logo from "./images/logo.webp";
@@ -51,6 +56,8 @@ import featureSectionBg from "./images/feature-section-bg.webp";
 import saturn from "./images/saturn.webp";
 import zodiacSign from "./images/zodiac-sign.webp";
 import profileCompleted from "./images/profile-completed.png";
+import dailyHoroscopeBannerBg from "./images/daily-horoscope-banner-bg.webp";
+import kundliBannerBg from "./images/kundli-banner-bg.webp";
 
 
 export const IMAGES = {
@@ -81,6 +88,8 @@ export const IMAGES = {
     saturn,
     zodiacSign,
     profileCompleted,
+    dailyHoroscopeBannerBg,
+    kundliBannerBg,
 };
 
 export const ICONS = {
@@ -108,4 +117,9 @@ export const ICONS = {
     marriage,
     health,
     business,
+    aries,
+    cancer,
+    gemini,
+    leo,
+    taurus
 };

@@ -1,0 +1,90 @@
+import { BiBriefcase } from "react-icons/bi";
+import { FaStar } from "react-icons/fa";
+import Button from "../../../../components/Reusable/Button/Button";
+
+interface AstrologerCardProps {
+  name: string;
+  image: string;
+  bio: string;
+  experience: number; // in years
+  areaOfPractice: string[];
+  rating?: number;
+  onConsult?: () => void;
+}
+
+const AstrologerCard: React.FC<AstrologerCardProps> = ({
+  name,
+  image,
+  bio,
+  experience,
+  areaOfPractice,
+  rating = 4.5,
+}) => {
+  return (
+    <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 max-w-xs w-full">
+      {/* Image Section - Circle */}
+      <div className="flex justify-center pt-5 pb-2">
+        <div className="relative">
+          <img
+            src={image}
+            alt={name}
+            className="w-24 h-24 rounded-full object-cover border-4 border-primary-5/20"
+          />
+          {rating && (
+            <div className="absolute -bottom-1 right-0 bg-white/90 backdrop-blur-sm rounded-full px-2 py-0.5 flex items-center gap-1 shadow-sm">
+              <FaStar className="w-3 h-3 text-yellow-400 fill-yellow-400" />
+              <span className="text-xs font-semibold text-gray-800">
+                {rating}
+              </span>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Content Section */}
+      <div className="p-3 pt-1">
+        {/* Name */}
+        <div className="text-center mb-2">
+          <h3 className="text-base font-bold text-gray-800">{name}</h3>
+          <div className="flex items-center justify-center gap-1 text-gray-600 mt-0.5">
+            <BiBriefcase className="w-3 h-3" />
+            <span className="text-xs font-medium">
+              {experience} Years Experience
+            </span>
+          </div>
+        </div>
+
+        {/* Bio */}
+        <p className="text-gray-600 text-xs leading-relaxed mb-2 line-clamp-2 text-center">
+          {bio}
+        </p>
+
+        {/* Area of Practice */}
+        <div className="mb-3">
+          <div className="flex flex-wrap gap-1 justify-center">
+            {areaOfPractice.slice(0, 2).map((area, index) => (
+              <span
+                key={index}
+                className="px-1.5 py-0.5 bg-primary-5/20 text-primary-10 text-[10px] rounded-full font-medium"
+              >
+                {area}
+              </span>
+            ))}
+            {areaOfPractice.length > 2 && (
+              <span className="px-1.5 py-0.5 bg-gray-100 text-gray-600 text-[10px] rounded-full font-medium">
+                +{areaOfPractice.length - 2}
+              </span>
+            )}
+          </div>
+        </div>
+
+        <Button
+          label="Consult Now"
+          className="px-5 2xl:px-8 py-1.5 w-full text-sm"
+        />
+      </div>
+    </div>
+  );
+};
+
+export default AstrologerCard;

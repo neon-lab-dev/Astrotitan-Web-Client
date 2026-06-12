@@ -87,7 +87,7 @@ const Navbar = () => {
 
   return (
     <div>
-      <div className="py-6 bg-background-5 font-Satoshi">
+      <div className="py-6 bg-white/90 border-b border-neutral-10/15 font-Satoshi">
         <Container>
           <div className="flex items-center justify-between">
             <Link to="/" className="flex items-center gap-3">

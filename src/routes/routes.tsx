@@ -8,6 +8,7 @@ import CompleteProfile from "../components/AuthComponents/CompleteProfile/Comple
 import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
 import TermsAndConditions from "../pages/TermsAndConditions/TermsAndConditions";
 import RefundPolicy from "../pages/RefundPolicy/RefundPolicy";
+import UserDashboardHome from "../pages/Dashboard/User/UserDashboardHome/UserDashboardHome";
 
 export const router = createBrowserRouter([
   {
@@ -42,6 +43,17 @@ export const router = createBrowserRouter([
       {
         path: "/refund-policy",
         element: <RefundPolicy />,
+      },
+    ],
+  },
+  {
+    path: "dashboard/user",
+    element: <MainLayout />,
+    errorElement: <NotFound />,
+    children: [
+      {
+        path: "",
+        element: <UserDashboardHome />,
       },
     ],
   },
