@@ -12,6 +12,7 @@ import UserDashboardHome from "../pages/Dashboard/User/UserDashboardHome/UserDas
 import Astrologer from "../pages/Astrologer/Astrologer";
 import AstrologerDetails from "../pages/AstrologerDetails/AstrologerDetails";
 import Blogs from "../pages/Blogs/Blogs";
+import BlogDetails from "../pages/BlogDetails/BlogDetails";
 
 export const router = createBrowserRouter([
   {
@@ -61,7 +62,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/blog/:id",
-        element: <AstrologerDetails />,
+        element: <BlogDetails />,
       },
     ],
   },

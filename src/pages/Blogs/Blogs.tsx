@@ -6,6 +6,7 @@ import AppDownload from "../../components/BlogsPage/AppDownload/AppDownload";
 import AstrologerPromo from "../../components/BlogsPage/AstrologerPromo/AstrologerPromo";
 import GemstonePromo from "../../components/BlogsPage/GemstonePromo/GemstonePromo";
 import FollowSocialMedia from "../../components/BlogsPage/FollowSocialMedia/FollowSocialMedia";
+import Container from "../../components/Reusable/Container/Container";
 
 const Blogs = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -25,7 +26,7 @@ const Blogs = () => {
 
   return (
     <div className="pt-10 pb-14">
-      <div className="max-w-6xl w-full mx-auto px-5 2xl:px-0">
+      <Container>
         <Breadcrumb
           items={[{ label: "Blogs", path: "/blogs", isActive: true }]}
         />
@@ -40,7 +41,7 @@ const Blogs = () => {
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3.5 rounded-lg border border-gray-200 focus:outline-none focus:border-primary-10 focus:ring-2 focus:ring-primary-10/20 transition duration-300 bg-white"
+                className="w-full pl-10 pr-4 py-3.5 rounded-lg border border-gray-200 focus:outline-none focus:border-primary-5 focus:ring-2 focus:ring-primary-10/20 transition duration-300 bg-white"
                 placeholder="Search blogs by title, author, or keyword..."
               />
             </div>
@@ -53,7 +54,7 @@ const Blogs = () => {
                   onClick={() => setSelectedCategory(category)}
                   className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ${
                     selectedCategory === category
-                      ? "bg-primary-10 text-white shadow-sm"
+                      ? "bg-primary-5 text-white shadow-sm"
                       : "bg-neutral-40/20 text-gray-600 hover:bg-gray-200 hover:text-gray-900"
                   }`}
                 >
@@ -73,7 +74,7 @@ const Blogs = () => {
             <FollowSocialMedia />
           </div>
         </div>
-      </div>
+      </Container>
     </div>
   );
 };
