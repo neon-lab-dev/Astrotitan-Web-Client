@@ -27,6 +27,9 @@ import cancer from "./icons/zodiac-signs/cancer.webp";
 import gemini from "./icons/zodiac-signs/gemini.webp";
 import leo from "./icons/zodiac-signs/lio.webp";
 import taurus from "./icons/zodiac-signs/taurus.webp";
+import reset from "./icons/reset.svg";
+import time from "./icons/time.svg";
+import language from "./icons/language.svg";
 
 // Images
 import logo from "./images/logo.webp";
@@ -58,6 +61,7 @@ import zodiacSign from "./images/zodiac-sign.webp";
 import profileCompleted from "./images/profile-completed.png";
 import dailyHoroscopeBannerBg from "./images/daily-horoscope-banner-bg.webp";
 import kundliBannerBg from "./images/kundli-banner-bg.webp";
+import rahul from "./images/Rahul-Sutradhar.jpg";  // Dummy
 
 
 export const IMAGES = {
@@ -90,6 +94,7 @@ export const IMAGES = {
     profileCompleted,
     dailyHoroscopeBannerBg,
     kundliBannerBg,
+    rahul,
 };
 
 export const ICONS = {
@@ -121,5 +126,8 @@ export const ICONS = {
     cancer,
     gemini,
     leo,
-    taurus
+    taurus,
+    reset,
+    time,
+    language,
 };

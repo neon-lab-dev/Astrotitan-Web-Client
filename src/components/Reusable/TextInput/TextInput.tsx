@@ -31,7 +31,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     ref,
   ) => {
     return (
-      <div className="flex flex-col gap-2 font-Poppins w-full">
+      <div className="flex flex-col gap-2 font-GeneralSans w-full">
         {label && (
           <label
             htmlFor={name}

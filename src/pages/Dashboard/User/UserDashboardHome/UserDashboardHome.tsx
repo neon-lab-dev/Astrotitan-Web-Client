@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 import { GoArrowUpRight } from "react-icons/go";
 import { ICONS, IMAGES } from "../../../../assets";
 import Button from "../../../../components/Reusable/Button/Button";
@@ -155,12 +154,20 @@ const UserDashboardHome = () => {
 
         {/* Featured astrologers */}
         <div className="mt-12">
-          <h3 className="text-neutral-5 text-xl font-semibold">
-            Featured Astrologers
-          </h3>
-          <p className="text-neutral-5 text-sm mt-1.5">
-            Verified experts who help interpret charts and planetary periods.
-          </p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-neutral-5 text-xl font-semibold">
+                Featured Astrologers
+              </h3>
+              <p className="text-neutral-5 text-sm mt-1.5">
+                Verified experts who help interpret charts and planetary
+                periods.
+              </p>
+            </div>
+            <Link to={"/astrologer"} className="flex items-center gap-1.5">
+              View All <img src={ICONS.arrowRight} alt="" className="size-5" />
+            </Link>
+          </div>
           <div className="grid grid-cols-5 gap-4 mt-6">
             <AstrologerCard
               name="Dr. Ananya Sharma"
