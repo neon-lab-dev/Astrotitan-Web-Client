@@ -11,6 +11,7 @@ import RefundPolicy from "../pages/RefundPolicy/RefundPolicy";
 import UserDashboardHome from "../pages/Dashboard/User/UserDashboardHome/UserDashboardHome";
 import Astrologer from "../pages/Astrologer/Astrologer";
 import AstrologerDetails from "../pages/AstrologerDetails/AstrologerDetails";
+import Blogs from "../pages/Blogs/Blogs";
 
 export const router = createBrowserRouter([
   {
@@ -52,6 +53,14 @@ export const router = createBrowserRouter([
       },
       {
         path: "/astrologer/:id",
+        element: <AstrologerDetails />,
+      },
+      {
+        path: "/blogs",
+        element: <Blogs />,
+      },
+      {
+        path: "/blog/:id",
         element: <AstrologerDetails />,
       },
     ],

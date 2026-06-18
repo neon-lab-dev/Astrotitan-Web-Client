@@ -11,6 +11,7 @@ import Container from "../../components/Reusable/Container/Container";
 import AstrologerListCard from "../../components/AstrologerPage/AstrologerListCard/AstrologerListCard";
 import { LuUserRoundCheck } from "react-icons/lu";
 import { IMAGES } from "../../assets";
+import Breadcrumb from "../../components/Reusable/Breadcrumb/Breadcrumb";
 
 const AstrologerDetails = () => {
   const [showAllReviews, setShowAllReviews] = useState(false);
@@ -97,27 +98,17 @@ const AstrologerDetails = () => {
   return (
     <div className="min-h-screen bg-[#F8FAFC] pt-10">
       <Container>
-        <nav className="flex items-center gap-2 text-sm font-GeneralSans">
-          <Link
-            to="/"
-            className="flex items-center gap-1 text-gray-500 hover:text-primary-5 transition-colors"
-          >
-            <IoHomeOutline className="w-4 h-4" />
-            Home
-          </Link>
-          <MdNavigateNext className="w-4 h-4 text-gray-400" />
-          <Link
-            to="/astrologer"
-            className="text-gray-500 hover:text-primary-5 transition-colors"
-          >
-            Astrologer
-          </Link>
-          <MdNavigateNext className="w-4 h-4 text-gray-400" />
-          <span className="text-primary-5 font-medium">
-            {astrologer?.displayName ||
-              `${astrologer?.firstName} ${astrologer?.lastName}`}
-          </span>
-        </nav>
+        <Breadcrumb
+          items={[
+            { label: "Astrologer", path: "/astrologer" },
+            {
+              label:
+                astrologer?.displayName ||
+                `${astrologer?.firstName} ${astrologer?.lastName}`,
+              isActive: true,
+            },
+          ]}
+        />
 
         <div className="flex gap-8 mt-5">
           {/* LEFT COLUMN: Main Info */}

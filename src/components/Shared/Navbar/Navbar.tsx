@@ -172,7 +172,7 @@ const Navbar = () => {
               </div>
 
               {user ? (
-                <Link to="/dashboard">
+                <Link to="/dashboard/user">
                   <Button label="Dashboard" />
                 </Link>
               ) : (

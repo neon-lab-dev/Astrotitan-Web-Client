@@ -62,6 +62,8 @@ import profileCompleted from "./images/profile-completed.png";
 import dailyHoroscopeBannerBg from "./images/daily-horoscope-banner-bg.webp";
 import kundliBannerBg from "./images/kundli-banner-bg.webp";
 import rahul from "./images/Rahul-Sutradhar.jpg";  // Dummy
+import playStore from "./images/play-store.webp";
+import appStore from "./images/app-store.webp";
 
 
 export const IMAGES = {
@@ -95,6 +97,8 @@ export const IMAGES = {
     dailyHoroscopeBannerBg,
     kundliBannerBg,
     rahul,
+    playStore,
+    appStore
 };
 
 export const ICONS = {

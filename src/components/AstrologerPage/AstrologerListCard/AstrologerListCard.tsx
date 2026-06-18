@@ -1,6 +1,7 @@
 import { IoEyeOutline } from "react-icons/io5";
 import { ICONS, IMAGES } from "../../../assets";
 import { FaHandshake } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const AstrologerListCard = () => {
   return (
@@ -67,10 +68,13 @@ const AstrologerListCard = () => {
 
         {/* Right - Buttons */}
         <div className="flex items-center gap-3 shrink-0">
-          <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary-5 border border-primary-5 rounded-lg hover:bg-primary-5/5 transition-colors">
+          <Link
+            to={`/astrologer/${1}`}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary-5 border border-primary-5 rounded-lg hover:bg-primary-5/5 transition-colors"
+          >
             <IoEyeOutline className="w-4 h-4" />
             Know More
-          </button>
+          </Link>
           <button className="flex items-center gap-2 px-5 py-2 text-sm font-medium text-white bg-primary-5 rounded-lg hover:bg-primary-10] transition-colors shadow-sm">
             <FaHandshake className="w-4 h-4" />
             Consult Now

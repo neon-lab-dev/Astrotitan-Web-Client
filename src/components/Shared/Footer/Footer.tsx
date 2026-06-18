@@ -2,7 +2,6 @@
 import { ICONS, IMAGES } from "../../../assets";
 import { Link } from "react-router-dom";
 import Container from "../../Reusable/Container/Container";
-import Button from "../../Reusable/Button/Button";
 
 const Footer = () => {
   const quickLinks: any = [
@@ -47,6 +46,10 @@ const Footer = () => {
     {
       heading: "Resources",
       links: [
+        {
+          label: "Blogs",
+          path: "/blogs",
+        },
         {
           label: "FAQs",
           path: "/",
@@ -184,8 +187,40 @@ const Footer = () => {
           </div>
 
           <div className="flex flex-col md:flex-row gap-6">
-            <Button label="Download From Play Store" />
-            <Button label="Download From App Store" />
+             <a
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 bg-neutral-25/20 hover:bg-neutral-25/40 backdrop-blur-sm px-4 py-2 rounded-lg transition-all hover:scale-105"
+                  >
+                    <img src={IMAGES.playStore} alt="" className="w-6" />
+                    <div>
+                      <p className="text-[10px] leading-tight text-neutral-5">
+                        GET IT ON
+                      </p>
+                      <p className="text-sm font-semibold leading-tight">
+                        Google Play
+                      </p>
+                    </div>
+                  </a>
+
+                  {/* App Store Button */}
+                  <a
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 bg-neutral-25/20 hover:bg-neutral-25/40 backdrop-blur-sm px-4 py-2 rounded-lg transition-all hover:scale-105"
+                  >
+                    <img src={IMAGES.appStore} alt="" className="w-6" />
+                    <div>
+                      <p className="text-[10px] leading-tight text-neutral-5">
+                        Download on the
+                      </p>
+                      <p className="text-sm font-semibold leading-tight">
+                        App Store
+                      </p>
+                    </div>
+                  </a>
           </div>
 
           <hr className="border border-neutral-10/50 mt-12 mb-6" />
