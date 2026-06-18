@@ -14,6 +14,7 @@ import AstrologerDetails from "../pages/AstrologerDetails/AstrologerDetails";
 import Blogs from "../pages/Blogs/Blogs";
 import BlogDetails from "../pages/BlogDetails/BlogDetails";
 import Products from "../pages/Products/Products";
+import Cart from "../pages/Cart/Cart";
 
 export const router = createBrowserRouter([
   {
@@ -72,6 +73,10 @@ export const router = createBrowserRouter([
       {
         path: "/product/:id",
         element: <BlogDetails />,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
       },
     ],
   },
