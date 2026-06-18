@@ -17,8 +17,8 @@ const Footer = () => {
           path: "/products",
         },
         {
-          label: "Personalized Insights",
-          path: "/",
+          label: "Puja Items",
+          path: "/puja",
         },
         {
           label: "Daily Guidance",

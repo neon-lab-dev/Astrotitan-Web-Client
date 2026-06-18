@@ -16,6 +16,7 @@ import BlogDetails from "../pages/BlogDetails/BlogDetails";
 import Products from "../pages/Products/Products";
 import Cart from "../pages/Cart/Cart";
 import ProductDetails from "../pages/ProductDetails/ProductDetails";
+import Puja from "../pages/Puja/Puja";
 
 export const router = createBrowserRouter([
   {
@@ -78,6 +79,10 @@ export const router = createBrowserRouter([
       {
         path: "/cart",
         element: <Cart />,
+      },
+      {
+        path: "/puja",
+        element: <Puja />,
       },
     ],
   },
