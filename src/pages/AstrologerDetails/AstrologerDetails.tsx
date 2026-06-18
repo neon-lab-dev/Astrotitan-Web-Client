@@ -1,12 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import {
-  IoLanguageOutline,
-  IoTimeOutline,
-  IoHomeOutline,
-} from "react-icons/io5";
+import { IoLanguageOutline, IoTimeOutline } from "react-icons/io5";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
-import { MdNavigateNext, MdVerified } from "react-icons/md";
+import { MdVerified } from "react-icons/md";
 import Container from "../../components/Reusable/Container/Container";
 import AstrologerListCard from "../../components/AstrologerPage/AstrologerListCard/AstrologerListCard";
 import { LuUserRoundCheck } from "react-icons/lu";
