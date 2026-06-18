@@ -1,5 +1,5 @@
 import { IoEyeOutline } from "react-icons/io5";
-import { ICONS, IMAGES } from "../../assets";
+import { ICONS, IMAGES } from "../../../assets";
 import { FaHandshake } from "react-icons/fa";
 
 const AstrologerListCard = () => {
@@ -50,7 +50,7 @@ const AstrologerListCard = () => {
       <hr className="border border-gray-100 my-4" />
 
       {/* Bottom Section */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap gap-4 items-center justify-between">
         {/* Left - Availability & Languages */}
         <div className="flex-1">
           <div className="flex items-center gap-4 text-sm">
@@ -66,7 +66,7 @@ const AstrologerListCard = () => {
         </div>
 
         {/* Right - Buttons */}
-        <div className="flex items-center gap-3 shrink-0 ml-4">
+        <div className="flex items-center gap-3 shrink-0">
           <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary-5 border border-primary-5 rounded-lg hover:bg-primary-5/5 transition-colors">
             <IoEyeOutline className="w-4 h-4" />
             Know More

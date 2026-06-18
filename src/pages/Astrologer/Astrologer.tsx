@@ -2,8 +2,8 @@ import Container from "../../components/Reusable/Container/Container";
 import { IoHomeOutline, IoSearchOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { MdNavigateNext } from "react-icons/md";
-import AstrologerListCard from "./AstrologerListCard";
-import Filters from "./Filters";
+import AstrologerListCard from "../../components/AstrologerPage/AstrologerListCard/AstrologerListCard";
+import Filters from "../../components/AstrologerPage/Filters/Filters";
 
 const Astrologer = () => {
   return (
@@ -20,7 +20,7 @@ const Astrologer = () => {
         <span className="text-primary-5 font-medium">Astrologer</span>
       </nav>
 
-      <div className="flex gap-10 font-GeneralSans pb-14 mt-5">
+      <div className="flex gap-8 font-GeneralSans pb-14 mt-5">
         {/* Filters Sidebar - Sticky */}
         <div className="w-[35%] sticky top-4 h-fit max-h-[calc(100vh-100px)] overflow-y-auto">
           <Filters />

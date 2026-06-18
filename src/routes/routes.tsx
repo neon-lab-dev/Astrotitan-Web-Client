@@ -10,6 +10,7 @@ import TermsAndConditions from "../pages/TermsAndConditions/TermsAndConditions";
 import RefundPolicy from "../pages/RefundPolicy/RefundPolicy";
 import UserDashboardHome from "../pages/Dashboard/User/UserDashboardHome/UserDashboardHome";
 import Astrologer from "../pages/Astrologer/Astrologer";
+import AstrologerDetails from "../pages/AstrologerDetails/AstrologerDetails";
 
 export const router = createBrowserRouter([
   {
@@ -48,6 +49,10 @@ export const router = createBrowserRouter([
       {
         path: "/astrologer",
         element: <Astrologer />,
+      },
+      {
+        path: "/astrologer/:id",
+        element: <AstrologerDetails />,
       },
     ],
   },

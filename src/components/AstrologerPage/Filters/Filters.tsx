@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { ICONS } from "../../assets";
-import SelectDropdown from "../../components/Reusable/SelectDropdown/SelectDropdown";
+import { ICONS } from "../../../assets";
+import SelectDropdown from "../../Reusable/SelectDropdown/SelectDropdown";
 
 const Filters = () => {
   const [gender, setGender] = useState<string>("");
