@@ -64,6 +64,7 @@ import kundliBannerBg from "./images/kundli-banner-bg.webp";
 import rahul from "./images/Rahul-Sutradhar.jpg";  // Dummy
 import playStore from "./images/play-store.webp";
 import appStore from "./images/app-store.webp";
+import test from "./images/test.png";
 
 
 export const IMAGES = {
@@ -98,7 +99,8 @@ export const IMAGES = {
     kundliBannerBg,
     rahul,
     playStore,
-    appStore
+    appStore,
+    test
 };
 
 export const ICONS = {
