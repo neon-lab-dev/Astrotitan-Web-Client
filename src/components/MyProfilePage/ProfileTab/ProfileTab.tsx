@@ -32,7 +32,7 @@ const ProfileTab: React.FC<TProfileTabProps> = ({
       label: "My Addresses",
       icon: <IoLocationOutline />,
     },
-    { id: "settings", label: "Settings", icon: <IoSettingsOutline /> },
+    { id: "myOrders", label: "My Orders", icon: <IoSettingsOutline /> },
   ];
   return (
     <div className="lg:w-1/3 space-y-6 font-GeneralSans">
