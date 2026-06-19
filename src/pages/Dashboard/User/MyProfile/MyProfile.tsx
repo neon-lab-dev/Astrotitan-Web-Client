@@ -6,6 +6,7 @@ import { IMAGES } from "../../../../assets";
 import PersonalDetails from "../../../../components/MyProfilePage/PersonalDetails/PersonalDetails";
 import SessionHistory from "../../../../components/MyProfilePage/SessionHistory/SessionHistory";
 import Subscriptions from "../../../../components/MyProfilePage/Subscriptions/Subscriptions";
+import MyAddresses from "../../../../components/MyProfilePage/MyAddresses/MyAddresses";
 
 const MyProfile = () => {
   const [activeTab, setActiveTab] = useState("personal");
@@ -51,6 +52,7 @@ const MyProfile = () => {
               {activeTab === "personal" && <PersonalDetails user={user} />}
               {activeTab === "sessionHistory" && <SessionHistory />}
               {activeTab === "subscription" && <Subscriptions />}
+              {activeTab === "myAddresses" && <MyAddresses />}
             </div>
           </div>
         </div>

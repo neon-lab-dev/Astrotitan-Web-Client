@@ -36,7 +36,7 @@ const Login = ({
     formState: { errors },
   } = useForm<TFormData>();
 
-  const handleSignup = async (data: TFormData) => {
+  const handleLogin = async (data: TFormData) => {
     try {
       const payload = {
         phoneNumber: data.phoneNumber || "",
@@ -55,7 +55,7 @@ const Login = ({
     }
   };
   return (
-    <form onSubmit={handleSubmit(handleSignup)}>
+    <form onSubmit={handleSubmit(handleLogin)}>
       <div className="flex flex-col">
         <div className="flex flex-col gap-6">
           {loginType === "email" ? (

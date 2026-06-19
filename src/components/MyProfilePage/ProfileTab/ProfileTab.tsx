@@ -28,8 +28,8 @@ const ProfileTab: React.FC<TProfileTabProps> = ({
     },
     { id: "subscription", label: "Subscription", icon: <IoCardOutline /> },
     {
-      id: "saved-addresses",
-      label: "Saved Addresses",
+      id: "myAddresses",
+      label: "My Addresses",
       icon: <IoLocationOutline />,
     },
     { id: "settings", label: "Settings", icon: <IoSettingsOutline /> },
