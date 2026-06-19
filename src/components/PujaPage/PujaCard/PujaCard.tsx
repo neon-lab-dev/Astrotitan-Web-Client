@@ -1,8 +1,12 @@
 import { FaOm, FaRegStar, FaStar } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Button from "../../Reusable/Button/Button";
+import Modal from "../../Reusable/Modal/Modal";
+import BookPujaForm from "../BookPujaForm/BookPujaForm";
+import { useState } from "react";
 
 const PujaCard = ({ puja }) => {
+  const [isBookPujaModalOpen, setIsBookPujaModalOpen] = useState<boolean>(false);
   const renderStars = (rating: number = 0) => {
     const full = Math.floor(rating);
     const empty = 5 - full;
@@ -18,6 +22,7 @@ const PujaCard = ({ puja }) => {
     );
   };
   return (
+    <>
     <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-500 border border-gray-100 hover:border-primary-5/30 flex flex-col md:flex-row font-GeneralSans    ">
       {/* Image Section - Left side */}
       <div className="relative md:w-80 shrink-0">
@@ -126,11 +131,25 @@ const PujaCard = ({ puja }) => {
             <Link to={`/puja/${puja.id}`}>
               <Button variant="secondary" label="View Details" />
             </Link>
-            <Button label="Book Now" />
+            <Button onClick={() => setIsBookPujaModalOpen(true)} label="Book Now" />
           </div>
         </div>
       </div>
     </div>
+
+    <Modal
+        isModalOpen={isBookPujaModalOpen}
+        setIsModalOpen={setIsBookPujaModalOpen}
+      >
+        <h2 className="text-2xl font-Satoshi font-semibold text-center text-neutral-5">
+          Book Puja
+        </h2>
+        <p className="text-sm font-GeneralSans text-center mt-1 mb-8">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius, beatae!
+        </p>
+        <BookPujaForm pujaId={puja._id} />
+      </Modal>
+    </>
   );
 };
 

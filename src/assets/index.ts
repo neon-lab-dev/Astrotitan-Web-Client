@@ -30,6 +30,7 @@ import taurus from "./icons/zodiac-signs/taurus.webp";
 import reset from "./icons/reset.svg";
 import time from "./icons/time.svg";
 import language from "./icons/language.svg";
+import cart from "./icons/cart.svg";
 
 // Images
 import logo from "./images/logo.webp";
@@ -136,4 +137,5 @@ export const ICONS = {
     reset,
     time,
     language,
+    cart,
 };

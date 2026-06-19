@@ -57,7 +57,7 @@ const SelectDropdown = forwardRef<HTMLSelectElement, DropdownProps>(
           value={value}
           required={isRequired}
           onChange={handleChange}
-          className={`cursor-pointer w-full px-4 py-3.5 rounded-lg border leading-4.5 focus:outline-none focus:border-primary-5 transition duration-300 ${isDisabled ? "cursor-not-allowed bg-neutral-35" : bgColor} ${
+          className={`cursor-pointer w-full px-4 py-3.5 rounded-lg border leading-4.5 focus:outline-none focus:border-primary-5 transition duration-300 placeholder:text-neutral-5/50 placeholder:text-sm ${isDisabled ? "cursor-not-allowed bg-neutral-35" : bgColor} ${
             error ? "border-red-500" : borderColor
           }`}
           {...rest}

@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { IMAGES } from "../../../assets";
+import { Link, useLocation } from "react-router-dom";
+import { ICONS, IMAGES } from "../../../assets";
 import Container from "../../Reusable/Container/Container";
 import Button from "../../Reusable/Button/Button";
 import { navLinks } from "./navlinks";
@@ -18,6 +18,7 @@ import { useCurrentUser } from "../../../redux/Features/Auth/authSlice";
 export type TAuthModalType = "login" | "verifyOtp" | "signup";
 
 const Navbar = () => {
+  const pathname = useLocation().pathname;
   const user = useSelector(useCurrentUser);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
   const [authModalType, setAuthModalType] = useState<TAuthModalType>("login");
@@ -86,8 +87,8 @@ const Navbar = () => {
   const { heading, description } = getModalContent();
 
   return (
-    <div>
-      <div className="py-6 bg-white/90 border-b border-neutral-10/15 font-Satoshi">
+    <>
+      <div className="py-6 bg-white/90 border-b border-neutral-10/15 font-Satoshi sticky top-0 z-50">
         <Container>
           <div className="flex items-center justify-between">
             <Link to="/" className="flex items-center gap-3">
@@ -171,19 +172,30 @@ const Navbar = () => {
                 </AnimatePresence>
               </div>
 
-              {user ? (
-                <Link to="/dashboard/user">
-                  <Button label="Dashboard" />
-                </Link>
-              ) : (
-                <Button
-                  onClick={() => {
-                    setAuthModalType("login");
-                    setIsAuthModalOpen(true);
-                  }}
-                  label="Login"
-                />
-              )}
+              <div className="flex items-center gap-3">
+                {(pathname === "/products" || pathname === "/cart") && (
+                  <Link
+                    to="/cart"
+                    className="size-10 rounded-full border border-primary-5 hover:bg-primary-10/20 transition duration-300 flex items-center justify-center"
+                  >
+                    <img src={ICONS.cart} className="size-5" alt="" />
+                  </Link>
+                )}
+
+                {user ? (
+                  <Link to="/dashboard/user">
+                    <Button label="Dashboard" />
+                  </Link>
+                ) : (
+                  <Button
+                    onClick={() => {
+                      setAuthModalType("login");
+                      setIsAuthModalOpen(true);
+                    }}
+                    label="Login"
+                  />
+                )}
+              </div>
             </div>
             <HamburgerMenu />
           </div>
@@ -213,7 +225,7 @@ const Navbar = () => {
           <VerifyOtp verifyOtpFor={verifyOtpFor} />
         )}
       </Modal>
-    </div>
+    </>
   );
 };
 

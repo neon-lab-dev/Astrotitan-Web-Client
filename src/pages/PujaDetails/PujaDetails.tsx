@@ -7,12 +7,7 @@ import {
   IoHeart,
   IoCheckmarkCircle,
 } from "react-icons/io5";
-import {
-  FaStar,
-  FaRegStar,
-  FaStarHalfAlt,
-  FaUserCircle,
-} from "react-icons/fa";
+import { FaStar, FaRegStar, FaStarHalfAlt, FaUserCircle } from "react-icons/fa";
 import { FaOm } from "react-icons/fa6";
 import { IMAGES } from "../../assets";
 import Breadcrumb from "../../components/Reusable/Breadcrumb/Breadcrumb";
@@ -24,13 +19,19 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import Button from "../../components/Reusable/Button/Button";
+import Modal from "../../components/Reusable/Modal/Modal";
+import BookPujaForm from "../../components/PujaPage/BookPujaForm/BookPujaForm";
 
 const PujaDetails = () => {
   const { id } = useParams();
   const [isWishlisted, setIsWishlisted] = useState(false);
-  const [activeTab, setActiveTab] = useState<"description" | "howToPerform" | "reviews">("description");
+  const [activeTab, setActiveTab] = useState<
+    "description" | "howToPerform" | "reviews"
+  >("description");
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
+  const [isBookPujaModalOpen, setIsBookPujaModalOpen] =
+    useState<boolean>(false);
 
   const puja = {
     _id: "1",
@@ -49,21 +50,24 @@ const PujaDetails = () => {
     reviews: [
       {
         user: { firstName: "Priya", lastName: "Sharma" },
-        review: "Absolutely amazing experience! The puja was performed with great devotion and accuracy.",
+        review:
+          "Absolutely amazing experience! The puja was performed with great devotion and accuracy.",
         rating: 5,
         images: [],
         createdAt: "2024-03-15T10:30:00Z",
       },
       {
         user: { firstName: "Amit", lastName: "Kumar" },
-        review: "Very well organized. Felt the divine presence during the puja.",
+        review:
+          "Very well organized. Felt the divine presence during the puja.",
         rating: 4.5,
         images: [],
         createdAt: "2024-03-10T14:20:00Z",
       },
       {
         user: { firstName: "Sneha", lastName: "Patel" },
-        review: "Incredible experience! My obstacles were removed and I got a new job within a month.",
+        review:
+          "Incredible experience! My obstacles were removed and I got a new job within a month.",
         rating: 5,
         images: [],
         createdAt: "2024-03-05T09:15:00Z",
@@ -76,16 +80,55 @@ const PujaDetails = () => {
       "1. The puja begins with Ganesh Sthapana and Kalash Sthapana\n2. 108 Ganesh mantras are chanted with modak offerings\n3. Sankalpa is taken with your name and birth details\n4. Ganapati Atharvashirsha is recited 21 times\n5. Aarti and Prasad distribution concludes the puja\n6. A detailed puja report with photos and video is provided",
     duration: "2-3 hours",
     priests: 2,
-    benefits: ["Removes obstacles", "Brings success", "Enhances wisdom", "Provides clarity"],
-    includes: ["108 Modaks", "Sacred Samagri", "Prasad", "Puja Report", "Photo/Video"],
+    benefits: [
+      "Removes obstacles",
+      "Brings success",
+      "Enhances wisdom",
+      "Provides clarity",
+    ],
+    includes: [
+      "108 Modaks",
+      "Sacred Samagri",
+      "Prasad",
+      "Puja Report",
+      "Photo/Video",
+    ],
   };
 
   // Related Pujas
   const relatedPujas = [
-    { id: "2", name: "Lakshmi Puja for Wealth", image: IMAGES.kundliBannerBg, price: 1499, discountedPrice: 1299, rating: 4.8 },
-    { id: "3", name: "Durga Puja for Protection", image: IMAGES.kundliBannerBg, price: 1999, discountedPrice: null, rating: 4.7 },
-    { id: "4", name: "Shiva Puja for Peace", image: IMAGES.kundliBannerBg, price: 799, discountedPrice: 699, rating: 4.6 },
-    { id: "5", name: "Saraswati Puja for Education", image: IMAGES.kundliBannerBg, price: 899, discountedPrice: 799, rating: 4.9 },
+    {
+      id: "2",
+      name: "Lakshmi Puja for Wealth",
+      image: IMAGES.kundliBannerBg,
+      price: 1499,
+      discountedPrice: 1299,
+      rating: 4.8,
+    },
+    {
+      id: "3",
+      name: "Durga Puja for Protection",
+      image: IMAGES.kundliBannerBg,
+      price: 1999,
+      discountedPrice: null,
+      rating: 4.7,
+    },
+    {
+      id: "4",
+      name: "Shiva Puja for Peace",
+      image: IMAGES.kundliBannerBg,
+      price: 799,
+      discountedPrice: 699,
+      rating: 4.6,
+    },
+    {
+      id: "5",
+      name: "Saraswati Puja for Education",
+      image: IMAGES.kundliBannerBg,
+      price: 899,
+      discountedPrice: 799,
+      rating: 4.9,
+    },
   ];
 
   const formatDate = (dateString: string) => {
@@ -103,9 +146,14 @@ const PujaDetails = () => {
     return (
       <div className="flex items-center gap-0.5">
         {[...Array(full)].map((_, i) => (
-          <FaStar key={`full-${i}`} className="w-4 h-4 text-yellow-400 fill-current" />
+          <FaStar
+            key={`full-${i}`}
+            className="w-4 h-4 text-yellow-400 fill-current"
+          />
         ))}
-        {half && <FaStarHalfAlt className="w-4 h-4 text-yellow-400 fill-current" />}
+        {half && (
+          <FaStarHalfAlt className="w-4 h-4 text-yellow-400 fill-current" />
+        )}
         {[...Array(empty)].map((_, i) => (
           <FaRegStar key={`empty-${i}`} className="w-4 h-4 text-neutral-35" />
         ))}
@@ -113,18 +161,20 @@ const PujaDetails = () => {
     );
   };
 
-  const displayedReviews = showAllReviews ? puja.reviews : puja.reviews.slice(0, 3);
+  const displayedReviews = showAllReviews
+    ? puja.reviews
+    : puja.reviews.slice(0, 3);
 
   return (
     <div className="pt-10 pb-14">
       <Container>
         {/* Breadcrumb */}
-          <Breadcrumb
-            items={[
-              { label: "Pujas", path: "/pujas" },
-              { label: puja.name, path: `/puja/${id}`, isActive: true },
-            ]}
-          />
+        <Breadcrumb
+          items={[
+            { label: "Pujas", path: "/pujas" },
+            { label: puja.name, path: `/puja/${id}`, isActive: true },
+          ]}
+        />
 
         <div className="flex flex-col lg:flex-row gap-8 mt-6">
           {/* Left Column - 65% */}
@@ -265,8 +315,12 @@ const PujaDetails = () => {
                 {activeTab === "description" && (
                   <div className="space-y-5">
                     <div>
-                      <h3 className="text-sm font-semibold text-neutral-5 mb-2">Description</h3>
-                      <p className="text-neutral-10 leading-relaxed text-sm">{puja.description}</p>
+                      <h3 className="text-sm font-semibold text-neutral-5 mb-2">
+                        Description
+                      </h3>
+                      <p className="text-neutral-10 leading-relaxed text-sm">
+                        {puja.description}
+                      </p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-neutral-30">
@@ -275,11 +329,16 @@ const PujaDetails = () => {
                           Target Audience
                         </h4>
                         <div className="flex flex-wrap gap-1.5">
-                          {puja.targetAudience.split(",").map((audience: string) => (
-                            <span key={audience} className="px-2.5 py-1 bg-neutral-30 text-neutral-10 rounded-full text-xs">
-                              {audience.trim()}
-                            </span>
-                          ))}
+                          {puja.targetAudience
+                            .split(",")
+                            .map((audience: string) => (
+                              <span
+                                key={audience}
+                                className="px-2.5 py-1 bg-neutral-30 text-neutral-10 rounded-full text-xs"
+                              >
+                                {audience.trim()}
+                              </span>
+                            ))}
                         </div>
                       </div>
                       <div>
@@ -288,7 +347,10 @@ const PujaDetails = () => {
                         </h4>
                         <div className="flex flex-wrap gap-1.5">
                           {puja.benefits.map((benefit: string) => (
-                            <span key={benefit} className="px-2.5 py-1 bg-purple-50 text-purple-600 rounded-full text-xs">
+                            <span
+                              key={benefit}
+                              className="px-2.5 py-1 bg-purple-50 text-purple-600 rounded-full text-xs"
+                            >
                               ✦ {benefit}
                             </span>
                           ))}
@@ -300,16 +362,20 @@ const PujaDetails = () => {
 
                 {activeTab === "howToPerform" && (
                   <div>
-                    <h3 className="text-sm font-semibold text-neutral-5 mb-3">How This Puja is Performed</h3>
+                    <h3 className="text-sm font-semibold text-neutral-5 mb-3">
+                      How This Puja is Performed
+                    </h3>
                     <div className="space-y-3">
-                      {puja.howThisPujaPerformed.split("\n").map((step: string, index: number) => (
-                        <div key={index} className="flex items-start gap-3">
-                          <div className="w-6 h-6 rounded-full bg-primary-5/10 text-primary-5 flex items-center justify-center text-xs font-bold flex-shrink-0">
-                            {index + 1}
+                      {puja.howThisPujaPerformed
+                        .split("\n")
+                        .map((step: string, index: number) => (
+                          <div key={index} className="flex items-start gap-3">
+                            <div className="w-6 h-6 rounded-full bg-primary-5/10 text-primary-5 flex items-center justify-center text-xs font-bold flex-shrink-0">
+                              {index + 1}
+                            </div>
+                            <p className="text-neutral-10 text-sm">{step}</p>
                           </div>
-                          <p className="text-neutral-10 text-sm">{step}</p>
-                        </div>
-                      ))}
+                        ))}
                     </div>
                   </div>
                 )}
@@ -318,24 +384,39 @@ const PujaDetails = () => {
                   <div>
                     <div className="flex items-center gap-6 mb-6 pb-6 border-b border-neutral-30">
                       <div className="text-center">
-                        <div className="text-4xl font-bold text-neutral-5">{puja.rating.toFixed(1)}</div>
-                        <div className="flex justify-center mt-1">{renderStars(puja.rating)}</div>
-                        <div className="text-sm text-neutral-25 mt-1">{puja.reviews.length} reviews</div>
+                        <div className="text-4xl font-bold text-neutral-5">
+                          {puja.rating.toFixed(1)}
+                        </div>
+                        <div className="flex justify-center mt-1">
+                          {renderStars(puja.rating)}
+                        </div>
+                        <div className="text-sm text-neutral-25 mt-1">
+                          {puja.reviews.length} reviews
+                        </div>
                       </div>
                       <div className="flex-1 space-y-1.5">
                         {[5, 4, 3, 2, 1].map((star) => {
-                          const count = puja.reviews.filter((r: any) => Math.floor(r.rating) === star).length;
-                          const percentage = puja.reviews.length > 0 ? (count / puja.reviews.length) * 100 : 0;
+                          const count = puja.reviews.filter(
+                            (r: any) => Math.floor(r.rating) === star,
+                          ).length;
+                          const percentage =
+                            puja.reviews.length > 0
+                              ? (count / puja.reviews.length) * 100
+                              : 0;
                           return (
                             <div key={star} className="flex items-center gap-2">
-                              <span className="text-xs text-neutral-25 w-6">{star}</span>
+                              <span className="text-xs text-neutral-25 w-6">
+                                {star}
+                              </span>
                               <div className="flex-1 h-1.5 bg-neutral-30 rounded-full overflow-hidden">
                                 <div
                                   className="h-full bg-primary-5 rounded-full"
                                   style={{ width: `${percentage}%` }}
                                 />
                               </div>
-                              <span className="text-xs text-neutral-35 w-8">{count}</span>
+                              <span className="text-xs text-neutral-35 w-8">
+                                {count}
+                              </span>
                             </div>
                           );
                         })}
@@ -353,10 +434,16 @@ const PujaDetails = () => {
                               <span className="font-medium text-neutral-5 text-sm">
                                 {review.user.firstName} {review.user.lastName}
                               </span>
-                              <span className="text-xs text-neutral-35">{formatDate(review.createdAt)}</span>
+                              <span className="text-xs text-neutral-35">
+                                {formatDate(review.createdAt)}
+                              </span>
                             </div>
-                            <div className="mt-0.5">{renderStars(review.rating)}</div>
-                            <p className="text-sm text-neutral-10 mt-1.5 leading-relaxed">{review.review}</p>
+                            <div className="mt-0.5">
+                              {renderStars(review.rating)}
+                            </div>
+                            <p className="text-sm text-neutral-10 mt-1.5 leading-relaxed">
+                              {review.review}
+                            </p>
                           </div>
                         </div>
                       ))}
@@ -367,7 +454,9 @@ const PujaDetails = () => {
                         onClick={() => setShowAllReviews(!showAllReviews)}
                         className="mt-4 text-sm text-primary-5 hover:text-primary-10 font-medium transition-colors"
                       >
-                        {showAllReviews ? "Show Less" : `Show All ${puja.reviews.length} Reviews`}
+                        {showAllReviews
+                          ? "Show Less"
+                          : `Show All ${puja.reviews.length} Reviews`}
                       </button>
                     )}
                   </div>
@@ -382,7 +471,9 @@ const PujaDetails = () => {
             <div className="bg-white rounded-2xl shadow-sm border border-neutral-30 p-6 sticky top-4">
               <div className="flex items-center gap-2 mb-2">
                 <FaOm className="w-4 h-4 text-primary-5" />
-                <span className="text-xs font-medium text-neutral-25">Sacred Ritual</span>
+                <span className="text-xs font-medium text-neutral-25">
+                  Sacred Ritual
+                </span>
               </div>
 
               <div className="flex items-baseline gap-3">
@@ -395,7 +486,12 @@ const PujaDetails = () => {
                       ₹{puja.basePrice}
                     </span>
                     <span className="px-2.5 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">
-                      {Math.round(((puja.basePrice - puja.discountedPrice) / puja.basePrice) * 100)}% OFF
+                      {Math.round(
+                        ((puja.basePrice - puja.discountedPrice) /
+                          puja.basePrice) *
+                          100,
+                      )}
+                      % OFF
                     </span>
                   </>
                 ) : (
@@ -404,9 +500,15 @@ const PujaDetails = () => {
                   </span>
                 )}
               </div>
-              <p className="text-xs text-neutral-35 mt-1">Inclusive of all taxes</p>
+              <p className="text-xs text-neutral-35 mt-1">
+                Inclusive of all taxes
+              </p>
 
-              <Button label="Book Now" className="w-full mt-4" />
+              <Button
+                onClick={() => setIsBookPujaModalOpen(true)}
+                label="Book Now"
+                className="w-full mt-4"
+              />
 
               <div className="flex items-center justify-center gap-4 mt-4 pt-4 border-t border-neutral-30">
                 <div className="flex items-center gap-1.5 text-xs text-neutral-25">
@@ -423,10 +525,15 @@ const PujaDetails = () => {
 
             {/* Includes Section */}
             <div className="bg-white rounded-2xl shadow-sm border border-neutral-30 p-5">
-              <h3 className="text-sm font-semibold text-neutral-5 mb-3">This Puja Includes</h3>
+              <h3 className="text-sm font-semibold text-neutral-5 mb-3">
+                This Puja Includes
+              </h3>
               <div className="flex flex-wrap gap-2">
                 {puja.includes.map((item: string) => (
-                  <span key={item} className="px-3 py-1.5 bg-neutral-30 text-neutral-10 rounded-lg text-xs">
+                  <span
+                    key={item}
+                    className="px-3 py-1.5 bg-neutral-30 text-neutral-10 rounded-lg text-xs"
+                  >
                     {item}
                   </span>
                 ))}
@@ -435,7 +542,9 @@ const PujaDetails = () => {
 
             {/* Related Pujas */}
             <div className="bg-white rounded-2xl shadow-sm border border-neutral-30 p-5">
-              <h3 className="text-sm font-semibold text-neutral-5 mb-3">Other Pujas You May Like</h3>
+              <h3 className="text-sm font-semibold text-neutral-5 mb-3">
+                Other Pujas You May Like
+              </h3>
               <div className="space-y-3">
                 {relatedPujas.map((p) => (
                   <Link
@@ -455,19 +564,30 @@ const PujaDetails = () => {
                       <div className="flex items-center gap-2 mt-0.5">
                         <div className="flex items-center gap-0.5">
                           {[...Array(5)].map((_, i) => (
-                            <FaStar key={i} className={`w-3 h-3 ${i < Math.floor(p.rating) ? 'text-yellow-400 fill-current' : 'text-neutral-35'}`} />
+                            <FaStar
+                              key={i}
+                              className={`w-3 h-3 ${i < Math.floor(p.rating) ? "text-yellow-400 fill-current" : "text-neutral-35"}`}
+                            />
                           ))}
                         </div>
-                        <span className="text-xs text-neutral-25">{p.rating}</span>
+                        <span className="text-xs text-neutral-25">
+                          {p.rating}
+                        </span>
                       </div>
                       <div className="flex items-center gap-2 mt-0.5">
                         {p.discountedPrice ? (
                           <>
-                            <span className="text-sm font-bold text-primary-5">₹{p.discountedPrice}</span>
-                            <span className="text-xs text-neutral-35 line-through">₹{p.price}</span>
+                            <span className="text-sm font-bold text-primary-5">
+                              ₹{p.discountedPrice}
+                            </span>
+                            <span className="text-xs text-neutral-35 line-through">
+                              ₹{p.price}
+                            </span>
                           </>
                         ) : (
-                          <span className="text-sm font-bold text-primary-5">₹{p.price}</span>
+                          <span className="text-sm font-bold text-primary-5">
+                            ₹{p.price}
+                          </span>
                         )}
                       </div>
                     </div>
@@ -496,6 +616,19 @@ const PujaDetails = () => {
           opacity: 1;
         }
       `}</style>
+
+      <Modal
+        isModalOpen={isBookPujaModalOpen}
+        setIsModalOpen={setIsBookPujaModalOpen}
+      >
+        <h2 className="text-2xl font-Satoshi font-semibold text-center text-neutral-5">
+          Book Puja
+        </h2>
+        <p className="text-sm font-GeneralSans text-center mt-1 mb-8">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius, beatae!
+        </p>
+        <BookPujaForm pujaId={puja._id} />
+      </Modal>
     </div>
   );
 };

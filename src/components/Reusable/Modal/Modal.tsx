@@ -23,68 +23,69 @@ const Modal: React.FC<TModalProps> = ({
   // Handle ESC key press
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
-      if (closeOnEsc && e.key === 'Escape' && isModalOpen) {
+      if (closeOnEsc && e.key === "Escape" && isModalOpen) {
         setIsModalOpen(false);
       }
     };
-    
-    window.addEventListener('keydown', handleEsc);
-    
+
+    window.addEventListener("keydown", handleEsc);
+
     // Prevent body scroll when modal is open
     if (isModalOpen) {
-      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-      document.body.style.overflow = 'hidden';
+      const scrollbarWidth =
+        window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.overflow = "hidden";
       document.body.style.paddingRight = `${scrollbarWidth}px`;
     } else {
-      document.body.style.overflow = '';
-      document.body.style.paddingRight = '';
+      document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
     }
-    
+
     return () => {
-      window.removeEventListener('keydown', handleEsc);
-      document.body.style.overflow = '';
-      document.body.style.paddingRight = '';
+      window.removeEventListener("keydown", handleEsc);
+      document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
     };
   }, [isModalOpen, closeOnEsc, setIsModalOpen]);
 
   // Animation variants for slide from bottom to center
-  const backdropVariants:any = {
+  const backdropVariants: any = {
     hidden: { opacity: 0 },
-    visible: { 
+    visible: {
       opacity: 1,
-      transition: { duration: 0.2 }
+      transition: { duration: 0.2 },
     },
-    exit: { 
+    exit: {
       opacity: 0,
-      transition: { duration: 0.2 }
-    }
+      transition: { duration: 0.2 },
+    },
   };
 
-  const modalVariants:any = {
-    hidden: { 
+  const modalVariants: any = {
+    hidden: {
       y: "100%",
       opacity: 0,
     },
-    visible: { 
+    visible: {
       y: 0,
       opacity: 1,
-      transition: { 
+      transition: {
         type: "spring",
         damping: 20,
         stiffness: 250,
-        duration: 0.4
-      }
+        duration: 0.4,
+      },
     },
-    exit: { 
+    exit: {
       y: "100%",
       opacity: 0,
-      transition: { 
+      transition: {
         type: "spring",
         damping: 20,
         stiffness: 250,
-        duration: 0.3
-      }
-    }
+        duration: 0.3,
+      },
+    },
   };
 
   return (
@@ -113,9 +114,7 @@ const Modal: React.FC<TModalProps> = ({
               <RxCross1 className="text-lg cursor-pointer text-gray-500 hover:text-gray-700" />
             </button>
 
-            <div className="p-4 md:p-6">
-              {children}
-            </div>
+            <div className="p-4 md:p-6">{children}</div>
           </motion.div>
         </motion.div>
       )}

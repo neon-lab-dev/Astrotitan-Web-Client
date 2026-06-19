@@ -18,6 +18,7 @@ import Cart from "../pages/Cart/Cart";
 import ProductDetails from "../pages/ProductDetails/ProductDetails";
 import Puja from "../pages/Puja/Puja";
 import PujaDetails from "../pages/PujaDetails/PujaDetails";
+import MyProfile from "../pages/Dashboard/User/MyProfile/MyProfile";
 
 export const router = createBrowserRouter([
   {
@@ -89,6 +90,7 @@ export const router = createBrowserRouter([
         path: "/puja/:id",
         element: <PujaDetails />,
       },
+      
     ],
   },
   {
@@ -99,6 +101,10 @@ export const router = createBrowserRouter([
       {
         path: "",
         element: <UserDashboardHome />,
+      },
+      {
+        path: "my-profile",
+        element: <MyProfile />,
       },
     ],
   },
