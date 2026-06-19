@@ -21,14 +21,18 @@ const ProfileTab: React.FC<TProfileTabProps> = ({
 }) => {
   const tabs = [
     { id: "personal", label: "Profile Info", icon: <FaUserEdit /> },
-    { id: "sessionHistory", label: "Session History", icon: <BsChatRightDots /> },
-    { id: "settings", label: "Settings", icon: <IoSettingsOutline /> },
+    {
+      id: "sessionHistory",
+      label: "Session History",
+      icon: <BsChatRightDots />,
+    },
     { id: "subscription", label: "Subscription", icon: <IoCardOutline /> },
     {
       id: "saved-addresses",
       label: "Saved Addresses",
       icon: <IoLocationOutline />,
     },
+    { id: "settings", label: "Settings", icon: <IoSettingsOutline /> },
   ];
   return (
     <div className="lg:w-1/3 space-y-6 font-GeneralSans">
@@ -40,7 +44,7 @@ const ProfileTab: React.FC<TProfileTabProps> = ({
               className="w-32 h-32 rounded-3xl object-cover ring-4 ring-primary-5/10"
               alt="Profile"
             />
-            <button className="absolute -bottom-2 -right-2 p-2 border border-primary-5/50 bg-white text-primary-5 rounded-xl shadow-lg hover:bg-primary-5 transition-all">
+            <button className="absolute -bottom-2 -right-2 p-2 border border-primary-5/50 bg-white text-primary-5 hover:text-white rounded-xl shadow-lg hover:bg-primary-5 transition-all">
               <HiPencil size={18} />
             </button>
           </div>

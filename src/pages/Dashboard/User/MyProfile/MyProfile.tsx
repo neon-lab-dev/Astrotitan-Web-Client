@@ -5,6 +5,7 @@ import ProfileTab from "../../../../components/MyProfilePage/ProfileTab/ProfileT
 import { IMAGES } from "../../../../assets";
 import PersonalDetails from "../../../../components/MyProfilePage/PersonalDetails/PersonalDetails";
 import SessionHistory from "../../../../components/MyProfilePage/SessionHistory/SessionHistory";
+import Subscriptions from "../../../../components/MyProfilePage/Subscriptions/Subscriptions";
 
 const MyProfile = () => {
   const [activeTab, setActiveTab] = useState("personal");
@@ -49,6 +50,7 @@ const MyProfile = () => {
               {/* Conditional Content based on activeTab */}
               {activeTab === "personal" && <PersonalDetails user={user} />}
               {activeTab === "sessionHistory" && <SessionHistory />}
+              {activeTab === "subscription" && <Subscriptions />}
             </div>
           </div>
         </div>
