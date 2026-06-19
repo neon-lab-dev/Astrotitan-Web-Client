@@ -4,6 +4,7 @@ import Breadcrumb from "../../../../components/Reusable/Breadcrumb/Breadcrumb";
 import ProfileTab from "../../../../components/MyProfilePage/ProfileTab/ProfileTab";
 import { IMAGES } from "../../../../assets";
 import PersonalDetails from "../../../../components/MyProfilePage/PersonalDetails/PersonalDetails";
+import SessionHistory from "../../../../components/MyProfilePage/SessionHistory/SessionHistory";
 
 const MyProfile = () => {
   const [activeTab, setActiveTab] = useState("personal");
@@ -46,9 +47,8 @@ const MyProfile = () => {
           <div className="lg:w-2/3">
             <div className="bg-white rounded-4xl p-8 shadow-sm border border-slate-100">
               {/* Conditional Content based on activeTab */}
-              {activeTab === "personal" && (
-                <PersonalDetails user={user} />
-              )}
+              {activeTab === "personal" && <PersonalDetails user={user} />}
+              {activeTab === "sessionHistory" && <SessionHistory />}
             </div>
           </div>
         </div>

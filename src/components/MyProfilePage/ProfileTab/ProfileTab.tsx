@@ -3,7 +3,6 @@ import { BsChatRightDots } from "react-icons/bs";
 import { FaUserEdit } from "react-icons/fa";
 import { HiPencil } from "react-icons/hi";
 import {
-  IoCalendarOutline,
   IoSettingsOutline,
   IoCardOutline,
   IoLocationOutline,
@@ -22,8 +21,7 @@ const ProfileTab: React.FC<TProfileTabProps> = ({
 }) => {
   const tabs = [
     { id: "personal", label: "Profile Info", icon: <FaUserEdit /> },
-    { id: "orders", label: "My Bookings", icon: <IoCalendarOutline /> },
-    { id: "wallet", label: "Session History", icon: <BsChatRightDots /> },
+    { id: "sessionHistory", label: "Session History", icon: <BsChatRightDots /> },
     { id: "settings", label: "Settings", icon: <IoSettingsOutline /> },
     { id: "subscription", label: "Subscription", icon: <IoCardOutline /> },
     {
