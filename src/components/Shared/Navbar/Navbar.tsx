@@ -15,6 +15,8 @@ import {
   IoGridOutline,
   IoPersonOutline,
   IoLogOutOutline,
+  IoCalendarOutline,
+  IoSettingsOutline,
 } from "react-icons/io5";
 import { FaStar, FaGem, FaComments } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
@@ -68,8 +70,18 @@ const Navbar = () => {
     },
     {
       label: "My Profile",
-      path: "/dashboard/user/my-profile",
+      path: "/dashboard/user/profile",
       icon: <IoPersonOutline size={18} />,
+    },
+    {
+      label: "Session History",
+      path: "/dashboard/user/session-history",
+      icon: <IoCalendarOutline size={18} />,
+    },
+    {
+      label: "Settings",
+      path: "/dashboard/user/account-settings",
+      icon: <IoSettingsOutline size={18} />,
     },
     // {
     //   label: "Privacy Policy",

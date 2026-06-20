@@ -18,7 +18,14 @@ import Cart from "../pages/Cart/Cart";
 import ProductDetails from "../pages/ProductDetails/ProductDetails";
 import Puja from "../pages/Puja/Puja";
 import PujaDetails from "../pages/PujaDetails/PujaDetails";
-import MyProfile from "../pages/Dashboard/User/MyProfile/MyProfile";
+import UserProfileLayout from "../layouts/UserProfileLayout/UserProfileLayout";
+import PersonalDetails from "../components/MyProfilePage/PersonalDetails/PersonalDetails";
+import SessionHistory from "../components/MyProfilePage/SessionHistory/SessionHistory";
+import Subscriptions from "../components/MyProfilePage/Subscriptions/Subscriptions";
+import MyAddresses from "../components/MyProfilePage/MyAddresses/MyAddresses";
+import MyOrders from "../components/MyProfilePage/MyOrders/MyOrders";
+import PujaBookings from "../components/MyProfilePage/PujaBookings/PujaBookings";
+import AccountSettings from "../components/MyProfilePage/AccountSettings/AccountSettings";
 
 export const router = createBrowserRouter([
   {
@@ -90,7 +97,6 @@ export const router = createBrowserRouter([
         path: "/puja/:id",
         element: <PujaDetails />,
       },
-      
     ],
   },
   {
@@ -102,9 +108,40 @@ export const router = createBrowserRouter([
         path: "",
         element: <UserDashboardHome />,
       },
+    ],
+  },
+  {
+    path: "dashboard/user",
+    element: <UserProfileLayout />,
+    errorElement: <NotFound />,
+    children: [
       {
-        path: "my-profile",
-        element: <MyProfile />,
+        path: "profile",
+        element: <PersonalDetails />,
+      },
+      {
+        path: "session-history",
+        element: <SessionHistory />,
+      },
+      {
+        path: "subscriptions",
+        element: <Subscriptions />,
+      },
+      {
+        path: "addresses",
+        element: <MyAddresses />,
+      },
+      {
+        path: "my-orders",
+        element: <MyOrders />,
+      },
+      {
+        path: "puja-bookings",
+        element: <PujaBookings />,
+      },
+      {
+        path: "account-settings",
+        element: <AccountSettings />,
       },
     ],
   },

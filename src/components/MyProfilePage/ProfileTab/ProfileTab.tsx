@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { BsChatRightDots } from "react-icons/bs";
 import { FaUserEdit } from "react-icons/fa";
 import { HiPencil } from "react-icons/hi";
@@ -10,34 +9,64 @@ import {
   IoCalendarOutline,
   IoBagOutline,
 } from "react-icons/io5";
+import { IMAGES } from "../../../assets";
+import { Link, useLocation } from "react-router-dom";
 
-type TProfileTabProps = {
-  user: any;
-  activeTab: string;
-  setActiveTab: (tab: string) => void;
-};
-const ProfileTab: React.FC<TProfileTabProps> = ({
-  user,
-  activeTab,
-  setActiveTab,
-}) => {
-  const tabs = [
-    { id: "personal", label: "Profile Info", icon: <FaUserEdit /> },
+const ProfileTab = () => {
+  const pathname = useLocation().pathname;
+  const profileNavigationLinks = [
     {
-      id: "sessionHistory",
+      path: "/dashboard/user/profile",
+      label: "Profile Info",
+      icon: <FaUserEdit />,
+    },
+    {
+      path: "/dashboard/user/session-history",
       label: "Session History",
       icon: <BsChatRightDots />,
     },
-    { id: "subscription", label: "Subscription", icon: <IoCardOutline /> },
     {
-      id: "myAddresses",
+      path: "/dashboard/user/subscriptions",
+      label: "Subscription",
+      icon: <IoCardOutline />,
+    },
+    {
+      path: "/dashboard/user/addresses",
       label: "My Addresses",
       icon: <IoLocationOutline />,
     },
-    { id: "myOrders", label: "My Orders", icon: <IoBagOutline /> },
-    { id: "pujaBookings", label: "Puja Bookings", icon: <IoCalendarOutline /> },
-    { id: "accountSettings", label: "Account Settings", icon: <IoSettingsOutline /> },
+    {
+      path: "/dashboard/user/my-orders",
+      label: "My Orders",
+      icon: <IoBagOutline />,
+    },
+    {
+      path: "/dashboard/user/puja-bookings",
+      label: "Puja Bookings",
+      icon: <IoCalendarOutline />,
+    },
+    {
+      path: "/dashboard/user/account-settings",
+      label: "Account Settings",
+      icon: <IoSettingsOutline />,
+    },
   ];
+  const user = {
+    accountId: "ACC123456",
+    profilePicture: IMAGES.rahul,
+    firstName: "Rahul",
+    lastName: "Sutradhar",
+    fullName: "Rahul Sutradhar",
+    gender: "Male",
+    dateOfBirth: "May 15, 1995",
+    timeOfBirth: "08:30 AM",
+    placeOfBirth: "Kolkata, West Bengal",
+    intents: ["Career", "Education", "Health", "Relationships"],
+    zodiacSign: "Pisces",
+    country: "India",
+    email: "rahul.sutradhar@example.com",
+    phoneNumber: "+91 98765 43210",
+  };
   return (
     <div className="lg:w-1/3 space-y-6 font-GeneralSans">
       <div className="bg-white rounded-4xl p-8 shadow-sm border border-slate-100">
@@ -63,28 +92,28 @@ const ProfileTab: React.FC<TProfileTabProps> = ({
 
         {/* Sidebar Navigation */}
         <nav className="mt-10">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
+          {profileNavigationLinks?.map((link) => (
+            <Link
+              key={link.path}
+              to={link.path}
               className={`w-full flex items-center justify-between p-4 rounded-2xl transition-all text-sm group ${
-                activeTab === tab.id
+                pathname === link.path
                   ? "bg-primary-5 text-white shadow-lg shadow-primary-5/30 font-semibold"
                   : "text-neutral-10 hover:bg-slate-50 font-medium"
               }`}
             >
               <div className="flex items-center gap-3">
-                <span className="text-lg">{tab.icon}</span>
-                {tab.label}
+                <span className="text-lg">{link.icon}</span>
+                {link.label}
               </div>
               <IoChevronForward
                 className={
-                  activeTab === tab.id
+                  pathname === link.path
                     ? "opacity-100"
                     : "group-hover:opacity-100 opacity-0"
                 }
               />
-            </button>
+            </Link>
           ))}
         </nav>
       </div>

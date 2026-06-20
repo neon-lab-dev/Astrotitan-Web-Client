@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   IoMailOutline,
   IoCallOutline,
@@ -13,8 +12,25 @@ import {
 } from "react-icons/fa";
 import { HiPencil } from "react-icons/hi";
 import { TbZodiacLeo } from "react-icons/tb"; // Example Zodiac Icon
+import { IMAGES } from "../../../assets";
 
-const PersonalDetails = ({ user }: { user: any }) => {
+const PersonalDetails = () => {
+  const user = {
+    accountId: "ACC123456",
+    profilePicture: IMAGES.rahul,
+    firstName: "Rahul",
+    lastName: "Sutradhar",
+    fullName: "Rahul Sutradhar",
+    gender: "Male",
+    dateOfBirth: "May 15, 1995",
+    timeOfBirth: "08:30 AM",
+    placeOfBirth: "Kolkata, West Bengal",
+    intents: ["Career", "Education", "Health", "Relationships"],
+    zodiacSign: "Pisces",
+    country: "India",
+    email: "rahul.sutradhar@example.com",
+    phoneNumber: "+91 98765 43210",
+  };
   // Mock zodiac sign - in a real app, this would be calculated or from props
   const zodiacSign = "Leo";
 
