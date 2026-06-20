@@ -7,6 +7,8 @@ import {
   IoCardOutline,
   IoLocationOutline,
   IoChevronForward,
+  IoCalendarOutline,
+  IoBagOutline,
 } from "react-icons/io5";
 
 type TProfileTabProps = {
@@ -32,7 +34,9 @@ const ProfileTab: React.FC<TProfileTabProps> = ({
       label: "My Addresses",
       icon: <IoLocationOutline />,
     },
-    { id: "myOrders", label: "My Orders", icon: <IoSettingsOutline /> },
+    { id: "myOrders", label: "My Orders", icon: <IoBagOutline /> },
+    { id: "pujaBookings", label: "Puja Bookings", icon: <IoCalendarOutline /> },
+    { id: "accountSettings", label: "Account Settings", icon: <IoSettingsOutline /> },
   ];
   return (
     <div className="lg:w-1/3 space-y-6 font-GeneralSans">
