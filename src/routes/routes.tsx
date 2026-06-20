@@ -26,6 +26,7 @@ import MyAddresses from "../components/MyProfilePage/MyAddresses/MyAddresses";
 import MyOrders from "../components/MyProfilePage/MyOrders/MyOrders";
 import PujaBookings from "../components/MyProfilePage/PujaBookings/PujaBookings";
 import AccountSettings from "../components/MyProfilePage/AccountSettings/AccountSettings";
+import Chat from "../pages/Chat/Chat";
 
 export const router = createBrowserRouter([
   {
@@ -107,6 +108,10 @@ export const router = createBrowserRouter([
       {
         path: "",
         element: <UserDashboardHome />,
+      },
+      {
+        path: "chat/:id",
+        element: <Chat />,
       },
     ],
   },

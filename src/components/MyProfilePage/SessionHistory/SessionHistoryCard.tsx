@@ -3,6 +3,7 @@ import {
   IoChatbubblesOutline,
   IoHourglassOutline,
 } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 const SessionHistoryCard = ({ booking }) => {
   const getStatusStyles = (status: string) => {
@@ -68,8 +69,8 @@ const SessionHistoryCard = ({ booking }) => {
         <div className="flex md:flex-col gap-2 md:border-l md:border-neutral-20 md:pl-5 min-w-37">
           {/* Logic for Accepted and Ended (Both show Chat Now) */}
           {(booking.status === "Accepted" || booking.status === "Ended") && (
-            <button
-              disabled={booking.status === "Ended"}
+            <Link
+              to={`/dashboard/user/chat/${booking.id}`}
               className={`w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-sm font-bold transition-all 
         ${
           booking.status === "Accepted"
@@ -79,7 +80,7 @@ const SessionHistoryCard = ({ booking }) => {
             >
               <IoChatbubblesOutline size={18} />
               Chat Now
-            </button>
+            </Link>
           )}
 
           {/* Logic for Pending */}

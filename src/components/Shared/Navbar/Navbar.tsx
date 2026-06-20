@@ -241,7 +241,7 @@ const Navbar = () => {
                           Rahul S.
                         </h4>
                         <p className="text-[10px] text-neutral-10">
-                          rahulsd380@...
+                          rahulsd380@gmail.com
                         </p>
                       </div>
                       <IoChevronDown
