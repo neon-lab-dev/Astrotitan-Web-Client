@@ -10,6 +10,7 @@ import MyAddresses from "../../../../components/MyProfilePage/MyAddresses/MyAddr
 import Settings from "../../../../components/MyProfilePage/MyOrders/MyOrders";
 import MyOrders from "../../../../components/MyProfilePage/MyOrders/MyOrders";
 import PujaBookings from "../../../../components/MyProfilePage/PujaBookings/PujaBookings";
+import AccountSettings from "../../../../components/MyProfilePage/AccountSettings/AccountSettings";
 
 const MyProfile = () => {
   const [activeTab, setActiveTab] = useState("personal");
@@ -58,7 +59,7 @@ const MyProfile = () => {
               {activeTab === "myAddresses" && <MyAddresses />}
               {activeTab === "myOrders" && <MyOrders />}
               {activeTab === "pujaBookings" && <PujaBookings />}
-              {activeTab === "accountSettings" && <PujaBookings />}
+              {activeTab === "accountSettings" && <AccountSettings />}
             </div>
           </div>
         </div>

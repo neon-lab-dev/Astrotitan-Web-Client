@@ -1,7 +1,6 @@
 import {
   IoCalendarOutline,
   IoCheckmarkCircleOutline,
-  IoFlowerOutline,
   IoInformationCircleOutline,
   IoPersonOutline,
 } from "react-icons/io5";
