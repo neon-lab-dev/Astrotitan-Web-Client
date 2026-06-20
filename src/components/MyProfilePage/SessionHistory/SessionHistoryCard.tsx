@@ -42,7 +42,7 @@ const SessionHistoryCard = ({ booking }) => {
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between">
             <div>
-              <h4 className="text-lg font-semibold text-neutral-5 transition-colors">
+              <h4 className="text-lg font-semibold text-neutral-5">
                 {booking.consultantName}
               </h4>
               <p className="text-sm text-neutral-10 font-Satoshi truncate max-w-62 md:max-w-md">

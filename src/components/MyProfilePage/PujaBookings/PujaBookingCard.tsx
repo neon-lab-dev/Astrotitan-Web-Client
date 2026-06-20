@@ -29,7 +29,7 @@ const PujaBookingCard = ({ puja }) => {
         {/* Main Content */}
         <div className="flex-1 min-w-0">
           <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
-            <h4 className="text-xl font-bold text-neutral-5">
+            <h4 className="text-lg font-semibold text-neutral-5">
               {puja.pujaName}
             </h4>
             <div

@@ -31,6 +31,7 @@ import reset from "./icons/reset.svg";
 import time from "./icons/time.svg";
 import language from "./icons/language.svg";
 import cart from "./icons/cart.svg";
+import user from "./icons/user.svg";
 
 // Images
 import logo from "./images/logo.webp";
@@ -138,4 +139,5 @@ export const ICONS = {
     time,
     language,
     cart,
+    user,
 };

@@ -38,7 +38,7 @@ const MyOrderCard = ({ order }) => {
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between mb-3">
             <div>
-              <h4 className="text-neutral-5 font-bold text-lg">
+              <h4 className="text-lg font-semibold text-neutral-5">
                 {order.productName}
               </h4>
               <div className="flex items-center gap-2 mt-1 text-[10px] font-medium text-neutral-10 tracking-[0.15em]">

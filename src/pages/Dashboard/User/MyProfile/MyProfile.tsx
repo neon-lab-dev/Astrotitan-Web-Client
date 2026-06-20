@@ -7,7 +7,6 @@ import PersonalDetails from "../../../../components/MyProfilePage/PersonalDetail
 import SessionHistory from "../../../../components/MyProfilePage/SessionHistory/SessionHistory";
 import Subscriptions from "../../../../components/MyProfilePage/Subscriptions/Subscriptions";
 import MyAddresses from "../../../../components/MyProfilePage/MyAddresses/MyAddresses";
-import Settings from "../../../../components/MyProfilePage/MyOrders/MyOrders";
 import MyOrders from "../../../../components/MyProfilePage/MyOrders/MyOrders";
 import PujaBookings from "../../../../components/MyProfilePage/PujaBookings/PujaBookings";
 import AccountSettings from "../../../../components/MyProfilePage/AccountSettings/AccountSettings";
