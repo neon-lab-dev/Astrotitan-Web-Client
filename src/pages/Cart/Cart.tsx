@@ -1,59 +1,32 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  IoArrowBack,
-  IoCartOutline,
-  IoSparkles,
-} from "react-icons/io5";
-import { IMAGES } from "../../assets";
+import { IoArrowBack, IoCartOutline, IoSparkles } from "react-icons/io5";
 import Breadcrumb from "../../components/Reusable/Breadcrumb/Breadcrumb";
 import Container from "../../components/Reusable/Container/Container";
 import CartItemCard from "../../components/CartPage/CartItemCard/CartItemCard";
 import OrderSummary from "../../components/CartPage/OrderSummary/OrderSummary";
+import { useCart } from "../../providers/CartProvider/CartProvider";
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: "1",
-      name: "Vedic Astrology Consultation",
-      category: "Consultations",
-      price: 499,
-      discountedPrice: 399,
-      quantity: 1,
-      image: IMAGES.kundliBannerBg,
-      inStock: true,
-    },
-    {
-      id: "2",
-      name: "Natural Ruby Gemstone",
-      category: "Gemstones",
-      price: 2499,
-      discountedPrice: 1999,
-      quantity: 2,
-      image: IMAGES.kundliBannerBg,
-      inStock: true,
-    },
-    {
-      id: "3",
-      name: "Complete Horoscope Report",
-      category: "Vedic Astrology",
-      price: 799,
-      discountedPrice: null,
-      quantity: 1,
-      image: IMAGES.kundliBannerBg,
-      inStock: false,
-    },
-  ]);
+  const {
+    cartItems,
+    getCartTotal,
+    getCartItemCount,
+    removeFromCart,
+    updateQuantity,
+    clearCart,
+  } = useCart();
 
-  
-  // Calculate totals
-  const subtotal = cartItems.reduce((sum, item) => {
-    const price = item.discountedPrice || item.price;
-    return sum + price * item.quantity;
-  }, 0);
+  // Calculate totals using the cart context
+  const subtotal = getCartTotal();
+  const itemCount = getCartItemCount();
 
+  // Calculate shipping (free above ₹1000)
   const shipping = subtotal > 1000 ? 0 : 49;
-  const tax = Math.round(subtotal * 0.05);
+
+  // Calculate tax (5%)
+  const tax = Math.round(subtotal * 0.18);
+
+  // Calculate total
   const total = subtotal + shipping + tax;
 
   return (
@@ -71,8 +44,7 @@ const Cart = () => {
               Your Cart
             </h1>
             <p className="text-sm text-gray-500 mt-1">
-              {cartItems.length} {cartItems.length === 1 ? "item" : "items"} in
-              your cart
+              {itemCount} {itemCount === 1 ? "item" : "items"} in your cart
             </p>
           </div>
           <Link
@@ -90,17 +62,41 @@ const Cart = () => {
             <div className="lg:w-[65%] space-y-4">
               {/* Cart Items List */}
               {cartItems.map((item) => {
-                const price = item.discountedPrice || item.price;
-                const originalPrice = item.discountedPrice ? item.price : null;
+                const price = item.discountedPrice || item.basePrice;
+                const originalPrice = item.discountedPrice
+                  ? item.basePrice
+                  : null;
 
                 return (
-                  <CartItemCard key={item.id} item={item} price={price} originalPrice={originalPrice} setCartItems={setCartItems}  />
+                  <CartItemCard
+                    key={item.productId}
+                    item={item}
+                    price={price}
+                    originalPrice={originalPrice}
+                    onRemove={removeFromCart}
+                    onUpdateQuantity={updateQuantity}
+                  />
                 );
               })}
+
+              {/* Clear Cart Button */}
+              {cartItems.length > 1 && (
+                <button
+                  onClick={clearCart}
+                  className="text-sm text-red-500 hover:text-red-600 transition-colors"
+                >
+                  Clear Cart
+                </button>
+              )}
             </div>
 
             {/* Right - Order Summary */}
-            <OrderSummary total={total} subtotal={subtotal} tax={tax} shipping={shipping} />
+            <OrderSummary
+              total={total}
+              subtotal={subtotal}
+              tax={tax}
+              shipping={shipping}
+            />
           </div>
         ) : (
           /* Empty Cart */

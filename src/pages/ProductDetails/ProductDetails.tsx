@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   IoCartOutline,
   IoStar,
@@ -28,11 +28,14 @@ import {
   useGetSingleProductByIdQuery,
 } from "../../redux/Features/Product/productApi";
 import type { TProduct } from "../../types/product.type";
+import toast from "react-hot-toast";
+import { useCart } from "../../providers/CartProvider/CartProvider";
 
 const ProductDetails = () => {
+  const { addToCart } = useCart();
   const { id } = useParams();
+  const navigate = useNavigate();
   const { data } = useGetSingleProductByIdQuery(id);
-  console.log(data);
   const product = data?.data || {};
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState<
@@ -49,37 +52,77 @@ const ProductDetails = () => {
     });
   };
 
-  const renderStars = (rating: number) => {
-    const full = Math.floor(rating);
-    const half = rating % 1 >= 0.5;
-    const empty = 5 - full - (half ? 1 : 0);
+  const renderStars = (rating: number = 0) => {
+    // Ensure rating is a valid number
+    const validRating =
+      typeof rating === "number" && !isNaN(rating)
+        ? Math.max(0, Math.min(5, rating))
+        : 0;
+
+    const full = Math.floor(validRating);
+    const half = validRating % 1 >= 0.5;
+    const empty = Math.max(0, 5 - full - (half ? 1 : 0));
+
     return (
       <div className="flex items-center gap-0.5">
-        {[...Array(full)].map((_, i) => (
-          <IoStar
-            key={`full-${i}`}
-            className="w-4 h-4 text-yellow-400 fill-current"
-          />
-        ))}
+        {full > 0 &&
+          [...Array(full)].map((_, i) => (
+            <IoStar
+              key={`full-${i}`}
+              className="w-4 h-4 text-yellow-400 fill-current"
+            />
+          ))}
         {half && (
           <IoStarHalf className="w-4 h-4 text-yellow-400 fill-current" />
         )}
-        {[...Array(empty)].map((_, i) => (
-          <IoStarOutline key={`empty-${i}`} className="w-4 h-4 text-gray-300" />
-        ))}
+        {empty > 0 &&
+          [...Array(empty)].map((_, i) => (
+            <IoStarOutline
+              key={`empty-${i}`}
+              className="w-4 h-4 text-gray-300"
+            />
+          ))}
       </div>
     );
   };
 
   const displayedReviews = showAllReviews
-    ? product.reviews
-    : product.reviews.slice(0, 3);
+    ? product?.reviews
+    : product?.reviews?.slice(0, 3);
 
   const { data: allProducts } = useGetAllProductsQuery({});
 
   const otherProducts = allProducts?.data?.data?.filter(
     (product: any) => product._id !== id,
   );
+
+  const discount = product.discountedPrice
+    ? Math.round(
+        ((product.basePrice - product.discountedPrice) / product.basePrice) *
+          100,
+      )
+    : 0;
+
+  const handleAddProductToCart = () => {
+    if (!id) return;
+
+    const payload = {
+      productId: id,
+      name: product.name,
+      image: product.imageUrls?.[0] || "",
+      basePrice: product.basePrice,
+      discountedPrice: product.discountedPrice,
+      category: product.category,
+      discount: discount,
+      quantity: quantity,
+    };
+    addToCart(payload);
+    toast.success("Added to cart!");
+  };
+
+  if (!product) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="pt-10 pb-14 font-GeneralSans">
@@ -105,7 +148,7 @@ const ProductDetails = () => {
                 thumbs={{ swiper: thumbsSwiper }}
                 className="h-[100"
               >
-                {product.imageUrls.map((image: string, index: number) => (
+                {product?.imageUrls?.map((image: string, index: number) => (
                   <SwiperSlide key={index}>
                     <img
                       src={image}
@@ -118,7 +161,7 @@ const ProductDetails = () => {
             </div>
 
             {/* Thumbnails */}
-            {product.imageUrls.length > 1 && (
+            {product?.imageUrls?.length > 1 && (
               <Swiper
                 onSwiper={setThumbsSwiper}
                 modules={[Thumbs]}
@@ -127,7 +170,7 @@ const ProductDetails = () => {
                 watchSlidesProgress={true}
                 className="thumb-swiper"
               >
-                {product.imageUrls.map((image: string, index: number) => (
+                {product?.imageUrls?.map((image: string, index: number) => (
                   <SwiperSlide key={index}>
                     <div className="cursor-pointer rounded-xl overflow-hidden border-2 border-transparent hover:border-primary-5 transition-all">
                       <img
@@ -148,7 +191,7 @@ const ProductDetails = () => {
             <div>
               <div className="flex items-start justify-between">
                 <h1 className="text-2xl md:text-3xl font-bold text-gray-900 leading-tight">
-                  {product.name}
+                  {product?.name}
                 </h1>
                 <button className="p-2.5 rounded-full bg-neutral-25/20 hover:bg-gray-200 transition-colors shrink-0 ml-3">
                   <IoShareSocial />
@@ -157,25 +200,25 @@ const ProductDetails = () => {
 
               <div className="flex items-center gap-3 mt-2">
                 <div className="flex items-center gap-1.5">
-                  {renderStars(product.rating)}
+                  {renderStars(product?.rating)}
                   <span className="text-sm font-semibold text-gray-700">
-                    {product.rating.toFixed(1)}
+                    {product?.rating}
                   </span>
                 </div>
                 <span className="w-px h-4 bg-gray-300"></span>
                 <span className="text-sm text-gray-500">
-                  {product.reviews.length} reviews
+                  {product?.reviews?.length} reviews
                 </span>
                 <span className="w-px h-4 bg-gray-300"></span>
-                <span className="text-sm text-gray-500">{product.intent}</span>
+                <span className="text-sm text-gray-500">{product?.intent}</span>
               </div>
 
               <div className="flex items-center gap-2 mt-2">
                 <span className="text-xs bg-blue-50 text-blue-600 px-2.5 py-0.5 rounded-full">
-                  {product.category}
+                  {product?.category}
                 </span>
                 <span className="text-xs bg-green-50 text-green-600 px-2.5 py-0.5 rounded-full">
-                  {product.inStock ? "In Stock" : "Out of Stock"}
+                  {product?.inStock ? "In Stock" : "Out of Stock"}
                 </span>
               </div>
             </div>
@@ -183,26 +226,21 @@ const ProductDetails = () => {
             {/* Price */}
             <div className="bg-gray-50 rounded-xl p-4">
               <div className="flex items-baseline gap-3">
-                {product.discountedPrice ? (
+                {product?.discountedPrice ? (
                   <>
                     <span className="text-3xl font-bold text-primary-5">
-                      ₹{product.discountedPrice}
+                      ₹{product?.discountedPrice}
                     </span>
                     <span className="text-lg text-gray-400 line-through">
-                      ₹{product.basePrice}
+                      ₹{product?.basePrice}
                     </span>
                     <span className="px-2.5 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">
-                      {Math.round(
-                        ((product.basePrice - product.discountedPrice) /
-                          product.basePrice) *
-                          100,
-                      )}
-                      % OFF
+                      {discount}% OFF
                     </span>
                   </>
                 ) : (
                   <span className="text-3xl font-bold text-primary-5">
-                    ₹{product.basePrice}
+                    ₹{product?.basePrice}
                   </span>
                 )}
               </div>
@@ -212,7 +250,7 @@ const ProductDetails = () => {
             </div>
 
             <p className="text-neutral-10 leading-relaxed">
-              {product.whyThisWork}
+              {product?.whyThisWork}
             </p>
 
             {/* Quantity & Actions */}
@@ -229,7 +267,7 @@ const ProductDetails = () => {
                 </span>
                 <button
                   onClick={() =>
-                    setQuantity(Math.min(product.quantity, quantity + 1))
+                    setQuantity(Math.min(product?.quantity, quantity + 1))
                   }
                   className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-white transition-colors text-gray-600 hover:text-gray-900"
                 >
@@ -237,12 +275,21 @@ const ProductDetails = () => {
                 </button>
               </div>
 
-              <button className="flex-1 flex items-center justify-center gap-2 px-6 py-3 border border-primary-5 hover:bg-primary-5/10 text-neutral-5 rounded-xl font-medium transition-colors shadow-sm">
+              <button
+                onClick={handleAddProductToCart}
+                className="flex-1 flex items-center justify-center gap-2 px-6 py-3 border border-primary-5 hover:bg-primary-5/10 text-neutral-5 rounded-xl font-medium transition-colors shadow-sm"
+              >
                 <IoCartOutline className="w-5 h-5" />
                 Add to Cart
               </button>
 
-              <button className="px-6 py-3 bg-primary-5 hover:bg-primary-5/80 text-white rounded-xl font-medium transition-colors shadow-sm flex items-center gap-2">
+              <button
+                onClick={() => {
+                  handleAddProductToCart();
+                  navigate("/cart");
+                }}
+                className="px-6 py-3 bg-primary-5 hover:bg-primary-5/80 text-white rounded-xl font-medium transition-colors shadow-sm flex items-center gap-2"
+              >
                 Buy Now
               </button>
             </div>
@@ -317,7 +364,7 @@ const ProductDetails = () => {
                     : "text-gray-500 hover:text-gray-700"
                 }`}
               >
-                Reviews ({product.reviews.length})
+                Reviews ({product?.reviews?.length})
                 {activeTab === "reviews" && (
                   <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-5" />
                 )}
@@ -333,7 +380,7 @@ const ProductDetails = () => {
                       Description
                     </h3>
                     <p className="text-neutral-10 leading-relaxed">
-                      {product.description}
+                      {product?.description}
                     </p>
                   </div>
 
@@ -342,7 +389,7 @@ const ProductDetails = () => {
                       Why This Works
                     </h4>
                     <p className="text-neutral-10 leading-relaxed">
-                      {product.whyThisWork}
+                      {product?.whyThisWork}
                     </p>
                   </div>
                   <div>
@@ -350,16 +397,9 @@ const ProductDetails = () => {
                       Who can use this product
                     </h4>
                     <div className="flex flex-wrap gap-1.5">
-                      {product.targetAudience
-                        .split(",")
-                        .map((audience: string) => (
-                          <span
-                            key={audience}
-                            className="px-2.5 py-1 bg-gray-100 text-gray-700 rounded-full text-xs"
-                          >
-                            {audience.trim()}
-                          </span>
-                        ))}
+                      <span className="px-2.5 py-1 bg-gray-100 text-gray-700 rounded-full text-xs">
+                        {product?.targetAudience}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -371,7 +411,7 @@ const ProductDetails = () => {
                     How to Use This Product
                   </h3>
                   <div className="space-y-3">
-                    {product.howToUse
+                    {product?.howToUse
                       .split("\n")
                       .map((step: string, index: number) => (
                         <div key={index} className="flex items-start gap-3">
@@ -391,23 +431,23 @@ const ProductDetails = () => {
                   <div className="flex items-center gap-6 mb-6 pb-6 border-b border-gray-100">
                     <div className="text-center">
                       <div className="text-4xl font-bold text-gray-900">
-                        {product.rating.toFixed(1)}
+                        {product?.rating.toFixed(1)}
                       </div>
                       <div className="flex justify-center mt-1">
-                        {renderStars(product.rating)}
+                        {renderStars(product?.rating)}
                       </div>
                       <div className="text-sm text-gray-500 mt-1">
-                        {product.reviews.length} reviews
+                        {product?.reviews.length} reviews
                       </div>
                     </div>
                     <div className="flex-1 space-y-1.5">
                       {[5, 4, 3, 2, 1].map((star) => {
-                        const count = product.reviews.filter(
+                        const count = product?.reviews.filter(
                           (r: any) => Math.floor(r.rating) === star,
                         ).length;
                         const percentage =
-                          product.reviews.length > 0
-                            ? (count / product.reviews.length) * 100
+                          product?.reviews.length > 0
+                            ? (count / product?.reviews.length) * 100
                             : 0;
                         return (
                           <div key={star} className="flex items-center gap-2">
@@ -431,42 +471,43 @@ const ProductDetails = () => {
 
                   {/* Reviews List */}
                   <div className="space-y-5">
-                    {displayedReviews.map((review: any, index: number) => (
+                    {displayedReviews?.map((review: any, index: number) => (
                       <div key={index} className="flex gap-3">
                         <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center shrink-0">
                           <span className="text-sm font-medium text-gray-600">
-                            {review.user.firstName[0]}
-                            {review.user.lastName[0]}
+                            {review?.user?.firstName?.[0] || ""}
+                            {review?.user?.lastName?.[0] || ""}
                           </span>
                         </div>
                         <div className="flex-1">
                           <div className="flex items-center gap-2">
                             <span className="font-medium text-gray-900 text-sm">
-                              {review.user.firstName} {review.user.lastName}
+                              {review?.user?.firstName || ""}{" "}
+                              {review?.user?.lastName || ""}
                             </span>
                             <span className="text-xs text-gray-400">
-                              {formatDate(review.createdAt)}
+                              {formatDate(review?.createdAt)}
                             </span>
                           </div>
                           <div className="mt-0.5">
-                            {renderStars(review.rating)}
+                            {renderStars(review?.rating || 0)}
                           </div>
                           <p className="text-sm text-gray-600 mt-1.5 leading-relaxed">
-                            {review.review}
+                            {review?.review || ""}
                           </p>
                         </div>
                       </div>
                     ))}
                   </div>
 
-                  {product.reviews.length > 3 && (
+                  {product?.reviews?.length > 3 && (
                     <button
                       onClick={() => setShowAllReviews(!showAllReviews)}
                       className="mt-4 text-sm text-primary-5 hover:text-primary-10 font-medium transition-colors"
                     >
                       {showAllReviews
                         ? "Show Less"
-                        : `Show All ${product.reviews.length} Reviews`}
+                        : `Show All ${product?.reviews?.length} Reviews`}
                     </button>
                   )}
                 </div>

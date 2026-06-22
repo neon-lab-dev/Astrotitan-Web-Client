@@ -1,6 +1,12 @@
 import { FaShieldAlt, FaShoppingBag } from "react-icons/fa";
 
-const OrderSummary = ({ total, subtotal, shipping, tax }) => {
+type TOrderSummary = {
+  total: number;
+  subtotal: number;
+  shipping: number;
+  tax: number;
+}
+const OrderSummary: React.FC<TOrderSummary> = ({ total, subtotal, shipping, tax }) => {
   return (
     <div className="lg:w-[35%] bg-white rounded-2xl shadow-sm border border-gray-200 p-6 sticky top-4 h-fit">
       <h2 className="text-lg font-semibold text-gray-900 mb-4">
@@ -22,7 +28,7 @@ const OrderSummary = ({ total, subtotal, shipping, tax }) => {
           </span>
         </div>
         <div className="flex justify-between text-sm">
-          <span className="text-gray-600">Tax (5%)</span>
+          <span className="text-gray-600">Tax (18%)</span>
           <span className="font-medium text-gray-900">
             ₹{tax.toLocaleString()}
           </span>

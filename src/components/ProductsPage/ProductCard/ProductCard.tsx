@@ -3,6 +3,8 @@ import { FaRegStar, FaShoppingCart, FaStar } from "react-icons/fa";
 import { IoArrowForward } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import type { TProduct } from "../../../types/product.type";
+import toast from "react-hot-toast";
+import { useCart } from "../../../providers/CartProvider/CartProvider";
 
 const ProductCard = ({
   product,
@@ -30,6 +32,32 @@ const ProductCard = ({
     product.createdAt &&
     Date.now() - new Date(product.createdAt).getTime() <
       7 * 24 * 60 * 60 * 1000;
+
+  const discount = product.discountedPrice
+    ? Math.round(
+        ((product.basePrice - product.discountedPrice) / product.basePrice) *
+          100,
+      )
+    : 0;
+
+  const { addToCart } = useCart();
+  const handleAddProductToCart = (id: string) => {
+    if (!id) return;
+
+    const payload = {
+      productId: id,
+      name: product.name,
+      image: product.imageUrls?.[0] || "",
+      basePrice: product.basePrice,
+      discountedPrice: product.discountedPrice,
+      category: product.category,
+      discount: discount,
+      quantity: 1,
+    };
+    addToCart(payload);
+    toast.success("Added to cart!");
+  };
+
   return (
     <div
       key={product._id}
@@ -128,7 +156,10 @@ const ProductCard = ({
             View Details
             <IoArrowForward className="w-4 h-4" />
           </Link>
-          <button className="px-4 py-2 bg-primary-5 hover:bg-primary-10 text-white rounded-lg text-sm font-medium transition-colors shadow-sm flex items-center gap-1.5">
+          <button
+            onClick={() => handleAddProductToCart(product?._id)}
+            className="px-4 py-2 bg-primary-5 hover:bg-primary-10 text-white rounded-lg text-sm font-medium transition-colors shadow-sm flex items-center gap-1.5"
+          >
             <FaShoppingCart className="w-4 h-4" />
             Add to Cart
           </button>

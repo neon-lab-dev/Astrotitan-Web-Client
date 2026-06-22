@@ -21,10 +21,12 @@ import {
 import { FaStar, FaGem, FaComments } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { useCurrentUser, logout } from "../../../redux/Features/Auth/authSlice";
+import { useCart } from "../../../providers/CartProvider/CartProvider";
 
 export type TAuthModalType = "login" | "verifyOtp" | "signup";
 
 const Navbar = () => {
+  const { cartItems } = useCart();
   const pathname = useLocation().pathname;
   const user = useSelector(useCurrentUser);
   const dispatch = useDispatch();
@@ -209,16 +211,21 @@ const Navbar = () => {
 
               {/* Action Area */}
               <div className="flex items-center gap-3">
-                {(pathname === "/products" || pathname === "/cart") && (
+                {(pathname === "/products" ||
+                  pathname.startsWith("/product/") ||
+                  pathname === "/cart") && (
                   <Link
                     to="/cart"
-                    className="size-10 rounded-full border border-primary-5 hover:bg-primary-5 text-primary-5 hover:text-white transition-all flex items-center justify-center"
+                    className="size-10 rounded-full border border-primary-5 hover:bg-primary-5 text-primary-5 hover:text-white transition-all flex items-center justify-center relative"
                   >
                     <img
                       src={ICONS.cart}
                       className="size-5 brightness-0 group-hover:brightness-100"
                       alt=""
                     />
+                    <div className="size-4 flex items-center justify-center bg-primary-5 text-white text-xs absolute -top-1 -right-1 rounded-full">
+                      {cartItems?.length || 0}
+                    </div>
                   </Link>
                 )}
 
