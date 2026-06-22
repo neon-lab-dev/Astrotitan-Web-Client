@@ -5,19 +5,27 @@ import {
   IoListOutline,
   IoCloseOutline,
 } from "react-icons/io5";
-import { IMAGES } from "../../assets";
 import Breadcrumb from "../../components/Reusable/Breadcrumb/Breadcrumb";
 import Container from "../../components/Reusable/Container/Container";
 import ProductHero from "../../components/ProductsPage/ProductHero/ProductHero";
 import Intents from "../../components/ProductsPage/Intents/Intents";
 import ProductCard from "../../components/ProductsPage/ProductCard/ProductCard";
+import { useGetAllProductsQuery } from "../../redux/Features/Product/productApi";
+import type { TProduct } from "../../types/product.type";
 
 const Products = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedIntent, setSelectedIntent] = useState("All");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const { data } = useGetAllProductsQuery({
+    keyword: searchTerm,
+    category: selectedCategory,
+    intent: selectedIntent,
+  });
 
+  const products = data?.data?.data || [];
+  console.log(data);
   // Categories Data
   const categories = [
     { label: "All", value: "All" },
@@ -28,97 +36,6 @@ const Products = () => {
     { label: "Courses", value: "Courses" },
     { label: "Consultations", value: "Consultations" },
   ];
-
-  // Dummy Products Data
-  const products = [
-    {
-      id: "1",
-      name: "Vedic Astrology Consultation",
-      category: "Consultations",
-      intent: "Career",
-      price: 499,
-      discountedPrice: 399,
-      rating: 4.8,
-      reviews: 127,
-      image: IMAGES.kundliBannerBg,
-      description: "Get personalized career guidance from expert astrologers",
-      isFeatured: true,
-      isNew: true,
-    },
-    {
-      id: "2",
-      name: "Natural Ruby Gemstone",
-      category: "Gemstones",
-      intent: "Marriage",
-      price: 2499,
-      discountedPrice: 1999,
-      rating: 4.9,
-      reviews: 89,
-      image: IMAGES.kundliBannerBg,
-      description: "Authentic ruby stone for love and relationship harmony",
-      isFeatured: false,
-      isNew: false,
-    },
-    {
-      id: "3",
-      name: "Complete Horoscope Report",
-      category: "Vedic Astrology",
-      intent: "Education",
-      price: 799,
-      discountedPrice: null,
-      rating: 4.7,
-      reviews: 215,
-      image: IMAGES.kundliBannerBg,
-      description: "Detailed 50-page horoscope analysis with predictions",
-      isFeatured: true,
-      isNew: false,
-    },
-    {
-      id: "4",
-      name: "Puja Kit - Lakshmi Puja",
-      category: "Puja Items",
-      intent: "Business",
-      price: 1499,
-      discountedPrice: 1299,
-      rating: 4.6,
-      reviews: 56,
-      image: IMAGES.kundliBannerBg,
-      description:
-        "Complete puja kit with all necessary items and instructions",
-      isFeatured: false,
-      isNew: true,
-    },
-    {
-      id: "5",
-      name: "Learn Astrology Course",
-      category: "Courses",
-      intent: "Education",
-      price: 2999,
-      discountedPrice: 2499,
-      rating: 4.9,
-      reviews: 342,
-      image: IMAGES.kundliBannerBg,
-      description:
-        "Master Vedic astrology with our comprehensive online course",
-      isFeatured: false,
-      isNew: false,
-    },
-    {
-      id: "6",
-      name: "Blue Sapphire Gemstone",
-      category: "Gemstones",
-      intent: "Career",
-      price: 3999,
-      discountedPrice: 3499,
-      rating: 4.8,
-      reviews: 78,
-      image: IMAGES.kundliBannerBg,
-      description: "Powerful blue sapphire for career success and prosperity",
-      isFeatured: true,
-      isNew: false,
-    },
-  ];
-
   return (
     <div className="pt-10 pb-14">
       <Container>
@@ -252,9 +169,9 @@ const Products = () => {
                 : "space-y-4"
             }`}
           >
-            {products.map((product) => (
+            {products.map((product:TProduct) => (
               <ProductCard
-                key={product.id}
+                key={product?._id}
                 product={product}
                 viewMode={viewMode}
               />

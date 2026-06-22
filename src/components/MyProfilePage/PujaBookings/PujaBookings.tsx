@@ -36,7 +36,7 @@ const PujaBookings = () => {
       {/* Bookings List */}
       <div className="space-y-6">
         {pujaBookings?.map((puja:TPujaBooking) => (
-          <PujaBookingCard key={puja.id} puja={puja} />
+          <PujaBookingCard key={puja?._id} puja={puja} />
         ))}
       </div>
 
