@@ -12,6 +12,10 @@ import {
   useGetMeQuery,
   useUpdateProfileMutation,
 } from "../../../../redux/Features/User/userApi";
+import { useGetAllAstrologersQuery } from "../../../../redux/Features/Astrologer/astrologerApi";
+import type { TAstrologer } from "../../../../types/astrologer.type";
+import { useGetAllBlogsQuery } from "../../../../redux/Features/Blog/blogApi";
+import type { TBlog } from "../../../../types/blog.type";
 
 const UserDashboardHome = () => {
   const { data, isLoading } = useGetMeQuery({});
@@ -19,6 +23,9 @@ const UserDashboardHome = () => {
   const [updateProfile, { isLoading: isUpdating }] = useUpdateProfileMutation(
     {},
   );
+  const { data: astrologers } = useGetAllAstrologersQuery({});
+  const { data: blogs } = useGetAllBlogsQuery({});
+  console.log(blogs);
   const [selectedZodiacSign, setSelectedZodiacSign] = useState<string>("");
   const [isZodiacSignModalOpen, setIsZodiacSignModalOpen] =
     useState<boolean>(false);
@@ -207,118 +214,24 @@ const UserDashboardHome = () => {
             </Link>
           </div>
           <div className="grid grid-cols-5 gap-4 mt-6">
-            <AstrologerCard
-              name="Dr. Ananya Sharma"
-              image={IMAGES.blogImg1}
-              bio="Vedic astrologer with expertise in planetary alignments, gemstone recommendations, and career predictions. Helping people find their life path since 2010."
-              experience={15}
-              areaOfPractice={[
-                "Vedic Astrology",
-                "Career Guidance",
-                "Marriage Compatibility",
-                "Financial Astrology",
-                "Medical Astrology",
-              ]}
-              rating={4.8}
-            />
-            <AstrologerCard
-              name="Dr. Ananya Sharma"
-              image={IMAGES.blogImg1}
-              bio="Vedic astrologer with expertise in planetary alignments, gemstone recommendations, and career predictions. Helping people find their life path since 2010."
-              experience={15}
-              areaOfPractice={[
-                "Vedic Astrology",
-                "Career Guidance",
-                "Marriage Compatibility",
-                "Financial Astrology",
-                "Medical Astrology",
-              ]}
-              rating={4.8}
-            />
-            <AstrologerCard
-              name="Dr. Ananya Sharma"
-              image={IMAGES.blogImg1}
-              bio="Vedic astrologer with expertise in planetary alignments, gemstone recommendations, and career predictions. Helping people find their life path since 2010."
-              experience={15}
-              areaOfPractice={[
-                "Vedic Astrology",
-                "Career Guidance",
-                "Marriage Compatibility",
-                "Financial Astrology",
-                "Medical Astrology",
-              ]}
-              rating={4.8}
-            />
-            <AstrologerCard
-              name="Dr. Ananya Sharma"
-              image={IMAGES.blogImg1}
-              bio="Vedic astrologer with expertise in planetary alignments, gemstone recommendations, and career predictions. Helping people find their life path since 2010."
-              experience={15}
-              areaOfPractice={[
-                "Vedic Astrology",
-                "Career Guidance",
-                "Marriage Compatibility",
-                "Financial Astrology",
-                "Medical Astrology",
-              ]}
-              rating={4.8}
-            />
-            <AstrologerCard
-              name="Dr. Ananya Sharma"
-              image={IMAGES.blogImg1}
-              bio="Vedic astrologer with expertise in planetary alignments, gemstone recommendations, and career predictions. Helping people find their life path since 2010."
-              experience={15}
-              areaOfPractice={[
-                "Vedic Astrology",
-                "Career Guidance",
-                "Marriage Compatibility",
-                "Financial Astrology",
-                "Medical Astrology",
-              ]}
-              rating={4.8}
-            />
+            {astrologers?.data?.astrologers?.map((astrologer: TAstrologer) => (
+              <AstrologerCard key={astrologer._id} astrologer={astrologer} />
+            ))}
           </div>
         </div>
 
-        {/* Featured astrologers */}
+        {/* Featured Blogs */}
         <div className="mt-12">
           <h3 className="text-neutral-5 text-xl font-semibold">
-            Featured Astrologers
+            Featured Blogs
           </h3>
           <p className="text-neutral-5 text-sm mt-1.5">
-            Verified experts who help interpret charts and planetary periods.
+            Discover insightful articles from our community of astrologers.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
-            <BlogCard
-              image={IMAGES.blogImg1}
-              title="10 Powerful Mantras for Aries to Boost Confidence"
-              zodiacSign="Aries"
-              category="Mantras"
-              date="Jan 15, 2026"
-              readTime="4 min read"
-              author="Priya Sharma"
-              onClick={() => console.log("Blog clicked")}
-            />
-
-            <BlogCard
-              image="https://example.com/taurus-blog.jpg"
-              title="Taurus Love Horoscope: What the Stars Say About Your Relationship"
-              zodiacSign="Taurus"
-              category="Love"
-              date="Jan 14, 2026"
-              readTime="6 min read"
-              author="Rajesh Kumar"
-            />
-
-            <BlogCard
-              image="https://example.com/gemini-blog.jpg"
-              title="Gemini Career Guide: Best Professions for Your Sign"
-              zodiacSign="Gemini"
-              category="Career"
-              date="Jan 13, 2026"
-              readTime="5 min read"
-              author="Ananya Gupta"
-            />
+            {blogs?.data?.data?.map((blog: TBlog) => (
+              <BlogCard key={blog._id} blog={blog} />
+            ))}
           </div>
         </div>
       </Container>

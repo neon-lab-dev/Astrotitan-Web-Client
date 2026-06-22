@@ -1,36 +1,36 @@
 import { BiBriefcase } from "react-icons/bi";
 import { FaStar } from "react-icons/fa";
 import Button from "../../../../components/Reusable/Button/Button";
+import type { TAstrologer } from "../../../../types/astrologer.type";
+import { Link } from "react-router-dom";
 
-interface AstrologerCardProps {
-  name: string;
-  image: string;
-  bio: string;
-  experience: number; // in years
-  areaOfPractice: string[];
-  rating?: number;
-  onConsult?: () => void;
-}
-
-const AstrologerCard: React.FC<AstrologerCardProps> = ({
-  name,
-  image,
-  bio,
-  experience,
-  areaOfPractice,
-  rating = 4.5,
+const AstrologerCard = ({
+  astrologer,
+}: {
+  isActionButtonsVisible?: boolean;
+  astrologer: TAstrologer;
 }) => {
+  const {
+    _id,
+    displayName,
+    experience,
+    bio,
+    areaOfPractice,
+    profilePicture,
+    rating,
+  } = astrologer;
+  console.log(rating);
   return (
     <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 max-w-xs w-full">
       {/* Image Section - Circle */}
       <div className="flex justify-center pt-5 pb-2">
         <div className="relative">
           <img
-            src={image}
-            alt={name}
+            src={profilePicture}
+            alt={displayName}
             className="w-24 h-24 rounded-full object-cover border-4 border-primary-5/20"
           />
-          {rating && (
+          {rating !== 0 && (
             <div className="absolute -bottom-1 right-0 bg-white/90 backdrop-blur-sm rounded-full px-2 py-0.5 flex items-center gap-1 shadow-sm">
               <FaStar className="w-3 h-3 text-yellow-400 fill-yellow-400" />
               <span className="text-xs font-semibold text-gray-800">
@@ -45,7 +45,7 @@ const AstrologerCard: React.FC<AstrologerCardProps> = ({
       <div className="p-3 pt-1">
         {/* Name */}
         <div className="text-center mb-2">
-          <h3 className="text-base font-bold text-gray-800">{name}</h3>
+          <h3 className="text-base font-bold text-gray-800">{displayName}</h3>
           <div className="flex items-center justify-center gap-1 text-gray-600 mt-0.5">
             <BiBriefcase className="w-3 h-3" />
             <span className="text-xs font-medium">
@@ -62,7 +62,7 @@ const AstrologerCard: React.FC<AstrologerCardProps> = ({
         {/* Area of Practice */}
         <div className="mb-3">
           <div className="flex flex-wrap gap-1 justify-center">
-            {areaOfPractice.slice(0, 2).map((area, index) => (
+            {areaOfPractice.slice(0, 2).map((area: string, index: number) => (
               <span
                 key={index}
                 className="px-1.5 py-0.5 bg-primary-5/20 text-primary-10 text-[10px] rounded-full font-medium"
@@ -78,10 +78,12 @@ const AstrologerCard: React.FC<AstrologerCardProps> = ({
           </div>
         </div>
 
-        <Button
-          label="Consult Now"
-          className="px-5 2xl:px-8 py-1.5 w-full text-sm"
-        />
+        <Link to={`/astrologer/${_id}`}>
+          <Button
+            label="View Profile"
+            className="px-5 2xl:px-8 py-1.5 w-full text-sm"
+          />
+        </Link>
       </div>
     </div>
   );
