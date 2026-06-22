@@ -1,40 +1,13 @@
 import { IoFlowerOutline, IoFlameOutline } from "react-icons/io5";
 import PujaBookingCard from "./PujaBookingCard";
 import { Link } from "react-router-dom";
+import { useGetMyPujaBookingsQuery } from "../../../redux/Features/Puja/pujaBookingApi";
+import type { TPujaBooking } from "../../../types/pujaBooking.type";
 
 const PujaBookings = () => {
-  // Mock Data matching your requirements
-  const pujaBookings = [
-    {
-      id: "PJ-102",
-      pujaName: "Maha Mrityunjaya Jaap",
-      pujaBookedFor: "Rahul Sutradhar",
-      preferredDate: "Nov 12, 2024",
-      purposeOfPuja: "For health recovery and longevity of family members.",
-      status: "Confirmed", // Pending, Confirmed, Completed
-      adminNotes:
-        "Please ensure you have a clean copper vessel and fresh flowers ready before the priest joins virtually.",
-    },
-    {
-      id: "PJ-098",
-      pujaName: "Ganesh Lakshmi Puja",
-      pujaBookedFor: "Sutradhar Family",
-      preferredDate: "Oct 31, 2024",
-      purposeOfPuja: "Prosperity and removal of obstacles in new business.",
-      status: "Completed",
-      adminNotes: null, // Test case for no notes
-    },
-    {
-      id: "PJ-115",
-      pujaName: "Satyanarayan Katha",
-      pujaBookedFor: "Rahul Sutradhar",
-      preferredDate: "Dec 05, 2024",
-      purposeOfPuja: "Monthly spiritual gratitude and peace.",
-      status: "Pending",
-      adminNotes:
-        "We are currently assigning a senior priest for your preferred slot.",
-    },
-  ];
+  const { data } = useGetMyPujaBookingsQuery({});
+  console.log(data);
+  const pujaBookings = data?.data?.data || [];
 
   return (
     <div className="font-GeneralSans animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -62,13 +35,13 @@ const PujaBookings = () => {
 
       {/* Bookings List */}
       <div className="space-y-6">
-        {pujaBookings.map((puja) => (
+        {pujaBookings?.map((puja:TPujaBooking) => (
           <PujaBookingCard key={puja.id} puja={puja} />
         ))}
       </div>
 
       {/* Empty State */}
-      {pujaBookings.length === 0 && (
+      {pujaBookings?.length === 0 && (
         <div className="py-24 text-center bg-white rounded-4xl border border-dashed border-neutral-20">
           <div className="w-20 h-20 bg-primary-5/5 rounded-full flex items-center justify-center mx-auto mb-4 text-primary-5/30">
             <IoFlowerOutline size={40} />

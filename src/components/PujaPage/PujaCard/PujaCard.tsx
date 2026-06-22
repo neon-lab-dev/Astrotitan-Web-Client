@@ -141,12 +141,6 @@ const PujaCard = ({ puja }: { puja: TPuja }) => {
         isModalOpen={isBookPujaModalOpen}
         setIsModalOpen={setIsBookPujaModalOpen}
       >
-        <h2 className="text-2xl font-Satoshi font-semibold text-center text-neutral-5">
-          Book Puja
-        </h2>
-        <p className="text-sm font-GeneralSans text-center mt-1 mb-8">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius, beatae!
-        </p>
         <BookPujaForm pujaId={puja._id} />
       </Modal>
     </>

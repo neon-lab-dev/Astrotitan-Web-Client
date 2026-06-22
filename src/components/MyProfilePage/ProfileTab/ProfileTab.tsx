@@ -68,7 +68,7 @@ const ProfileTab = () => {
     phoneNumber: "+91 98765 43210",
   };
   return (
-    <div className="lg:w-1/3 space-y-6 font-GeneralSans">
+    <div className="lg:w-1/3 space-y-6 font-GeneralSans sticky top-26 h-fit">
       <div className="bg-white rounded-4xl p-8 shadow-sm border border-slate-100">
         <div className="flex flex-col items-center text-center">
           <div className="relative group">
