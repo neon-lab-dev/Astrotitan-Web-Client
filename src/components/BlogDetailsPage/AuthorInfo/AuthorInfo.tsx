@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { Link } from "react-router-dom";
 import Button from "../../Reusable/Button/Button";
 
 const AuthorInfo = ({ author }: any) => {
@@ -11,19 +12,23 @@ const AuthorInfo = ({ author }: any) => {
 
       <div className="flex flex-col items-center text-center">
         <img
-          src={author.image}
-          alt={author.name}
+          src={author?.profilePicture}
+          alt={author?.displayName}
           className="w-20 h-20 rounded-full object-cover border-2 border-primary-5/30 mb-3"
         />
-        <h4 className="font-semibold text-gray-900 text-lg">{author.name}</h4>
+        <h4 className="font-semibold text-gray-900 text-lg">
+          {author?.displayName}
+        </h4>
         <p className="text-xs text-gray-500 mt-1">
-          {author.experience} experience
+          {author?.experience} experience
         </p>
         <p className="text-sm text-gray-600 mt-2 leading-relaxed mb-4">
-          {author.bio}
+          {author?.bio?.slice(0, 100).concat("...")}
         </p>
 
-        <Button label="Consult Now" />
+        <Link to={`/astrologer/${author?._id}`}>
+          <Button label="Consult Now" />
+        </Link>
       </div>
     </div>
   );

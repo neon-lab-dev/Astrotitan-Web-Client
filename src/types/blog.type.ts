@@ -22,6 +22,9 @@ export type TBlog = {
   addedBy: {
     _id: string;
     displayName: string;
+    profilePicture?: string;
+    bio?: string;
+    experience?: string;
   };
   blogType: TBlogType;
   status: TBlogStatus;
