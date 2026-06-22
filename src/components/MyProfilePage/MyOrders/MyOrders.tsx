@@ -1,46 +1,14 @@
 import { useState } from "react";
 import { IoBagHandleOutline, IoFilterOutline } from "react-icons/io5";
-import { IMAGES } from "../../../assets";
 import MyOrderCard from "./MyOrderCard";
+import { useGetMyProductOrdersQuery } from "../../../redux/Features/ProductOrders/productOrdersApi";
+import type { TProductOrder } from "../../../types/productOrder.type";
 
 const MyOrders = () => {
-  const [filter, setFilter] = useState("All");
+  const [status, setStatus] = useState("All");
+  const { data } = useGetMyProductOrdersQuery({ status });
 
-  // Mock Data matching your requirements
-  const orders = [
-    {
-      id: "ORD-7721",
-      productName: "Natural 5 Mukhi Rudraksha",
-      image: IMAGES.remediesImg1,
-      date: "Oct 15, 2024",
-      status: "pending",
-      amount: "₹1,250",
-      quantity: 1,
-    },
-    {
-      id: "ORD-5542",
-      productName: "Premium Vastu Pyramids (Set of 3)",
-      image: IMAGES.remediesImg2,
-      date: "Oct 08, 2024",
-      status: "shipped",
-      amount: "₹3,499",
-      quantity: 1,
-    },
-    {
-      id: "ORD-2210",
-      productName: "Healing Amethyst Crystal Stone",
-      image: IMAGES.remediesImg1,
-      date: "Sept 25, 2024",
-      status: "cancelled",
-      amount: "₹890",
-      quantity: 2,
-    },
-  ];
-
-  const filteredOrders =
-    filter === "All"
-      ? orders
-      : orders.filter((o) => o.status === filter.toLowerCase());
+  const orders = data?.data?.orders || [];
 
   return (
     <div className="font-Satoshi animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -61,29 +29,29 @@ const MyOrders = () => {
             size={16}
           />
           <select
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
             className="pl-9 pr-4 py-2.5 bg-white border border-neutral-20 rounded-xl text-sm font-semibold text-neutral-5 outline-none focus:border-primary-5 appearance-none cursor-pointer"
           >
             <option value="All">All Orders</option>
-            <option value="Pending">Pending</option>
-            <option value="Shipped">Shipped</option>
-            <option value="Cancelled">Cancelled</option>
+            <option value="pending">Pending</option>
+            <option value="shipped">Shipped</option>
+            <option value="cancelled">Cancelled</option>
           </select>
         </div>
       </div>
 
       {/* Orders List */}
       <div className="space-y-4">
-        {filteredOrders.map((order) => (
-          <MyOrderCard key={order.id} order={order} />
+        {orders?.map((order: TProductOrder) => (
+          <MyOrderCard key={order?._id} order={order} />
         ))}
       </div>
 
       {/* Empty State */}
-      {filteredOrders.length === 0 && (
+      {orders?.length === 0 && (
         <div className="py-24 text-center bg-white rounded-4xl border border-dashed border-neutral-20">
-          <div className="w-16 h-16 bg-neutral-20/30 rounded-full flex items-center justify-center mx-auto mb-4 text-neutral-20">
+          <div className="w-16 h-16 bg-primary-5 rounded-full flex items-center justify-center mx-auto mb-4 text-neutral-20">
             <IoBagHandleOutline size={30} />
           </div>
           <h4 className="text-lg font-bold text-neutral-5">No orders found</h4>

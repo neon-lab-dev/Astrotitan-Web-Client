@@ -12,13 +12,24 @@ import { useDeleteAddressMutation } from "../../../redux/Features/Address/addres
 
 type TAddressCardProps = {
   address: TAddress;
-  onEdit: (id: string) => void;
+  onEdit?: (id: string) => void;
+  onSelect?: (id: string) => void;
+  isActionButtonVisible?: boolean;
+  isSelected?: boolean;
+  showRadio?: boolean;
 };
 
-const AddressCard: React.FC<TAddressCardProps> = ({ address, onEdit }) => {
+const AddressCard: React.FC<TAddressCardProps> = ({
+  address,
+  onEdit,
+  onSelect,
+  isActionButtonVisible = true,
+  isSelected = false,
+  showRadio = true,
+}) => {
   const [deleteAddress, { isLoading }] = useDeleteAddressMutation();
 
-  const handleDeleteAddress = async (id:string) => {
+  const handleDeleteAddress = async (id: string) => {
     try {
       await deleteAddress(id).unwrap();
     } catch (err) {
@@ -49,13 +60,19 @@ const AddressCard: React.FC<TAddressCardProps> = ({ address, onEdit }) => {
   };
 
   return (
-    <div className="group bg-white border border-neutral-20 rounded-3xl p-6 hover:shadow-xl hover:shadow-neutral-20/40 hover:border-primary-5/20 transition-all duration-300 relative font-Satoshi">
-      {/* Type Badge & Actions */}
+    <div
+      className={`group bg-white border rounded-3xl p-6 hover:shadow-xl hover:shadow-neutral-20/40 transition-all duration-300 relative font-Satoshi ${
+        isSelected
+          ? "border-primary-5 shadow-lg shadow-primary-5/10"
+          : "border-neutral-20 hover:border-primary-5/20"
+      }`}
+    >
+      {/* Type Badge, Radio & Actions */}
       <div className="flex justify-between items-start mb-4">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <div
             className={`flex items-center gap-2 px-3 py-1 rounded-lg border text-[10px] font-bold uppercase tracking-wider ${getTypeColor(
-              address.type,
+              address.type
             )}`}
           >
             {getTypeIcon(address.type)}
@@ -63,44 +80,74 @@ const AddressCard: React.FC<TAddressCardProps> = ({ address, onEdit }) => {
           </div>
         </div>
 
-        <div className="flex gap-2 transition-opacity">
-          <button
-            onClick={() => onEdit(address._id)}
-            className="p-2 bg-neutral-20/50 hover:bg-primary-5 hover:text-white text-neutral-10 rounded-lg transition-all"
-            title="Edit"
-          >
-            <HiOutlinePencil size={16} />
-          </button>
-          <button
-            onClick={() => handleDeleteAddress(address?._id)}
-            className="p-2 bg-neutral-20/50 hover:bg-red-500 hover:text-white text-neutral-10 rounded-lg transition-all"
-            title="Delete"
-          >
-            {isLoading ? (
-              <svg
-                className="animate-spin h-5 w-5 text-primary-5"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
+        <div className="flex items-center gap-2">
+          {/* Radio Select Button */}
+          {showRadio && onSelect && (
+            <label className="flex items-center gap-2 cursor-pointer group">
+              <input
+                type="radio"
+                name="selectedAddress"
+                value={address._id}
+                checked={isSelected}
+                onChange={() => onSelect(address._id)}
+                className="hidden"
+              />
+              <div
+                className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${
+                  isSelected
+                    ? "border-primary-5"
+                    : "border-gray-300 group-hover:border-primary-5/50"
+                }`}
               >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                ></circle>
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
-              </svg>
-            ) : (
-              <HiOutlineTrash size={16} />
-            )}
-          </button>
+                {isSelected && (
+                  <div className="w-2.5 h-2.5 rounded-full bg-primary-5" />
+                )}
+              </div>
+            </label>
+          )}
+
+          {/* Action Buttons */}
+          {isActionButtonVisible && (
+            <div className="flex gap-2 transition-opacity">
+              <button
+                onClick={() => onEdit && onEdit(address._id)}
+                className="p-2 bg-neutral-20/50 hover:bg-primary-5 hover:text-white text-neutral-10 rounded-lg transition-all"
+                title="Edit"
+              >
+                <HiOutlinePencil size={16} />
+              </button>
+              <button
+                onClick={() => handleDeleteAddress(address?._id)}
+                className="p-2 bg-neutral-20/50 hover:bg-red-500 hover:text-white text-neutral-10 rounded-lg transition-all"
+                title="Delete"
+              >
+                {isLoading ? (
+                  <svg
+                    className="animate-spin h-5 w-5 text-primary-5"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                ) : (
+                  <HiOutlineTrash size={16} />
+                )}
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

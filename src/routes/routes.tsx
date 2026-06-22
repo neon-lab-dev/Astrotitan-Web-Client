@@ -27,6 +27,7 @@ import MyOrders from "../components/MyProfilePage/MyOrders/MyOrders";
 import PujaBookings from "../components/MyProfilePage/PujaBookings/PujaBookings";
 import AccountSettings from "../components/MyProfilePage/AccountSettings/AccountSettings";
 import Chat from "../pages/Chat/Chat";
+import PaymentSuccess from "../pages/PaymentSuccess/PaymentSuccess";
 
 export const router = createBrowserRouter([
   {
@@ -97,6 +98,10 @@ export const router = createBrowserRouter([
       {
         path: "/puja/:id",
         element: <PujaDetails />,
+      },
+      {
+        path: "/payment-success",
+        element: <PaymentSuccess />,
       },
     ],
   },

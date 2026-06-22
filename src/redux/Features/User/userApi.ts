@@ -20,10 +20,19 @@ const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["user"],
     }),
+     getRazorpayKey: builder.query({
+      query: () => ({
+        url: "/get-key",
+        method: "GET",
+        credentials: "include",
+      }),
+      providesTags: ["user"],
+    }),
   }),
 });
 
 export const {
   useGetMeQuery,
-  useUpdateProfileMutation
+  useUpdateProfileMutation,
+  useGetRazorpayKeyQuery
 } = userApi;
