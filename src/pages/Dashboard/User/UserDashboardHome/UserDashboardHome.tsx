@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { GoArrowUpRight } from "react-icons/go";
 import { ICONS, IMAGES } from "../../../../assets";
 import Button from "../../../../components/Reusable/Button/Button";
@@ -5,12 +6,31 @@ import Container from "../../../../components/Reusable/Container/Container";
 import { Link } from "react-router-dom";
 import AstrologerCard from "./AstrologerCard";
 import Modal from "../../../../components/Reusable/Modal/Modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BlogCard from "./BlogCard";
+import {
+  useGetMeQuery,
+  useUpdateProfileMutation,
+} from "../../../../redux/Features/User/userApi";
 
 const UserDashboardHome = () => {
+  const { data, isLoading } = useGetMeQuery({});
+  const myProfile = data?.data?.profile;
+  const [updateProfile, { isLoading: isUpdating }] = useUpdateProfileMutation(
+    {},
+  );
+  const [selectedZodiacSign, setSelectedZodiacSign] = useState<string>("");
   const [isZodiacSignModalOpen, setIsZodiacSignModalOpen] =
     useState<boolean>(false);
+
+  useEffect(() => {
+    if (isLoading || !data) return;
+
+    const isZodiacSignAdded = data?.data?.profile?.zodiacSign;
+    if (!isZodiacSignAdded || isZodiacSignAdded === "") {
+      setIsZodiacSignModalOpen(true);
+    }
+  }, [data, isLoading]);
 
   const zodiacSigns = [
     {
@@ -39,14 +59,26 @@ const UserDashboardHome = () => {
     // },
   ];
 
-  // useEffect(() => {
-  //   setIsZodiacSignModalOpen(false);
-  // }, []);
+  const handleAddZodiacSign = () => {
+    try {
+      const payload = {
+        zodiacSign: selectedZodiacSign,
+      };
+      updateProfile(payload);
+      setIsZodiacSignModalOpen(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="font-GeneralSans py-8">
       <Container>
         <h3 className="text-neutral-5 text-xl font-medium">
-          Good morning, <span className="font-semibold">Rohan</span>
+          Good morning,{" "}
+          <span className="font-semibold">
+            {myProfile?.firstName} {myProfile?.lastName}
+          </span>
         </h3>
         <p className="text-neutral-5 text-sm mt-1.5">
           A quick overview of how today’s planetary positions may influence your
@@ -67,9 +99,9 @@ const UserDashboardHome = () => {
                 Today's Cosmic Pulse
               </h2>
               <p className="text-base font-GeneralSans leading-7.75 text-white mt-1 mb-4 max-w-200">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minima
-                voluptas voluptate quibusdam quos earum dolorem maiores ab
-                necessitatibus reiciendis nostrum!
+                Discover the celestial guidance uniquely aligned for you today.
+                Let the cosmic energies illuminate your path and bring clarity
+                to your journey ahead.
               </p>
               <Button
                 rightIcon={ICONS.arrowRight}
@@ -78,7 +110,13 @@ const UserDashboardHome = () => {
             </div>
 
             <div className="bg-neutral-5 rounded-3xl px-3 py-2 text-white text-sm absolute top-6 right-6">
-              16/01/2026
+              {new Date()
+                .toLocaleDateString("en-GB", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })
+                .replace(/\//g, "/")}
             </div>
           </div>
         </div>
@@ -297,13 +335,40 @@ const UserDashboardHome = () => {
           It helps us generate more accurate Kundli insights
         </p>
 
-        <div className="grid grid-cols-4 mt-6">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
           {zodiacSigns?.map((sign) => (
-            <button className="flex flex-col items-center p-5 rounded-xl hover:bg-neutral-15 hover:border border-primary-5 transition duration-300">
+            <button
+              key={sign?.name}
+              onClick={() => setSelectedZodiacSign(sign?.name)}
+              className={`flex flex-col items-center p-5 rounded-xl transition duration-300 ${
+                selectedZodiacSign === sign?.name
+                  ? "bg-neutral-15 border border-primary-5"
+                  : "hover:bg-neutral-15 hover:border hover:border-primary-5 border border-transparent"
+              }`}
+            >
               <img src={sign?.icon} alt={sign?.name} className="w-14" />
-              <p className="text-neutral-5 font-semibold mt-3">{sign?.name}</p>
+              <p
+                className={`text-neutral-5 font-semibold mt-3 ${
+                  selectedZodiacSign === sign?.name ? "text-primary-5" : ""
+                }`}
+              >
+                {sign?.name}
+              </p>
             </button>
           ))}
+        </div>
+
+        <div className="flex justify-center">
+          <Button
+            type="submit"
+            label="Submit"
+            variant="primary"
+            rightIcon={ICONS.arrowRight}
+            isLoading={isUpdating}
+            isDisabled={isUpdating}
+            onClick={handleAddZodiacSign}
+            className="w-fit"
+          />
         </div>
       </Modal>
     </div>

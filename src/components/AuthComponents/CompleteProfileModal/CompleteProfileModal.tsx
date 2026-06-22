@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useState, useEffect } from "react";
 import { ICONS } from "../../../assets";
 import BirthInfo from "./BirthInfo";
@@ -36,7 +37,7 @@ const ModalContent = () => {
       }, 1000);
       return () => clearTimeout(timer);
     } else if (step === 5 && countdown === 0) {
-      navigate("/dashboard");
+      navigate("/dashboard/user");
     }
   }, [step, countdown, navigate]);
 

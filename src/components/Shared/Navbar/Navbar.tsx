@@ -27,6 +27,7 @@ export type TAuthModalType = "login" | "verifyOtp" | "signup";
 const Navbar = () => {
   const pathname = useLocation().pathname;
   const user = useSelector(useCurrentUser);
+  console.log(user);
   const dispatch = useDispatch();
 
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
@@ -238,10 +239,10 @@ const Navbar = () => {
                       </div>
                       <div className="hidden sm:block text-left leading-tight">
                         <h4 className="text-sm font-bold text-neutral-5">
-                          Rahul S.
+                          {user?.userName}
                         </h4>
                         <p className="text-[10px] text-neutral-10">
-                          rahulsd380@gmail.com
+                          {user?.email}
                         </p>
                       </div>
                       <IoChevronDown

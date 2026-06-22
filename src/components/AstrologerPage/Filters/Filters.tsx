@@ -1,13 +1,27 @@
-import { useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ICONS } from "../../../assets";
 import SelectDropdown from "../../Reusable/SelectDropdown/SelectDropdown";
 
-const Filters = () => {
-  const [gender, setGender] = useState<string>("");
-  const [areaOfPractice, setAreaOfPractice] = useState<string>("");
-  const [language, setLanguage] = useState<string>("");
-  const [sortBy, setSortBy] = useState<string>("Relevance");
-
+type TFilters = {
+  setGender: any;
+  setAreaOfPractice: any;
+  setLanguage: any;
+  setSortBy: any;
+  sortBy: string;
+  gender: string;
+  areaOfPractice: string;
+  language: string;
+};
+const Filters: React.FC<TFilters> = ({
+  setGender,
+  setAreaOfPractice,
+  setLanguage,
+  setSortBy,
+  sortBy,
+  gender,
+  areaOfPractice,
+  language,
+}) => {
   const genderOptions = [
     { label: "Male", value: "male" },
     { label: "Female", value: "female" },
@@ -62,7 +76,7 @@ const Filters = () => {
   ];
 
   const sortByOptions = [
-    { label: "Relevance", value: "Relevance" },
+    { label: "Relevance", value: "relevance" },
     { label: "Top Rated", value: "topRated" },
     { label: "Most Experienced", value: "mostExperienced" },
   ];
