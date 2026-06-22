@@ -61,6 +61,7 @@ export const baseApi = createApi({
     "puja",
     "pujaBooking",
     "product",
+    "address",
   ],
   endpoints: () => ({}),
 });

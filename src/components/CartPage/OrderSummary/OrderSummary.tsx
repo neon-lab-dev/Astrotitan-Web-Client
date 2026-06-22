@@ -1,12 +1,109 @@
+import { useState } from "react";
 import { FaShieldAlt, FaShoppingBag } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { useCurrentUser } from "../../../redux/Features/Auth/authSlice";
+import toast from "react-hot-toast";
+import { useCart } from "../../../providers/CartProvider/CartProvider";
 
 type TOrderSummary = {
   total: number;
   subtotal: number;
   shipping: number;
   tax: number;
-}
-const OrderSummary: React.FC<TOrderSummary> = ({ total, subtotal, shipping, tax }) => {
+};
+const OrderSummary: React.FC<TOrderSummary> = ({
+  total,
+  subtotal,
+  shipping,
+  tax,
+}) => {
+  const { cartItems } = useCart();
+  const user = useSelector(useCurrentUser);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  // const handlePlaceProductOrder = async () => {
+  //   if (!user) {
+  //     toast.error("Please login to proceed");
+  //     // dispatch(openModal("login"));
+  //     // dispatch(setRedirectPath("/cart"));
+  //     return;
+  //   }
+
+  //   if (cartItems?.length < 1) {
+  //     toast.error("Cart is empty");
+  //     return;
+  //   }
+
+  //   if (
+  //     !myProfile?.data?.addressLine1 ||
+  //     !myProfile?.data?.city ||
+  //     !myProfile?.data?.pinCode
+  //   ) {
+  //     toast.error("Please add delivery address");
+  //     setLocationModalOpen(true);
+  //     return;
+  //   }
+  //   setLoading(true);
+
+  //   const payload = {
+  //     amount: totalToPay,
+  //   };
+
+  //   let response;
+  //   try {
+  //     response = await productCheckout(payload).unwrap();
+  //   } catch (error) {
+  //     console.error(error);
+  //     setLoading(false);
+  //     return;
+  //   }
+
+  //   try {
+  //     const options = {
+  //       key: apiKey?.key,
+  //       amount: response?.data?.amount,
+  //       currency: "INR",
+  //       name: "Hanjifinance",
+  //       description: "Test Transaction",
+  //       image: config.razorpayLogo,
+  //       order_id: response?.data?.id,
+  //       callback_url: `${config.baseUrl}/product-order/verify-payment`,
+  //       prefill: {
+  //         name: user?.name,
+  //         email: user?.email,
+  //         userId: user?._id,
+  //       },
+  //       theme: { color: "#3b82f6" },
+  //     };
+
+  //     const rzp = new window.Razorpay(options);
+  //     rzp.open();
+
+  //     const orderedItems = cartProducts.map((item) => ({
+  //       productId: item.productId,
+  //       name: item.name,
+  //       quantity: item.quantity,
+  //       size: item.size,
+  //       color: item.color,
+  //       price: item.price,
+  //     }));
+
+  //     const productOrderData = {
+  //       orderedItems,
+  //       totalAmount: totalToPay,
+  //     };
+
+  //     localStorage.setItem(
+  //       "productOrderData",
+  //       JSON.stringify(productOrderData),
+  //     );
+  //   } catch (error) {
+  //     console.error(error);
+  //     setLoading(false);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
   return (
     <div className="lg:w-[35%] bg-white rounded-2xl shadow-sm border border-gray-200 p-6 sticky top-4 h-fit">
       <h2 className="text-lg font-semibold text-gray-900 mb-4">
