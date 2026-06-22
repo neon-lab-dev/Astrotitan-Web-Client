@@ -27,7 +27,6 @@ export type TAuthModalType = "login" | "verifyOtp" | "signup";
 const Navbar = () => {
   const pathname = useLocation().pathname;
   const user = useSelector(useCurrentUser);
-  console.log(user);
   const dispatch = useDispatch();
 
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
