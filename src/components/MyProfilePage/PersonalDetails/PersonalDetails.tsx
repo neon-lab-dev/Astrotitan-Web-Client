@@ -12,25 +12,14 @@ import {
 } from "react-icons/fa";
 import { HiPencil } from "react-icons/hi";
 import { TbZodiacLeo } from "react-icons/tb"; // Example Zodiac Icon
-import { IMAGES } from "../../../assets";
+import { useGetMeQuery } from "../../../redux/Features/User/userApi";
+import { formatDate } from "../../../utils/formatDate";
 
 const PersonalDetails = () => {
-  const user = {
-    accountId: "ACC123456",
-    profilePicture: IMAGES.rahul,
-    firstName: "Rahul",
-    lastName: "Sutradhar",
-    fullName: "Rahul Sutradhar",
-    gender: "Male",
-    dateOfBirth: "May 15, 1995",
-    timeOfBirth: "08:30 AM",
-    placeOfBirth: "Kolkata, West Bengal",
-    intents: ["Career", "Education", "Health", "Relationships"],
-    zodiacSign: "Pisces",
-    country: "India",
-    email: "rahul.sutradhar@example.com",
-    phoneNumber: "+91 98765 43210",
-  };
+  const { data } = useGetMeQuery({});
+  console.log(data);
+  const profile = data?.data?.profile || {};
+  const account = data?.data?.account || {};
   // Mock zodiac sign - in a real app, this would be calculated or from props
   const zodiacSign = "Leo";
 
@@ -61,20 +50,24 @@ const PersonalDetails = () => {
       {/* Info Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
         {[
-          { label: "Full Name", value: user.fullName, icon: <FaUserEdit /> },
+          {
+            label: "Full Name",
+            value: profile?.fullName,
+            icon: <FaUserEdit />,
+          },
           {
             label: "Email Address",
-            value: user.email,
+            value: account?.email,
             icon: <IoMailOutline />,
           },
           {
             label: "Contact Number",
-            value: user.phoneNumber,
+            value: account?.phoneNumber || "Not Provided",
             icon: <IoCallOutline />,
           },
           {
             label: "Gender & Country",
-            value: `${user.gender} • ${user.country}`,
+            value: `${profile?.gender} • ${profile?.country || "Not Provided"}`,
             icon: <FaVenusMars />,
           },
         ].map((item, idx) => (
@@ -84,7 +77,11 @@ const PersonalDetails = () => {
               <div className="size-10 rounded-xl bg-neutral-20/50 flex items-center justify-center text-primary-5/60">
                 {item.icon}
               </div>
-              <p className={valueTextStyle}>{item.value}</p>
+              <p
+                className={`font-medium text-neutral-5 ${item?.label === "Gender & Country" ? "capitalize" : ""}`}
+              >
+                {item.value}
+              </p>
             </div>
           </div>
         ))}
@@ -107,7 +104,7 @@ const PersonalDetails = () => {
             <IoCalendarClearOutline size={16} />
             <p className={labelTextStyle}>Birth Date</p>
           </div>
-          <p className={valueTextStyle}>{user.dateOfBirth}</p>
+          <p className={valueTextStyle}>{formatDate(profile?.dateOfBirth)}</p>
         </div>
 
         {/* Birth Time */}
@@ -116,7 +113,7 @@ const PersonalDetails = () => {
             <IoTimeOutline size={16} />
             <p className={labelTextStyle}>Birth Time</p>
           </div>
-          <p className={valueTextStyle}>{user.timeOfBirth}</p>
+          <p className={valueTextStyle}>{profile?.timeOfBirth}</p>
         </div>
 
         {/* Birth Place */}
@@ -125,7 +122,7 @@ const PersonalDetails = () => {
             <FaMapMarkerAlt size={14} />
             <p className={labelTextStyle}>Birth Place</p>
           </div>
-          <p className={valueTextStyle}>{user.placeOfBirth}</p>
+          <p className={valueTextStyle}>{profile?.placeOfBirth}</p>
         </div>
 
         {/* Zodiac Sign - Highlighted Card */}
@@ -154,7 +151,7 @@ const PersonalDetails = () => {
           Life Focus Areas
         </p>
         <div className="flex flex-wrap justify-center gap-3">
-          {user.intents.map((intent: string, index: number) => (
+          {profile?.intents?.map((intent: string, index: number) => (
             <span
               key={index}
               className="px-5 py-2 bg-white border border-neutral-20 text-neutral-5 rounded-full text-xs font-bold shadow-sm hover:border-primary-5 transition-colors cursor-default"

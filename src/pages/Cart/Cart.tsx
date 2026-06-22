@@ -101,8 +101,8 @@ const Cart = () => {
         ) : (
           /* Empty Cart */
           <div className="mt-12 text-center py-16">
-            <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <IoCartOutline className="w-12 h-12 text-gray-300" />
+            <div className="w-24 h-24 bg-neutral-20 shadow rounded-full flex items-center justify-center mx-auto mb-6">
+              <IoCartOutline className="w-12 h-12 text-primary-5" />
             </div>
             <h2 className="text-2xl font-bold text-gray-900 mb-2">
               Your cart is empty

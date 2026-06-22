@@ -6,7 +6,6 @@ import type { TPujaBooking } from "../../../types/pujaBooking.type";
 
 const PujaBookings = () => {
   const { data } = useGetMyPujaBookingsQuery({});
-  console.log(data);
   const pujaBookings = data?.data?.data || [];
 
   return (
