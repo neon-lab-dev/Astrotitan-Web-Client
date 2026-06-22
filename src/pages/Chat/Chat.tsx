@@ -3,7 +3,6 @@ import {
   IoSend,
   IoShieldCheckmarkOutline,
   IoCloseCircleOutline,
-  IoAttachOutline,
   IoHappyOutline,
 } from "react-icons/io5";
 import { HiOutlineSparkles } from "react-icons/hi";
@@ -125,9 +124,6 @@ const Chat = () => {
             {/* Chat Input */}
             <div className="p-6 bg-white border-t border-slate-50">
               <div className="flex items-center gap-3 p-2 rounded-2xl border border-primary-5/30 focus-within:border-primary-5 bg-white transition-all shadow-inner">
-                <button className="p-2 text-neutral-10 hover:text-primary-5 transition-colors">
-                  <IoAttachOutline size={22} />
-                </button>
                 <input
                   type="text"
                   value={message}
