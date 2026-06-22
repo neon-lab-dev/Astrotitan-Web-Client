@@ -7,10 +7,16 @@ import AstrologerPromo from "../../components/BlogsPage/AstrologerPromo/Astrolog
 import GemstonePromo from "../../components/BlogsPage/GemstonePromo/GemstonePromo";
 import FollowSocialMedia from "../../components/BlogsPage/FollowSocialMedia/FollowSocialMedia";
 import Container from "../../components/Reusable/Container/Container";
+import { useGetAllBlogsQuery } from "../../redux/Features/Blog/blogApi";
+import type { TBlog } from "../../types/blog.type";
 
 const Blogs = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const { data: blogs } = useGetAllBlogsQuery({
+    keyword: searchTerm,
+    category: selectedCategory,
+  });
 
   const categories = [
     "All",
@@ -63,11 +69,13 @@ const Blogs = () => {
               ))}
             </div>
 
-            <BlogListCard />
+            {blogs?.data?.data?.map((blog: TBlog) => (
+              <BlogListCard key={blog._id} blog={blog} />
+            ))}
           </div>
 
           {/* Right Sidebar */}
-          <div className="lg:w-[35%] space-y-5 sticky top-3 h-fit">
+          <div className="lg:w-[35%] space-y-5 sticky top-26 h-fit">
             <AppDownload />
             <AstrologerPromo />
             <GemstonePromo />

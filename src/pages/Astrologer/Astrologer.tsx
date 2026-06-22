@@ -34,7 +34,7 @@ const Astrologer = () => {
 
         <div className="flex gap-8 font-GeneralSans mt-5">
           {/* Filters Sidebar - Sticky */}
-          <div className="w-[35%] sticky top-4 h-fit max-h-[calc(100vh-100px)] overflow-y-auto">
+          <div className="w-[35%] sticky top-26 h-fit max-h-[calc(100vh-100px)] overflow-y-auto">
             <Filters
               setGender={setGender}
               setAreaOfPractice={setAreaOfPractice}

@@ -25,7 +25,7 @@ const AstrologerPromo = () => {
             </span>
             <h3 className="font-bold text-lg mt-2">Talk to an Astrologer</h3>
             <p className="text-white/80 text-sm">Personalized guidance</p>
-            <Link to="/astrologer" className="mt-3 flex items-center gap-1.5 px-4 py-1.5 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg text-sm font-medium transition-colors">
+            <Link to="/astrologer" className="mt-3 flex items-center gap-1.5 px-4 py-1.5 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg text-sm font-medium transition-colors w-fit">
               Book Now
               <IoArrowForward className="w-3 h-3" />
             </Link>

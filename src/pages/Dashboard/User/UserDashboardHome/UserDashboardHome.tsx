@@ -25,7 +25,6 @@ const UserDashboardHome = () => {
   );
   const { data: astrologers } = useGetAllAstrologersQuery({});
   const { data: blogs } = useGetAllBlogsQuery({});
-  console.log(blogs);
   const [selectedZodiacSign, setSelectedZodiacSign] = useState<string>("");
   const [isZodiacSignModalOpen, setIsZodiacSignModalOpen] =
     useState<boolean>(false);
