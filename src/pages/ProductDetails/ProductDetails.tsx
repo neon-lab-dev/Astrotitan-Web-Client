@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   IoCartOutline,
   IoStar,
@@ -15,7 +15,6 @@ import {
   FaShieldAlt,
   FaExchangeAlt,
 } from "react-icons/fa";
-import { IMAGES } from "../../assets";
 import Breadcrumb from "../../components/Reusable/Breadcrumb/Breadcrumb";
 import Container from "../../components/Reusable/Container/Container";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -24,67 +23,23 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
+import {
+  useGetAllProductsQuery,
+  useGetSingleProductByIdQuery,
+} from "../../redux/Features/Product/productApi";
+import type { TProduct } from "../../types/product.type";
 
 const ProductDetails = () => {
   const { id } = useParams();
+  const { data } = useGetSingleProductByIdQuery(id);
+  console.log(data);
+  const product = data?.data || {};
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState<
     "description" | "reviews" | "howToUse"
   >("description");
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
-
-  // Dummy product data
-  const product = {
-    _id: "1",
-    name: "Vedic Astrology Consultation",
-    category: "Consultations",
-    intent: "Career",
-    description:
-      "Get personalized career guidance from expert astrologers with over 10 years of experience. This comprehensive consultation covers your career path, job changes, business growth, and professional success predictions based on your birth chart.",
-    quantity: 50,
-    imageUrls: [
-      IMAGES.kundliBannerBg,
-      IMAGES.kundliBannerBg,
-      IMAGES.kundliBannerBg,
-      IMAGES.kundliBannerBg,
-    ],
-    rating: 4.8,
-    reviews: [
-      {
-        user: { firstName: "Priya", lastName: "Sharma" },
-        review:
-          "Absolutely amazing experience! The astrologer provided accurate predictions and genuine guidance for my career.",
-        rating: 5,
-        images: [],
-        createdAt: "2024-03-15T10:30:00Z",
-      },
-      {
-        user: { firstName: "Amit", lastName: "Kumar" },
-        review:
-          "Very knowledgeable and patient. Helped me understand my career path better.",
-        rating: 4.5,
-        images: [],
-        createdAt: "2024-03-10T14:20:00Z",
-      },
-      {
-        user: { firstName: "Sneha", lastName: "Patel" },
-        review:
-          "Incredible insights! His remedies for career growth really worked for me.",
-        rating: 5,
-        images: [],
-        createdAt: "2024-03-05T09:15:00Z",
-      },
-    ],
-    basePrice: 499,
-    discountedPrice: 399,
-    whyThisWork:
-      "This consultation is based on authentic Vedic astrology principles combined with modern career counseling techniques. Our astrologers analyze your birth chart, planetary positions, and current transits to provide accurate career predictions and actionable advice.",
-    targetAudience: "Professionals, Students, Business Owners, Job Seekers",
-    howToUse:
-      "1. Book your consultation slot\n2. Share your birth details (date, time, place of birth)\n3. Our astrologer will analyze your chart\n4. Get a 45-minute personalized video consultation\n5. Receive a detailed career report",
-    inStock: true,
-  };
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
@@ -120,6 +75,12 @@ const ProductDetails = () => {
     ? product.reviews
     : product.reviews.slice(0, 3);
 
+  const { data: allProducts } = useGetAllProductsQuery({});
+
+  const otherProducts = allProducts?.data?.data?.filter(
+    (product: any) => product._id !== id,
+  );
+
   return (
     <div className="pt-10 pb-14 font-GeneralSans">
       <Container>
@@ -149,7 +110,7 @@ const ProductDetails = () => {
                     <img
                       src={image}
                       alt={`${product.name} - ${index + 1}`}
-                      className="w-full h-full object-cover"
+                      className="w-full max-h-150 object-cover"
                     />
                   </SwiperSlide>
                 ))}
@@ -249,6 +210,10 @@ const ProductDetails = () => {
                 Inclusive of all taxes
               </p>
             </div>
+
+            <p className="text-neutral-10 leading-relaxed">
+              {product.whyThisWork}
+            </p>
 
             {/* Quantity & Actions */}
             <div className="flex flex-wrap items-center gap-4">
@@ -516,14 +481,14 @@ const ProductDetails = () => {
             You May Also Like
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[1, 2, 3, 4].map((item) => (
+            {otherProducts?.map((item: TProduct) => (
               <div
-                key={item}
+                key={item?._id}
                 className="group bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg hover:border-primary-5/30 transition-all duration-300"
               >
                 <div className="relative overflow-hidden h-48">
                   <img
-                    src={IMAGES.kundliBannerBg}
+                    src={item?.imageUrls[0]}
                     alt="Product"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
@@ -532,26 +497,31 @@ const ProductDetails = () => {
                   </span>
                 </div>
                 <div className="p-4">
-                  <p className="text-xs text-gray-400 mb-1">Category</p>
+                  <p className="text-xs text-gray-400 mb-1">{item?.category}</p>
                   <h4 className="text-sm font-semibold text-gray-900 group-hover:text-primary-5 transition-colors line-clamp-1">
-                    Related Product {item}
+                    {item?.name}
                   </h4>
                   <div className="flex items-center gap-2 mt-2">
                     <span className="text-lg font-bold text-primary-5">
-                      ₹299
+                      ₹{item?.basePrice}
                     </span>
                     <span className="text-sm text-gray-400 line-through">
-                      ₹499
+                      ₹{item?.discountedPrice}
                     </span>
                   </div>
                   <div className="flex items-center justify-between mt-3">
                     <div className="flex items-center gap-0.5">
                       <IoStar className="w-3.5 h-3.5 text-yellow-400 fill-current" />
-                      <span className="text-sm text-gray-600">4.5</span>
+                      <span className="text-sm text-gray-600">
+                        {item?.rating === 0 ? "Not Rated Yet" : item?.rating}
+                      </span>
                     </div>
-                    <button className="px-4 py-1.5 text-sm text-primary-5 border border-primary-5 rounded-lg hover:bg-primary-5 hover:text-white transition-colors">
+                    <Link
+                      to={`/product/${item?._id}`}
+                      className="px-4 py-1.5 text-sm text-primary-5 border border-primary-5 rounded-lg hover:bg-primary-5 hover:text-white transition-colors"
+                    >
                       View
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>
