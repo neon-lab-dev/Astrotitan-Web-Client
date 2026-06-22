@@ -3,6 +3,8 @@ import { ICONS } from "../../../assets";
 import Button from "../../Reusable/Button/Button";
 import TextInput from "../../Reusable/TextInput/TextInput";
 import Textarea from "../../Reusable/TextArea/TextArea";
+import { useBookPujaMutation } from "../../../redux/Features/Puja/pujaBookingApi";
+import SuccessMessage from "./SuccessMessage";
 
 type TFormData = {
   name: string;
@@ -11,6 +13,7 @@ type TFormData = {
   purposeOfPuja: string;
 };
 const BookPujaForm = ({ pujaId }: { pujaId: string }) => {
+  const [bookPuja, { isLoading,isSuccess }] = useBookPujaMutation();
   const {
     register,
     handleSubmit,
@@ -19,10 +22,31 @@ const BookPujaForm = ({ pujaId }: { pujaId: string }) => {
   } = useForm<TFormData>();
 
   const handleBookPuja = async (data: TFormData) => {
-    console.log(data, pujaId);
+    try {
+      const payload = {
+        name: data.name,
+        phoneNumber: data.phoneNumber,
+        preferredDate: data.preferredDate,
+        purposeOfPuja: data.purposeOfPuja,
+        pujaId: pujaId,
+      };
+
+      await bookPuja(payload).unwrap();
+    } catch (err) {
+      console.log(err);
+    }
   };
-  return (
+  return isSuccess ? (
+   <SuccessMessage/>
+  ) : (
     <form onSubmit={handleSubmit(handleBookPuja)}>
+      <h2 className="text-2xl font-Satoshi font-semibold text-center text-neutral-5">
+        Book Puja
+      </h2>
+      <p className="text-sm font-GeneralSans text-center mt-1 mb-8">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius, beatae!
+      </p>
+
       <div className="flex flex-col gap-5">
         <TextInput
           label="Full Name"
@@ -87,6 +111,8 @@ const BookPujaForm = ({ pujaId }: { pujaId: string }) => {
           label={"Submit"}
           rightIcon={ICONS.arrowRight}
           className="w-full max-w-125"
+          isLoading={isLoading}
+          isDisabled={isLoading}
         />
       </div>
 

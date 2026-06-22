@@ -59,6 +59,7 @@ export const baseApi = createApi({
     "astrologer",
     "blog",
     "puja",
+    "pujaBooking",
   ],
   endpoints: () => ({}),
 });
