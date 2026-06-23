@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useState, useEffect } from "react";
-import { FaMars, FaVenus, FaGenderless } from "react-icons/fa";
 import { useProfileForm } from "../../../contexts/FormContext";
+import { genders } from "../../../constants/constants";
 
 const GenderInfo = () => {
   const { setValue, watch } = useProfileForm();
@@ -13,24 +13,6 @@ const GenderInfo = () => {
     setSelectedGender(formSelectedGender || "");
   }, [formSelectedGender]);
 
-  const genders = [
-    {
-      id: "male",
-      label: "Male",
-      icon: FaMars,
-    },
-    {
-      id: "female",
-      label: "Female",
-      icon: FaVenus,
-    },
-    {
-      id: "non-binary",
-      label: "Non-Binary",
-      icon: FaGenderless,
-    },
-  ];
-
   const handleGenderSelect = (genderId: string) => {
     setSelectedGender(genderId);
     setValue("gender", genderId, { shouldValidate: true });
@@ -39,7 +21,7 @@ const GenderInfo = () => {
   return (
     <form className="w-full">
       <div className="flex flex-col gap-3">
-        {genders.map((gender) => {
+        {genders?.map((gender) => {
           const isSelected = selectedGender === gender.id;
           const Icon = gender.icon;
 

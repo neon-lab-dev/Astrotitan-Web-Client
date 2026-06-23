@@ -5,77 +5,33 @@ import Button from "../../../../components/Reusable/Button/Button";
 import Container from "../../../../components/Reusable/Container/Container";
 import { Link } from "react-router-dom";
 import AstrologerCard from "./AstrologerCard";
-import Modal from "../../../../components/Reusable/Modal/Modal";
-import { useEffect, useState } from "react";
 import BlogCard from "./BlogCard";
-import {
-  useGetMeQuery,
-  useUpdateProfileMutation,
-} from "../../../../redux/Features/User/userApi";
+import { useGetMeQuery } from "../../../../redux/Features/User/userApi";
 import { useGetAllAstrologersQuery } from "../../../../redux/Features/Astrologer/astrologerApi";
 import type { TAstrologer } from "../../../../types/astrologer.type";
 import { useGetAllBlogsQuery } from "../../../../redux/Features/Blog/blogApi";
 import type { TBlog } from "../../../../types/blog.type";
+import UpdateZodiacSignModal from "../../../../components/UserDashboardHomePage/UpdateZodiacSignModal/UpdateZodiacSignModal";
+import { useEffect, useState } from "react";
 
 const UserDashboardHome = () => {
-  const { data, isLoading } = useGetMeQuery({});
+  const { data } = useGetMeQuery({});
   const myProfile = data?.data?.profile;
-  const [updateProfile, { isLoading: isUpdating }] = useUpdateProfileMutation(
-    {},
-  );
+
   const { data: astrologers } = useGetAllAstrologersQuery({});
   const { data: blogs } = useGetAllBlogsQuery({});
-  const [selectedZodiacSign, setSelectedZodiacSign] = useState<string>("");
-  const [isZodiacSignModalOpen, setIsZodiacSignModalOpen] =
+
+  const [isUpdateZodiacSignModalOpen, setIsUpdateZodiacSignModalOpen] =
     useState<boolean>(false);
 
   useEffect(() => {
-    if (isLoading || !data) return;
+    if (!data) return;
 
     const isZodiacSignAdded = data?.data?.profile?.zodiacSign;
     if (!isZodiacSignAdded || isZodiacSignAdded === "") {
-      setIsZodiacSignModalOpen(true);
+      setIsUpdateZodiacSignModalOpen(true);
     }
-  }, [data, isLoading]);
-
-  const zodiacSigns = [
-    {
-      name: "Aries",
-      icon: ICONS.aries,
-    },
-    {
-      name: "Taurus",
-      icon: ICONS.taurus,
-    },
-    {
-      name: "Gemini",
-      icon: ICONS.gemini,
-    },
-    {
-      name: "Cancer",
-      icon: ICONS.cancer,
-    },
-    {
-      name: "Leo",
-      icon: ICONS.leo,
-    },
-    // {
-    //   name: "Virgo",
-    // //   icon: ICONS.virgo,
-    // },
-  ];
-
-  const handleAddZodiacSign = () => {
-    try {
-      const payload = {
-        zodiacSign: selectedZodiacSign,
-      };
-      updateProfile(payload);
-      setIsZodiacSignModalOpen(false);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  }, [data]);
 
   return (
     <div className="font-GeneralSans py-8">
@@ -235,54 +191,11 @@ const UserDashboardHome = () => {
         </div>
       </Container>
 
-      <Modal
-        isModalOpen={isZodiacSignModalOpen}
-        setIsModalOpen={setIsZodiacSignModalOpen}
-        width="w-[90%] sm:w-[60%] lg:w-[50%] xl:w-[40%]"
-      >
-        <h2 className="text-2xl font-Satoshi font-semibold text-center text-neutral-5">
-          Select your Zodiac Sign
-        </h2>
-        <p className="text-sm font-GeneralSans text-center mt-1 mb-8">
-          It helps us generate more accurate Kundli insights
-        </p>
-
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
-          {zodiacSigns?.map((sign) => (
-            <button
-              key={sign?.name}
-              onClick={() => setSelectedZodiacSign(sign?.name)}
-              className={`flex flex-col items-center p-5 rounded-xl transition duration-300 ${
-                selectedZodiacSign === sign?.name
-                  ? "bg-neutral-15 border border-primary-5"
-                  : "hover:bg-neutral-15 hover:border hover:border-primary-5 border border-transparent"
-              }`}
-            >
-              <img src={sign?.icon} alt={sign?.name} className="w-14" />
-              <p
-                className={`text-neutral-5 font-semibold mt-3 ${
-                  selectedZodiacSign === sign?.name ? "text-primary-5" : ""
-                }`}
-              >
-                {sign?.name}
-              </p>
-            </button>
-          ))}
-        </div>
-
-        <div className="flex justify-center">
-          <Button
-            type="submit"
-            label="Submit"
-            variant="primary"
-            rightIcon={ICONS.arrowRight}
-            isLoading={isUpdating}
-            isDisabled={isUpdating}
-            onClick={handleAddZodiacSign}
-            className="w-fit"
-          />
-        </div>
-      </Modal>
+      <UpdateZodiacSignModal
+        isModalOpen={isUpdateZodiacSignModalOpen}
+        setIsModalOpen={setIsUpdateZodiacSignModalOpen}
+        zodiacSign={data?.data?.profile?.zodiacSign}
+      />
     </div>
   );
 };

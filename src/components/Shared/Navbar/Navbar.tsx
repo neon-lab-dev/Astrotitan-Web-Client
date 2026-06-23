@@ -57,7 +57,7 @@ const Navbar = () => {
     },
     {
       label: "Connect",
-      path: "/services/connect",
+      path: "/astrologer",
       description: "Chat with experts",
       icon: FaComments,
     },
@@ -245,7 +245,7 @@ const Navbar = () => {
                       </div>
                       <div className="hidden sm:block text-left leading-tight">
                         <h4 className="text-sm font-bold text-neutral-5">
-                          {user?.userName}
+                          {user?.name}
                         </h4>
                         <p className="text-[10px] text-neutral-10">
                           {user?.email}

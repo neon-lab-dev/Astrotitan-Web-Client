@@ -88,7 +88,7 @@ const BlogDetails = () => {
           </div>
 
           {/* Right Sidebar */}
-          <div className="lg:w-[35%] space-y-5 h-fit sticky top-4">
+          <div className="lg:w-[35%] space-y-5 h-fit sticky top-26">
             <AuthorInfo author={addedBy} />
             <AppDownload />
             <AstrologerPromo />

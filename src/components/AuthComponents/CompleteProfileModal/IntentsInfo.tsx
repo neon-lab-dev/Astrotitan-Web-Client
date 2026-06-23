@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useState, useEffect } from "react";
-import { ICONS } from "../../../assets";
 import { useProfileForm } from "../../../contexts/FormContext";
+import { intents } from "../../../constants/constants";
 
 const IntentsInfo = () => {
   const { setValue, watch } = useProfileForm();
@@ -14,15 +15,6 @@ const IntentsInfo = () => {
     setSelectedIntents(formSelectedIntents);
   }, [formSelectedIntents]);
 
-  const intents = [
-    { label: "Love", icon: ICONS.love },
-    { label: "Job", icon: ICONS.job },
-    { label: "Education", icon: ICONS.education },
-    { label: "Marriage", icon: ICONS.marriage },
-    { label: "Health", icon: ICONS.health },
-    { label: "Business", icon: ICONS.business },
-  ];
-
   const toggleIntent = (intentLabel: string) => {
     const newSelection = selectedIntents.includes(intentLabel)
       ? selectedIntents.filter(item => item !== intentLabel)
@@ -35,7 +27,7 @@ const IntentsInfo = () => {
   return (
     <form className="w-full">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        {intents.map((intent) => {
+        {intents?.map((intent) => {
           const isSelected = selectedIntents.includes(intent.label);
 
           return (
