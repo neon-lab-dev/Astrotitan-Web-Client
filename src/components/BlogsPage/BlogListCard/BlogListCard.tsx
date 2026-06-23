@@ -44,10 +44,7 @@ const BlogListCard = ({ blog }: { blog: TBlog }) => {
           <FaUser className="w-3.5 h-3.5 text-primary-5" />
           <span>{addedBy?.displayName || "Unknown"}</span>
         </div>
-      </div>
 
-      {/* Category & Zodiac Badges */}
-      <div className="flex flex-wrap items-center gap-2 mb-3">
         {category && (
           <span className="inline-flex items-center gap-1 px-3 py-1 bg-primary-5/10 text-primary-5 rounded-full text-xs font-medium">
             <FaTag className="w-3 h-3" />

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaShieldAlt, FaShoppingBag } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { useCurrentUser } from "../../../redux/Features/Auth/authSlice";
+import { useCurrentUser, type TLoggedInUser } from "../../../redux/Features/Auth/authSlice";
 import { useCart } from "../../../providers/CartProvider/CartProvider";
 import Drawer from "../../Reusable/Drawer/Drawer";
 import type { TAddress } from "../../../types/address.type";
@@ -29,7 +29,7 @@ const OrderSummary: React.FC<TOrderSummary> = ({
 }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const { cartItems } = useCart();
-  const user = useSelector(useCurrentUser);
+  const user = useSelector(useCurrentUser) as TLoggedInUser;
   const [loading, setLoading] = useState<boolean>(false);
 
   const [selectedAddressId, setSelectedAddressId] = useState<string | null>(

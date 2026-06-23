@@ -20,7 +20,7 @@ import {
 } from "react-icons/io5";
 import { FaStar, FaGem, FaComments } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
-import { useCurrentUser, logout } from "../../../redux/Features/Auth/authSlice";
+import { useCurrentUser, logout, type TLoggedInUser } from "../../../redux/Features/Auth/authSlice";
 import { useCart } from "../../../providers/CartProvider/CartProvider";
 
 export type TAuthModalType = "login" | "verifyOtp" | "signup";
@@ -28,7 +28,8 @@ export type TAuthModalType = "login" | "verifyOtp" | "signup";
 const Navbar = () => {
   const { cartItems } = useCart();
   const pathname = useLocation().pathname;
-  const user = useSelector(useCurrentUser);
+  const user = useSelector(useCurrentUser) as TLoggedInUser;
+  console.log(user);
   const dispatch = useDispatch();
 
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);

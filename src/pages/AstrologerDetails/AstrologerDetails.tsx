@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { IoLanguageOutline, IoTimeOutline } from "react-icons/io5";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import { MdVerified } from "react-icons/md";
@@ -40,7 +39,7 @@ const AstrologerDetails = () => {
     allAstrologers?.data?.astrologers?.filter(
       (astrologer: TAstrologer) => astrologer._id !== _id,
     ) || [];
-  const [showAllReviews, setShowAllReviews] = useState(false);
+  // const [showAllReviews, setShowAllReviews] = useState(false);
 
   const renderStars = (rating: number) => {
     const full = Math.floor(rating);

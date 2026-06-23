@@ -18,7 +18,7 @@ import {
 import Breadcrumb from "../../components/Reusable/Breadcrumb/Breadcrumb";
 import Container from "../../components/Reusable/Container/Container";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Navigation, Thumbs, Autoplay } from "swiper/modules";
+import { Thumbs, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -124,6 +124,39 @@ const ProductDetails = () => {
     return <div>Loading...</div>;
   }
 
+  const handleShare = async () => {
+  const shareData = {
+    title: product?.name || "Check out this product",
+    text: `Check out ${product?.name} - ${product?.description?.substring(0, 100) || ''}`,
+    url: window.location.href,
+  };
+
+  try {
+    // Check if Web Share API is supported
+    if (navigator.share) {
+      // Mobile - Use native share dialog
+      await navigator.share(shareData);
+    } else {
+      // Desktop - Copy link to clipboard and show toast
+      await navigator.clipboard.writeText(window.location.href);
+      toast.success("Product link copied to clipboard!");
+    }
+  } catch (error) {
+    // User cancelled or error occurred
+    if (error instanceof Error && error.name !== 'AbortError') {
+      console.error('Error sharing:', error);
+      // Fallback: copy to clipboard
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        toast.success("Product link copied to clipboard!");
+      } catch (clipboardError: any) {
+        console.log(clipboardError);
+        toast.error("Unable to share or copy link");
+      }
+    }
+  }
+};
+
   return (
     <div className="pt-10 pb-14 font-GeneralSans">
       <Container>
@@ -141,19 +174,17 @@ const ProductDetails = () => {
           <div className="space-y-3">
             <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
               <Swiper
-                modules={[Pagination, Navigation, Thumbs, Autoplay]}
-                pagination={{ clickable: true }}
-                navigation={true}
+                modules={[Thumbs, Autoplay]} // Removed Pagination and Navigation
                 autoplay={{ delay: 4000, disableOnInteraction: false }}
                 thumbs={{ swiper: thumbsSwiper }}
-                className="h-[100"
+                className="h-[400px]"
               >
                 {product?.imageUrls?.map((image: string, index: number) => (
                   <SwiperSlide key={index}>
                     <img
                       src={image}
                       alt={`${product.name} - ${index + 1}`}
-                      className="w-full max-h-150 object-cover"
+                      className="w-full h-full object-cover"
                     />
                   </SwiperSlide>
                 ))}
@@ -193,7 +224,7 @@ const ProductDetails = () => {
                 <h1 className="text-2xl md:text-3xl font-bold text-gray-900 leading-tight">
                   {product?.name}
                 </h1>
-                <button className="p-2.5 rounded-full bg-neutral-25/20 hover:bg-gray-200 transition-colors shrink-0 ml-3">
+                <button onClick={handleShare} className="p-2.5 rounded-full bg-neutral-25/20 hover:bg-gray-200 transition-colors shrink-0 ml-3">
                   <IoShareSocial />
                 </button>
               </div>

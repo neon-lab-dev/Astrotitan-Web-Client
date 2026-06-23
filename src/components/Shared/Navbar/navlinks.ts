@@ -8,7 +8,7 @@ export const navLinks = [
         path: "/about-us",
     },
     {
-        label: "How It Works",
-        path: "/how-it-works",
+        label: "Blogs",
+        path: "/blogs",
     },
 ];

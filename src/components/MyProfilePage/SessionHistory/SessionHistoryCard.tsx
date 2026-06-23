@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   IoCalendarOutline,
   IoChatbubblesOutline,
@@ -5,7 +6,7 @@ import {
 } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
-const SessionHistoryCard = ({ booking }) => {
+const SessionHistoryCard = ({ booking }:{ booking: any}) => {
   const getStatusStyles = (status: string) => {
     switch (status) {
       case "Accepted":
