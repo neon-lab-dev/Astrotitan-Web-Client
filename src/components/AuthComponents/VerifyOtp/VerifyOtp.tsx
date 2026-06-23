@@ -21,8 +21,10 @@ type TFormData = {
 
 const VerifyOtp = ({
   verifyOtpFor,
+  setIsAuthModalOpen
 }: {
   verifyOtpFor: "login" | "signup" | null;
+  setIsAuthModalOpen: (value: boolean) => void;
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -141,7 +143,6 @@ const VerifyOtp = ({
           otp: data.otp,
         };
         response = await verifySignupOtp(payload).unwrap();
-
         if (response?.success) {
           dispatch(
             setUser({
@@ -163,7 +164,6 @@ const VerifyOtp = ({
           otp: data.otp,
         };
         response = await verifyLoginOtp(payload).unwrap();
-
         if (response?.success) {
           dispatch(
             setUser({
@@ -171,6 +171,7 @@ const VerifyOtp = ({
               token: response?.data?.accessToken,
             }),
           );
+          setIsAuthModalOpen(false);
           navigate("/dashboard/user");
         } else {
           setError("otp", {

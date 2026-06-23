@@ -325,7 +325,7 @@ const Navbar = () => {
           />
         )}
         {authModalType === "verifyOtp" && (
-          <VerifyOtp verifyOtpFor={verifyOtpFor} />
+          <VerifyOtp verifyOtpFor={verifyOtpFor} setIsAuthModalOpen={setIsAuthModalOpen} />
         )}
       </Modal>
     </>

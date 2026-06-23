@@ -39,7 +39,7 @@ const UserDashboardHome = () => {
         <h3 className="text-neutral-5 text-xl font-medium">
           Good morning,{" "}
           <span className="font-semibold">
-            {myProfile?.firstName} {myProfile?.lastName}
+            {myProfile?.fullName}
           </span>
         </h3>
         <p className="text-neutral-5 text-sm mt-1.5">

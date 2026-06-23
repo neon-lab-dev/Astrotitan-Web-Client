@@ -1,12 +1,35 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IoTrashOutline, IoWarningOutline } from "react-icons/io5";
 import Modal from "../../Reusable/Modal/Modal";
 import { useState } from "react";
+import { useDeleteAccountMutation } from "../../../redux/Features/User/userApi";
+import toast from "react-hot-toast";
+import { logout } from "../../../redux/Features/Auth/authSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const AccountSettings = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [deleteAccount, { isLoading }] = useDeleteAccountMutation();
   const [
-    isDeleteAcountConfirmationModalOpen,
-    setIsDeleteAcountConfirmationModalOpen,
+    isDeleteAccountConfirmationModalOpen,
+    setIsDeleteAccountConfirmationModalOpen,
   ] = useState<boolean>(false);
+
+  const handleDeleteAccount = async () => {
+    try {
+      const response = await deleteAccount({}).unwrap();
+      if (response?.success) {
+        dispatch(logout());
+        navigate("/");
+        toast.success(response?.message || "Account deleted successfully!");
+      }
+    } catch (err: any) {
+      console.error("Error deleting account:", err);
+      toast.error(err?.data?.message || "Failed to delete account");
+    }
+  };
   return (
     <>
       <div className="font-GeneralSans animate-in fade-in slide-in-from-bottom-4 duration-700 relative">
@@ -71,7 +94,7 @@ const AccountSettings = () => {
                 <button
                   className="flex items-center justify-center gap-2 px-8 py-4 bg-white border-2 border-red-100 text-red-500 rounded-2xl text-sm font-bold hover:bg-red-500 hover:text-white hover:border-red-500 transition-all active:scale-95 shadow-sm"
                   onClick={() => {
-                    setIsDeleteAcountConfirmationModalOpen(true);
+                    setIsDeleteAccountConfirmationModalOpen(true);
                   }}
                 >
                   <IoTrashOutline size={18} />
@@ -88,8 +111,8 @@ const AccountSettings = () => {
       </div>
 
       <Modal
-        isModalOpen={isDeleteAcountConfirmationModalOpen}
-        setIsModalOpen={setIsDeleteAcountConfirmationModalOpen}
+        isModalOpen={isDeleteAccountConfirmationModalOpen}
+        setIsModalOpen={setIsDeleteAccountConfirmationModalOpen}
       >
         <div className="flex flex-col items-center text-center">
           {/* Icon */}
@@ -136,20 +159,25 @@ const AccountSettings = () => {
           {/* Action Buttons */}
           <div className="flex gap-3 w-full mt-6">
             <button
-              onClick={() => setIsDeleteAcountConfirmationModalOpen(false)}
+              onClick={() => setIsDeleteAccountConfirmationModalOpen(false)}
               className="flex-1 px-4 py-3 bg-neutral-30 hover:bg-neutral-35 text-neutral-10 rounded-xl font-medium transition-colors text-sm"
             >
               Cancel
             </button>
             <button
               onClick={() => {
-                setIsDeleteAcountConfirmationModalOpen(false);
-                // Delete Logic Here
+                handleDeleteAccount();
               }}
               className="flex-1 px-4 py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl font-medium transition-colors text-sm flex items-center justify-center gap-2"
             >
-              <IoTrashOutline className="w-4 h-4" />
-              Yes, Delete Account
+              {isLoading ? (
+                "Please wait..."
+              ) : (
+                <span className="flex gap-1 items-center">
+                  <IoTrashOutline className="w-4 h-4" />
+                  Yes, Delete Account
+                </span>
+              )}
             </button>
           </div>
         </div>

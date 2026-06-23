@@ -20,7 +20,18 @@ const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["user"],
     }),
-     getRazorpayKey: builder.query({
+
+    deleteAccount: builder.mutation({
+      query: (data) => ({
+        url: "/account/delete-account",
+        method: "PUT",
+        body: data,
+        credentials: "include",
+      }),
+      invalidatesTags: ["user"],
+    }),
+
+    getRazorpayKey: builder.query({
       query: () => ({
         url: "/get-key",
         method: "GET",
@@ -34,5 +45,6 @@ const userApi = baseApi.injectEndpoints({
 export const {
   useGetMeQuery,
   useUpdateProfileMutation,
+  useDeleteAccountMutation,
   useGetRazorpayKeyQuery
 } = userApi;
