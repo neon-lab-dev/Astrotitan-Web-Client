@@ -3,6 +3,8 @@ import Modal from "../../Reusable/Modal/Modal";
 import Button from "../../Reusable/Button/Button";
 import { intents } from "../../../constants/constants";
 import { IoCallOutline, IoChatbubblesOutline } from "react-icons/io5";
+import { useBookConsultationMutation } from "../../../redux/Features/Consultation/consultationApi";
+import { Link } from "react-router-dom";
 
 type TBookAstrologerModalProps = {
   isModalOpen: boolean;
@@ -14,23 +16,24 @@ const BookAstrologerModal: React.FC<TBookAstrologerModalProps> = ({
   setIsModalOpen,
   astrologerId,
 }) => {
+  const [bookConsultation, { isLoading }] = useBookConsultationMutation();
   const [step, setStep] = useState(1);
   const [method, setMethod] = useState<"chat" | "call" | null>(null);
   const [consultationFor, setConsultationFor] = useState("");
   const [requestMessage, setRequestMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const handleBookAppointment = () => {
+  const handleBookAppointment = async () => {
     const data = {
       astrologer: astrologerId,
       method,
       consultationFor,
       requestMessage,
     };
-    console.log("Booking Data:", data);
-
-    // Simulate API call
-    setIsSuccess(true);
+    const response = await bookConsultation(data).unwrap();
+    if (response?.success) {
+      setIsSuccess(true);
+    }
   };
 
   const handleClose = () => {
@@ -68,15 +71,17 @@ const BookAstrologerModal: React.FC<TBookAstrologerModalProps> = ({
             Booking Confirmed! 🎉
           </h3>
           <p className="text-sm text-neutral-10 mt-2">
-            Your appointment has been booked successfully. We'll notify you
-            shortly.
+            Your consultation request has been sent successfully. Please wait
+            for astrologer to accept your request.
           </p>
-          <Button
-            label="Done"
-            variant="primary"
-            className="w-full mt-6"
-            onClick={handleClose}
-          />
+          <Link to="/dashboard/user/session-history">
+            <Button
+              label="View Session History"
+              variant="primary"
+              className="w-full mt-6"
+              onClick={handleClose}
+            />
+          </Link>
         </div>
       );
     }
@@ -175,11 +180,12 @@ const BookAstrologerModal: React.FC<TBookAstrologerModalProps> = ({
           />
 
           <Button
-            label="Book Appointment"
+            label={isLoading ? "Please wait..." : "Book Appointment"}
             variant="primary"
             className="w-full mt-4"
             onClick={handleBookAppointment}
-            isDisabled={!consultationFor}
+            isLoading={isLoading}
+            isDisabled={isLoading}
           />
         </div>
       );

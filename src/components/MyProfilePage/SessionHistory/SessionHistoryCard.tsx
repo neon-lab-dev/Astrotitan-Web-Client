@@ -5,15 +5,18 @@ import {
   IoHourglassOutline,
 } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { formatDate } from "../../../utils/formatDate";
+import type { TConsultation } from "../../../types/consultation.type";
 
-const SessionHistoryCard = ({ booking }:{ booking: any}) => {
+const SessionHistoryCard = ({ booking }: { booking: TConsultation }) => {
+  console.log(booking);
   const getStatusStyles = (status: string) => {
     switch (status) {
-      case "Accepted":
+      case "accepted":
         return "bg-green-50 text-green-600 border-green-100";
-      case "Pending":
+      case "pending":
         return "bg-amber-50 text-amber-600 border-amber-100";
-      case "Ended":
+      case "ended":
         return "bg-slate-100 text-slate-500 border-slate-200";
       default:
         return "bg-neutral-20 text-neutral-10 border-neutral-30";
@@ -21,22 +24,22 @@ const SessionHistoryCard = ({ booking }:{ booking: any}) => {
   };
   return (
     <div
-      key={booking.id}
+      key={booking?._id}
       className={`group relative bg-white border border-primary-5/30 rounded-3xl p-4 md:p-5 transition-all duration-300 hover:shadow-xl hover:shadow-neutral-20/40 hover:border-primary-5/20`}
     >
       <div className="flex flex-col md:flex-row md:items-center gap-5">
         {/* Consultant Photo + Status Badge */}
         <div className="relative shrink-0">
           <img
-            src={booking.photo}
-            alt={booking.consultantName}
+            src={booking?.astrologer?.profilePicture}
+            alt={booking?.astrologer?.displayName}
             className="w-16 h-16 md:w-20 md:h-20 rounded-2xl object-cover shadow-sm ring-2 ring-transparent group-hover:ring-primary-5/10 transition-all"
           />
           <div
             className={`absolute -top-2 -left-2 px-2 py-0.5 rounded-lg border text-[9px] font-bold uppercase tracking-wider shadow-sm flex items-center gap-1 ${getStatusStyles(booking.status)}`}
           >
-            {booking.status === "Pending" && <IoHourglassOutline size={10} />}
-            {booking.status}
+            {booking?.status === "pending" && <IoHourglassOutline size={10} />}
+            {booking?.status}
           </div>
         </div>
 
@@ -45,10 +48,11 @@ const SessionHistoryCard = ({ booking }:{ booking: any}) => {
           <div className="flex items-start justify-between">
             <div>
               <h4 className="text-lg font-semibold text-neutral-5">
-                {booking.consultantName}
+                {booking?.astrologer?.displayName}
               </h4>
               <p className="text-sm text-neutral-10 font-Satoshi truncate max-w-62 md:max-w-md">
-                {booking.reason}
+                <span className="text-neutral-10">Purpose:</span>{" "}
+                {booking?.consultationFor}
               </p>
             </div>
           </div>
@@ -57,11 +61,11 @@ const SessionHistoryCard = ({ booking }:{ booking: any}) => {
             <div className="flex items-center gap-1.5 text-neutral-10 bg-neutral-20/30 px-2.5 py-1 rounded-lg">
               <IoCalendarOutline className="text-neutral-5" size={14} />
               <span className="text-xs font-semibold font-Satoshi">
-                {booking.date}
+                {formatDate(booking?.createdAt as string)}
               </span>
             </div>
             <span className="text-[10px] font-bold text-neutral-25 uppercase tracking-widest ml-auto">
-              ID: {booking.id}
+              ID: {booking?._id}
             </span>
           </div>
         </div>
@@ -69,12 +73,12 @@ const SessionHistoryCard = ({ booking }:{ booking: any}) => {
         {/* Actions Side */}
         <div className="flex md:flex-col gap-2 md:border-l md:border-neutral-20 md:pl-5 min-w-37">
           {/* Logic for Accepted and Ended (Both show Chat Now) */}
-          {(booking.status === "Accepted" || booking.status === "Ended") && (
+          {(booking?.status === "accepted" || booking?.status === "ended") && (
             <Link
-              to={`/dashboard/user/chat/${booking.id}`}
+              to={`/dashboard/user/chat/${booking?._id}`}
               className={`w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-sm font-bold transition-all 
         ${
-          booking.status === "Accepted"
+          booking?.status === "accepted"
             ? "bg-primary-5 text-white shadow-lg shadow-primary-5/20 hover:bg-primary-10 active:scale-95 cursor-pointer"
             : "bg-neutral-20/40 text-neutral-25 border border-neutral-20 cursor-not-allowed opacity-70"
         }`}
@@ -85,7 +89,7 @@ const SessionHistoryCard = ({ booking }:{ booking: any}) => {
           )}
 
           {/* Logic for Pending */}
-          {booking.status === "Pending" && (
+          {booking?.status === "pending" && (
             <div className="w-full py-3 bg-neutral-20/20 text-neutral-25 rounded-xl text-sm font-bold text-center cursor-default border border-dashed border-neutral-20">
               Awaiting...
             </div>
