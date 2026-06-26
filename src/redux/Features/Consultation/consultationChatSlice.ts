@@ -62,12 +62,12 @@ const consultationChatSlice = createSlice({
   name: "consultationChat",
   initialState,
   reducers: {
-    // ✅ Set chat list
+    // Set chat list
     setConsultationChatList: (state, action: PayloadAction<ConsultationChatUser[]>) => {
       state.chatList = action.payload;
     },
 
-    // ✅ Select a consultation
+    // Select a consultation
     setSelectedConsultation: (
       state,
       action: PayloadAction<{
@@ -79,12 +79,12 @@ const consultationChatSlice = createSlice({
       state.selectedParticipant = action.payload.participant;
     },
 
-    // ✅ Set messages for selected consultation
+    // Set messages for selected consultation
     setSelectedConsultationMessages: (state, action: PayloadAction<ConsultationChatMessage[]>) => {
       state.selectedConsultationMessages = action.payload;
     },
 
-    // ✅ Add a message to selected consultation
+    // Add a message to selected consultation
     // inside consultationChatSlice.ts
 
 addConsultationMessage: (state, action: PayloadAction<ConsultationChatMessage>) => {
@@ -122,7 +122,7 @@ updateConsultationMessageId: (
   }
 },
 
-    // ✅ Mark messages as read in a consultation
+    // Mark messages as read in a consultation
     markConsultationMessagesAsRead: (state, action: PayloadAction<string>) => {
       const consultationId = action.payload;
       state.selectedConsultationMessages = state.selectedConsultationMessages.map((msg) => {
@@ -141,7 +141,7 @@ updateConsultationMessageId: (
       });
     },
 
-    // ✅ Update unread count for a consultation
+    // Update unread count for a consultation
     updateUnreadCount: (
       state,
       action: PayloadAction<{ consultationId: string; unreadCount: number }>
@@ -155,7 +155,7 @@ updateConsultationMessageId: (
       });
     },
 
-    // ✅ Update chat status (when consultation status changes)
+    // Update chat status (when consultation status changes)
     updateConsultationStatus: (
       state,
       action: PayloadAction<{ consultationId: string; status: string }>
@@ -169,14 +169,14 @@ updateConsultationMessageId: (
       });
     },
 
-    // ✅ Clear selected consultation
+    // Clear selected consultation
     clearSelectedConsultation: (state) => {
       state.selectedConsultationId = null;
       state.selectedConsultationMessages = [];
       state.selectedParticipant = null;
     },
 
-    // ✅ Clear all chat data
+    // Clear all chat data
     clearConsultationChat: (state) => {
       state.chatList = [];
       state.selectedConsultationId = null;
@@ -185,7 +185,7 @@ updateConsultationMessageId: (
       state.onlineUsers = [];
     },
 
-    // ✅ Online users
+    // Online users
     setConsultationOnlineUsers: (state, action: PayloadAction<string[]>) => {
       state.onlineUsers = action.payload;
     },
@@ -200,7 +200,7 @@ updateConsultationMessageId: (
       state.onlineUsers = state.onlineUsers.filter((id) => id !== action.payload);
     },
 
-    // ✅ Loading states
+    // Loading states
     setConsultationChatLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },

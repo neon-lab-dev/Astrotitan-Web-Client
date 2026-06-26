@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   IoSend,
   IoShieldCheckmarkOutline,
   IoCloseCircleOutline,
-  IoHappyOutline,
   IoArrowBack,
 } from "react-icons/io5";
 import { HiOutlineSparkles } from "react-icons/hi";
@@ -27,12 +26,14 @@ import {
 import { IMAGES } from "../../assets";
 import toast from "react-hot-toast";
 import { useConsultationSocket } from "../../useConsultationSocket";
-import { useEndConsultationSessionMutation } from "../../redux/Features/Consultation/consultationApi";
+import {
+  useEndConsultationSessionMutation,
+  useGetSingleConsultationBookingQuery,
+} from "../../redux/Features/Consultation/consultationApi";
 
 const Chat = () => {
- const { id: consultationId } = useParams();
-  const [searchParams] = useSearchParams();
-  const astrologerId = searchParams.get("astrologer");
+  const { id: consultationId } = useParams();
+  const { data: consultation } = useGetSingleConsultationBookingQuery(consultationId);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -224,7 +225,9 @@ const Chat = () => {
       const response = await endConsultationSession(consultationId).unwrap();
       if (response?.success) {
         dispatch(clearSelectedConsultation());
-        navigate(`/dashboard/user/rate-astrologer/${astrologerId}/${consultationId}`);
+        navigate(
+          `/dashboard/user/rate-astrologer/${consultation?.data?.astrologer?._id}/${consultationId}`,
+        );
       }
     } catch (err: any) {
       console.log(err);
@@ -280,7 +283,7 @@ const Chat = () => {
 
         <div className="flex flex-col lg:flex-row gap-6 pb-20">
           {/* LEFT SIDE: CHAT INTERFACE */}
-          <div className="lg:w-2/3 flex flex-col bg-white rounded-[2.5rem] shadow-sm border border-slate-100 overflow-hidden min-h-[600px]">
+          <div className="lg:w-2/3 flex flex-col bg-white rounded-[2.5rem] shadow-sm border border-slate-100 overflow-hidden min-h-150">
             {/* Chat Header */}
             <div className="px-8 py-5 border-b border-slate-50 flex items-center justify-between bg-white sticky top-0 z-10">
               <div className="flex items-center gap-4">
@@ -322,20 +325,26 @@ const Chat = () => {
                 </div>
               </div>
 
-              <button
-                onClick={handleEndSession}
-                className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-500 rounded-xl text-xs font-bold hover:bg-red-500 hover:text-white transition-all group"
-              >
-                <IoCloseCircleOutline
-                  size={18}
-                  className="group-hover:rotate-90 transition-transform"
-                />
-                End Session
-              </button>
+              {consultation?.data?.status !== "ended" ? (
+                <button
+                  onClick={handleEndSession}
+                  className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-500 rounded-xl text-xs font-bold hover:bg-red-500 hover:text-white transition-all group"
+                >
+                  <IoCloseCircleOutline
+                    size={18}
+                    className="group-hover:rotate-90 transition-transform"
+                  />
+                  End Session
+                </button>
+              ) : (
+                <div className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-500 rounded-xl text-xs font-semibold">
+                  Session Ended
+                </div>
+              )}
             </div>
 
             {/* Chat Messages */}
-            <div className="flex-1 p-8 space-y-6 bg-neutral-20/10 overflow-y-auto max-h-[600px]">
+            <div className="flex-1 p-8 space-y-6 bg-neutral-20/10 overflow-y-auto max-h-150">
               {messages.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-neutral-45">
                   <HiOutlineSparkles
@@ -439,15 +448,17 @@ const Chat = () => {
                       handleSendMessage();
                     }
                   }}
+                  disabled={consultation?.data?.status === "ended"}
                   placeholder="Type your question here..."
                   className="flex-1 bg-transparent outline-none text-sm font-medium font-Satoshi text-neutral-5 placeholder:text-neutral-10/70"
                 />
-                <button className="p-2 text-neutral-10 hover:text-primary-5 transition-colors">
+                {/* <button className="p-2 text-neutral-10 hover:text-primary-5 transition-colors">
                   <IoHappyOutline size={22} />
-                </button>
+                </button> */}
                 <button
                   onClick={handleSendMessage}
                   className="bg-primary-5 text-white p-3 rounded-xl shadow-lg shadow-primary-5/20 hover:bg-primary-10 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={consultation?.data?.status === "ended"}
                 >
                   <IoSend size={18} />
                 </button>
@@ -480,7 +491,7 @@ const Chat = () => {
 
               <div className="mt-8 text-left">
                 <p className="text-sm text-neutral-10 text-center leading-relaxed italic">
-                  {/* {astrologerDetails.description} */}
+                  {consultation?.data?.astrologer?.bio}
                 </p>
               </div>
 

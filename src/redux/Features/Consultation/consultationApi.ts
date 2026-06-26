@@ -32,9 +32,9 @@ const consultationApi = baseApi.injectEndpoints({
       providesTags: ["consultation"],
     }),
 
-    getSingleConsultationBookings: builder.query({
-      query: () => ({
-        url: `/consultation/my-requests`,
+    getSingleConsultationBooking: builder.query({
+      query: (id) => ({
+        url: `/consultation/${id}`,
         method: "GET",
         credentials: "include",
       }),
@@ -74,7 +74,7 @@ const consultationApi = baseApi.injectEndpoints({
 
 export const {
   useGetMyConsultationBookingsQuery,
-  useGetSingleConsultationBookingsQuery,
+  useGetSingleConsultationBookingQuery,
   useBookConsultationMutation,
   useEndConsultationSessionMutation,
   useAddReviewMutation

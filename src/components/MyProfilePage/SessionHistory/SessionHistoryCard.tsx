@@ -15,7 +15,7 @@ const SessionHistoryCard = ({ booking }: { booking: TConsultation }) => {
   const navigate = useNavigate();
 
   const handleChatNow = () => {
-    // ✅ Get the other participant - the ASTROLOGER (not the user)
+    // Get the other participant - the ASTROLOGER (not the user)
     const participant = booking?.astrologer;
 
     if (!participant) {
@@ -42,7 +42,9 @@ const SessionHistoryCard = ({ booking }: { booking: TConsultation }) => {
     );
 
     // Navigate to chat page
-    navigate(`/dashboard/user/chat/${booking._id}?astrologer=${booking?.astrologer?._id}`);
+    navigate(
+      `/dashboard/user/chat/${booking?._id}`,
+    );
   };
 
   const getStatusStyles = (status: string) => {
@@ -151,6 +153,16 @@ const SessionHistoryCard = ({ booking }: { booking: TConsultation }) => {
             >
               <Button label="Add Feedback" />
             </Link>
+          )}
+
+          {/* Ended - Show Chat */}
+          {booking?.status === "ended" && (
+            <button
+              onClick={handleChatNow}
+              className="text-neutral-5 text-sm underline hover:text-primary-5"
+            >
+              View Past Conversations
+            </button>
           )}
 
           {/* Pending - Show Awaiting */}
