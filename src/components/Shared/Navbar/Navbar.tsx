@@ -29,7 +29,6 @@ const Navbar = () => {
   const { cartItems } = useCart();
   const pathname = useLocation().pathname;
   const user = useSelector(useCurrentUser) as TLoggedInUser;
-  console.log(user);
   const dispatch = useDispatch();
 
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);

@@ -89,7 +89,7 @@ const OrderSummary: React.FC<TOrderSummary> = ({
         key: apiKey?.key,
         amount: response?.data?.amount,
         currency: "INR",
-        name: "Hanjifinance",
+        name: "Astrotitan",
         description: "Test Transaction",
         image: "https://i.ibb.co/0jpqmJzJ/logo.png",
         order_id: response?.data?.id,
