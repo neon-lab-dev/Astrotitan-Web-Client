@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import {
   IoSend,
   IoShieldCheckmarkOutline,
@@ -30,7 +30,10 @@ import { useConsultationSocket } from "../../useConsultationSocket";
 import { useEndConsultationSessionMutation } from "../../redux/Features/Consultation/consultationApi";
 
 const Chat = () => {
-  const { id: consultationId } = useParams();
+ const { id: consultationId } = useParams();
+  const [searchParams] = useSearchParams();
+  const astrologerId = searchParams.get("astrologer");
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
@@ -221,7 +224,7 @@ const Chat = () => {
       const response = await endConsultationSession(consultationId).unwrap();
       if (response?.success) {
         dispatch(clearSelectedConsultation());
-        navigate("/dashboard/user/session-history");
+        navigate(`/dashboard/user/rate-astrologer/${astrologerId}/${consultationId}`);
       }
     } catch (err: any) {
       console.log(err);

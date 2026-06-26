@@ -42,7 +42,7 @@ const SessionHistoryCard = ({ booking }: { booking: TConsultation }) => {
     );
 
     // Navigate to chat page
-    navigate(`/dashboard/user/chat/${booking._id}`);
+    navigate(`/dashboard/user/chat/${booking._id}?astrologer=${booking?.astrologer?._id}`);
   };
 
   const getStatusStyles = (status: string) => {

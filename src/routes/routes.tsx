@@ -120,9 +120,9 @@ export const router = createBrowserRouter([
         element: <Chat />,
       },
       {
-  path: "rate-astrologer/:astrologerId/:consultationId",
-  element: <RateAstrologer />,
-},
+        path: "rate-astrologer/:astrologerId/:consultationId",
+        element: <RateAstrologer />,
+      },
     ],
   },
   {

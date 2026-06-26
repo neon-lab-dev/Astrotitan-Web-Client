@@ -6,6 +6,8 @@ import { IoSearchOutline } from "react-icons/io5";
 import { useGetAllAstrologersQuery } from "../../redux/Features/Astrologer/astrologerApi";
 import type { TAstrologer } from "../../types/astrologer.type";
 import { useState } from "react";
+import LogoLoader from "../../components/Reusable/LogoLoader/LogoLoader";
+import Loader from "../../components/Shared/Loader/Loader";
 
 const Astrologer = () => {
   const [keyword, setKeyword] = useState<string>("");
@@ -14,7 +16,7 @@ const Astrologer = () => {
   const [language, setLanguage] = useState<string>("");
   const [sortBy, setSortBy] = useState<string>("Relevance");
 
-  const { data } = useGetAllAstrologersQuery({
+  const { data, isLoading,isFetching } = useGetAllAstrologersQuery({
     keyword,
     limit: 10,
     page: 1,
@@ -25,6 +27,10 @@ const Astrologer = () => {
     sortBy,
   });
   const astrologers = data?.data?.astrologers || [];
+
+  if (isLoading) {
+    return <LogoLoader />;
+  }
   return (
     <Container>
       <div className="pt-10 pb-14">
@@ -58,6 +64,9 @@ const Astrologer = () => {
                 placeholder="Find astrologer by name"
               />
             </div>
+            {
+              isFetching && <Loader/>
+            }
             {astrologers?.map((astrologer: TAstrologer) => (
               <AstrologerListCard
                 key={astrologer?._id}
