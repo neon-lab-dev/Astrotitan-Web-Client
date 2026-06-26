@@ -91,7 +91,7 @@ const OrderSummary: React.FC<TOrderSummary> = ({
         currency: "INR",
         name: "Astrotitan",
         description: "Test Transaction",
-        image: "https://i.ibb.co/0jpqmJzJ/logo.png",
+        image: "https://i.ibb.co.com/6JsDTXJh/logo.webp",
         order_id: response?.data?.id,
         callback_url: `${backendBaseUrl}/api/v1/product-order/verify-payment`,
         prefill: {

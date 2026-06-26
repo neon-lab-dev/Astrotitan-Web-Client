@@ -11,9 +11,10 @@ import CancelSubscription from "./CancelSubscription/CancelSubscription";
 import { formatDate } from "./../../../utils/formatDate";
 import Button from "../../Reusable/Button/Button";
 import Plans from "./Plans";
+import Loader from "../../Shared/Loader/Loader";
 
 const Subscriptions = () => {
-  const { data } = useGetMySubscriptionQuery({});
+  const { data, isLoading } = useGetMySubscriptionQuery({});
   const [isCancelSubscriptionModalOpen, setIsCancelSubscriptionModalOpen] =
     useState<boolean>(false);
 
@@ -65,7 +66,11 @@ const Subscriptions = () => {
 
   // Active Subscription View
   if (isActive) {
-    return (
+    return isLoading ? (
+      <div className="min-h-150 flex items-center justify-center">
+        <Loader />
+      </div>
+    ) : (
       <>
         <div className="font-GeneralSans animate-in fade-in slide-in-from-bottom-4 duration-700">
           {/* Header */}
@@ -197,7 +202,11 @@ const Subscriptions = () => {
 
   // Cancelled Subscription View
   if (isCancelled) {
-    return (
+    return isLoading ? (
+      <div className="min-h-150 flex items-center justify-center">
+        <Loader />
+      </div>
+    ) : (
       <div className="font-GeneralSans animate-in fade-in slide-in-from-bottom-4 duration-700">
         <div>
           <h3 className="text-2xl font-semibold text-neutral-5/80 tracking-tight">
@@ -240,7 +249,11 @@ const Subscriptions = () => {
 
   // Expired Subscription View
   if (isExpired) {
-    return (
+    return isLoading ? (
+      <div className="min-h-150 flex items-center justify-center">
+        <Loader />
+      </div>
+    ) : (
       <div className="font-GeneralSans animate-in fade-in slide-in-from-bottom-4 duration-700">
         <div>
           <h3 className="text-2xl font-semibold text-neutral-5/80 tracking-tight">

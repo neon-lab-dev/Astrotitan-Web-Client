@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRef } from "react";
 import { BsChatRightDots } from "react-icons/bs";
-import { FaUserEdit } from "react-icons/fa";
+import { FaCrown, FaUserEdit } from "react-icons/fa";
 import { HiPencil } from "react-icons/hi";
 import {
   IoSettingsOutline,
@@ -149,6 +149,14 @@ const ProfileTab = () => {
           <p className="text-neutral-10 text-sm mt-1">
             Joined: {formatDate(profile?.createdAt)}
           </p>
+
+          {/* Premium Status Text */}
+          {profile?.isPremiumUser && (
+            <div className="mt-2 flex items-center gap-1.5 px-3 py-1 bg-primary-5/10 text-primary-5 rounded-full text-xs font-semibold">
+              <FaCrown size={12} />
+              Premium Member
+            </div>
+          )}
 
           {/* Upload Status */}
           {isUploading && (

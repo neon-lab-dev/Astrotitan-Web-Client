@@ -20,7 +20,7 @@ import {
 } from "../../../redux/Features/Subscription/subscriptionApi";
 import { useNavigate } from "react-router-dom";
 
-const Plans = ({plans} : {plans:any}) => {
+const Plans = ({ plans }: { plans: any }) => {
   const navigate = useNavigate();
   const user = useSelector(useCurrentUser) as TLoggedInUser;
   const [loading, setLoading] = useState<boolean>(false);
@@ -51,7 +51,7 @@ const Plans = ({plans} : {plans:any}) => {
         currency: "INR",
         name: "Astrotitan",
         description: "Premium Subscription Membership",
-        image: "https://i.ibb.co/0jpqmJzJ/logo.png",
+        image: "https://i.ibb.co.com/6JsDTXJh/logo.webp",
         order_id: orderData.id,
         prefill: {
           name: user?.name,
@@ -84,9 +84,7 @@ const Plans = ({plans} : {plans:any}) => {
 
   const handlePaymentSuccess = async () => {
     try {
-      await purchaseSubscription({
-
-      }).unwrap();
+      await purchaseSubscription({}).unwrap();
 
       toast.success("Subscription activated successfully!");
       // Redirect or refresh
@@ -113,7 +111,7 @@ const Plans = ({plans} : {plans:any}) => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto lg:mx-0 mt-12">
-        {plans.map((plan:any, index:number) => (
+        {plans.map((plan: any, index: number) => (
           <div
             key={index}
             className={`relative flex flex-col p-8 rounded-[2.5rem] transition-all duration-500 ${
@@ -161,7 +159,7 @@ const Plans = ({plans} : {plans:any}) => {
 
             {/* Feature List */}
             <ul className="space-y-4 mb-10 flex-1">
-              {plan.features.map((feature:string, index:number) => (
+              {plan.features.map((feature: string, index: number) => (
                 <li key={index} className="flex items-center gap-3">
                   <IoCheckmarkCircle
                     className={`shrink-0 ${plan.highlight ? "text-primary-5" : "text-green-500/60"}`}
@@ -186,21 +184,41 @@ const Plans = ({plans} : {plans:any}) => {
             </ul>
 
             {/* Action Button */}
-            <button
-              onClick={() => handleCheckoutSubscription()}
-              disabled={plan.isCurrent}
-              className={`w-full py-4 rounded-2xl text-sm font-semibold transition-all duration-300 flex items-center justify-center gap-2 ${
-                plan.isCurrent
-                  ? "bg-white text-primary-5 cursor-default border border-neutral-20"
-                  : "bg-primary-5 text-white hover:bg-primary-5 shadow-lg shadow-slate-900/10 hover:shadow-primary-5/20 active:scale-95"
-              }`}
-            >
-              {plan.isCurrent && <IoCheckmarkCircle size={18} />}
-              {plan.status}
-              {!plan.isCurrent && (
-                <IoDiamondOutline className="ml-1" size={16} />
-              )}
-            </button>
+            {plan.name === "Basic Plan" ? (
+              <div className="w-full py-4 rounded-2xl text-sm font-semibold flex items-center justify-center gap-2 bg-white shadow text-primary-5 border border-neutral-20 cursor-default">
+                <IoCheckmarkCircle size={18} />
+                Free Plan
+              </div>
+            ) : (
+              <button
+                onClick={() => handleCheckoutSubscription()}
+                disabled={plan.isCurrent || loading}
+                className={`w-full py-4 rounded-2xl text-sm font-semibold transition-all duration-300 flex items-center justify-center gap-2 ${
+                  plan.isCurrent
+                    ? "bg-white text-primary-5 cursor-default border border-neutral-20"
+                    : loading
+                      ? "bg-primary-5/70 text-white cursor-wait"
+                      : "bg-primary-5 text-white hover:bg-primary-5 shadow-lg shadow-slate-900/10 hover:shadow-primary-5/20 active:scale-95"
+                }`}
+              >
+                {loading ? (
+                  <>
+                    <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full" />
+                    Processing...
+                  </>
+                ) : plan.isCurrent ? (
+                  <>
+                    <IoCheckmarkCircle size={18} />
+                    {plan.status}
+                  </>
+                ) : (
+                  <>
+                    {plan.status}
+                    <IoDiamondOutline className="ml-1" size={16} />
+                  </>
+                )}
+              </button>
+            )}
           </div>
         ))}
       </div>
