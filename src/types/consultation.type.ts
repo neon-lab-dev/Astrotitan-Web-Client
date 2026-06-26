@@ -14,6 +14,7 @@ export type TConsultation = {
     method: "chat" | "call";         // Consultation method
     status: "pending" | "accepted" | "declined" | "ended";
     consultationFor: string;
+    requestMessage?: string;
     acceptedAt?: string;
     declinedAt?: string;
     endedAt?: string;

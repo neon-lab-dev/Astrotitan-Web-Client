@@ -16,6 +16,7 @@ import {
 
 import storageImport from "redux-persist/lib/storage";
 import { baseApi } from "./Api/baseApi";
+import consultationChatReducer from "./Features/Consultation/consultationChatSlice";
 
 // Fix for storage.default issue
 const storage =
@@ -36,6 +37,7 @@ export const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
     auth: persistedAuthReducer,
+    consultationChat: consultationChatReducer,
   },
 
   middleware: (getDefaultMiddleware) =>

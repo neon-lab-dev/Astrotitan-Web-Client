@@ -3,6 +3,7 @@ import { FaStar } from "react-icons/fa";
 import Button from "../../../../components/Reusable/Button/Button";
 import type { TAstrologer } from "../../../../types/astrologer.type";
 import { Link } from "react-router-dom";
+import { IoPerson } from "react-icons/io5";
 
 const AstrologerCard = ({
   astrologer,
@@ -19,17 +20,22 @@ const AstrologerCard = ({
     profilePicture,
     rating,
   } = astrologer;
-  console.log(rating);
   return (
     <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 max-w-xs w-full">
       {/* Image Section - Circle */}
       <div className="flex justify-center pt-5 pb-2">
         <div className="relative">
-          <img
-            src={profilePicture}
-            alt={displayName}
-            className="w-24 h-24 rounded-full object-cover border-4 border-primary-5/20"
-          />
+          {profilePicture ? (
+            <img
+              src={profilePicture}
+              alt={displayName}
+              className="w-24 h-24 rounded-full object-cover border-4 border-primary-5/20"
+            />
+          ) : (
+            <div className="w-24 h-24 rounded-full bg-primary-5/10 border-4 border-primary-5/20 flex items-center justify-center">
+              <IoPerson className="w-14 h-14 text-primary-5/60" />
+            </div>
+          )}
           {rating !== 0 && (
             <div className="absolute -bottom-1 right-0 bg-white/90 backdrop-blur-sm rounded-full px-2 py-0.5 flex items-center gap-1 shadow-sm">
               <FaStar className="w-3 h-3 text-yellow-400 fill-yellow-400" />

@@ -142,7 +142,7 @@ const AstrologerListCard = ({
       <BookAstrologerModal
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
-        astrologerId={_id}
+        astrologerId={_id as string}
       />
     </>
   );

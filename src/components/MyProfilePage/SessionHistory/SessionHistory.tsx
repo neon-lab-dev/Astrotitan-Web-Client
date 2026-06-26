@@ -6,8 +6,8 @@ import type { TConsultation } from "../../../types/consultation.type";
 const SessionHistory = () => {
   const [status, setStatus] = useState("All");
   const { data } = useGetMyConsultationBookingsQuery({ status });
-  console.log(data);
   const bookings = data?.data?.data || [];
+  console.log(data);
 
   return (
     <div className="font-GeneralSans animate-in fade-in slide-in-from-bottom-4 duration-700">

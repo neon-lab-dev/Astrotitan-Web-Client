@@ -10,6 +10,14 @@ export type TAstrologerReview = {
     createdAt: string;
 };
 
+export type TAvailability = {
+    availableDays: string[];
+    availableTime: {
+        startTime: string;
+        endTime: string;
+    };
+}
+
 export type TAstrologer = {
     _id: string;
     accountId?: string;
@@ -35,11 +43,5 @@ export type TAstrologer = {
     isProfileCompleted: boolean;
     rating?: number;
     reviews?: TAstrologerReview[];
-    availability?: {
-        availableDays: string[];
-        availableTime: {
-            startTime: string;
-            endTime: string;
-        };
-    };
+    availability?: TAvailability;
 };
