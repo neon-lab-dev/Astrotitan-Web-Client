@@ -2,6 +2,8 @@ import { MdVerified } from "react-icons/md";
 import type { TAstrologer } from "../../../types/astrologer.type";
 import BookAstrologerModal from "../../AstrologerPage/BookAstrologerModal/BookAstrologerModal";
 import { useState } from "react";
+import SubscriptionWarningModal from "../../AstrologerPage/SubscriptionWarningModal/SubscriptionWarningModal";
+import { useGetMeQuery } from "../../../redux/Features/User/userApi";
 
 const AstrologerProfileInfo = ({
   data,
@@ -11,6 +13,13 @@ const AstrologerProfileInfo = ({
   renderStars: (rating: number) => React.ReactNode;
 }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isSubscriptionWarningModalOpen, setIsSubscriptionWarningModalOpen] =
+    useState<boolean>(false);
+
+  const { data: myProfile } = useGetMeQuery({});
+
+  const profile = myProfile?.data?.profile || {};
+
   const {
     _id,
     displayName,
@@ -20,6 +29,14 @@ const AstrologerProfileInfo = ({
     profilePicture,
     rating,
   } = data;
+
+  const handleOpenBookingModal = () => {
+    if (profile?.isPremiumUser) {
+      setIsModalOpen(true);
+    } else {
+      setIsSubscriptionWarningModalOpen(true);
+    }
+  };
   return (
     <>
       <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
@@ -65,7 +82,7 @@ const AstrologerProfileInfo = ({
           </div>
 
           <button
-            onClick={() => setIsModalOpen(true)}
+            onClick={handleOpenBookingModal}
             className="flex items-center gap-2 px-5 py-2 text-sm font-medium text-white bg-primary-5 rounded-lg hover:bg-primary-10] transition-colors shadow-sm h-fit"
           >
             Consult Now
@@ -77,6 +94,11 @@ const AstrologerProfileInfo = ({
           <p className="text-slate-600 leading-relaxed">{bio}</p>
         </div>
       </div>
+
+      <SubscriptionWarningModal
+        isSubscriptionWarningModalOpen={isSubscriptionWarningModalOpen}
+        setIsSubscriptionWarningModalOpen={setIsSubscriptionWarningModalOpen}
+      />
       <BookAstrologerModal
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}

@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import type { TAstrologer } from "../../../types/astrologer.type";
 import { useState } from "react";
 import BookAstrologerModal from "../BookAstrologerModal/BookAstrologerModal";
+import { useGetMeQuery } from "../../../redux/Features/User/userApi";
+import SubscriptionWarningModal from "../SubscriptionWarningModal/SubscriptionWarningModal";
 
 const AstrologerListCard = ({
   isActionButtonsVisible = true,
@@ -23,9 +25,23 @@ const AstrologerListCard = ({
     profilePicture,
     availability,
     consultLanguages,
+    rating,
   } = astrologer;
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isSubscriptionWarningModalOpen, setIsSubscriptionWarningModalOpen] =
+    useState<boolean>(false);
+  const { data } = useGetMeQuery({});
+
+  const profile = data?.data?.profile || {};
+
+  const handleOpenBookingModal = () => {
+    if (profile?.isPremiumUser) {
+      setIsModalOpen(true);
+    } else {
+      setIsSubscriptionWarningModalOpen(true);
+    }
+  };
   return (
     <>
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300 p-6">
@@ -61,7 +77,9 @@ const AstrologerListCard = ({
                   </span>
                 </div>
               </div>
-              <span className="text-sm text-gray-500">⭐ 4.8</span>
+              {rating !==0 && (
+                <span className="text-sm text-gray-500">⭐ {rating}</span>
+              )}
             </div>
             <p className="text-gray-600 text-sm mt-2 line-clamp-2">{bio}</p>
           </div>
@@ -128,7 +146,7 @@ const AstrologerListCard = ({
                 Know More
               </Link>
               <button
-                onClick={() => setIsModalOpen(true)}
+                onClick={handleOpenBookingModal}
                 className="flex items-center gap-2 px-5 py-2 text-sm font-medium text-white bg-primary-5 rounded-lg hover:bg-primary-10] transition-colors shadow-sm"
               >
                 <FaHandshake className="w-4 h-4" />
@@ -139,6 +157,10 @@ const AstrologerListCard = ({
         </div>
       </div>
 
+      <SubscriptionWarningModal
+        isSubscriptionWarningModalOpen={isSubscriptionWarningModalOpen}
+        setIsSubscriptionWarningModalOpen={setIsSubscriptionWarningModalOpen}
+      />
       <BookAstrologerModal
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}

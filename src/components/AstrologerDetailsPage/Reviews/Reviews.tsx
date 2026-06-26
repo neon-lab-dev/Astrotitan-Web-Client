@@ -17,7 +17,7 @@ const Reviews: React.FC<TReviewsProps> = ({ rating, reviews, renderStars }) => {
               {rating}
             </p>
             <p className="text-xs text-slate-400 font-medium">
-              {reviews?.length} reviews
+              {reviews?.length} review{reviews?.length > 1 && "s"}
             </p>
           </div>
         </div>

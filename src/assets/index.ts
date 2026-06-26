@@ -33,6 +33,7 @@ import language from "./icons/language.svg";
 import cart from "./icons/cart.svg";
 import user from "./icons/user.svg";
 import tickMark from "./icons/tick-mark.svg";
+import notification from "./icons/notification.svg";
 
 // Images
 import logo from "./images/logo.webp";
@@ -141,5 +142,6 @@ export const ICONS = {
     language,
     cart,
     user,
-    tickMark
+    tickMark,
+    notification
 };

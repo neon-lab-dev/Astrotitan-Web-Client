@@ -48,7 +48,7 @@ const Blogs = () => {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-3.5 rounded-lg border border-gray-200 focus:outline-none focus:border-primary-5 focus:ring-2 focus:ring-primary-10/20 transition duration-300 bg-white"
-                placeholder="Search blogs by title, author, or keyword..."
+                placeholder="Search blogs by title or keyword..."
               />
             </div>
 

@@ -22,6 +22,7 @@ import { FaStar, FaGem, FaComments } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { useCurrentUser, logout, type TLoggedInUser } from "../../../redux/Features/Auth/authSlice";
 import { useCart } from "../../../providers/CartProvider/CartProvider";
+import Notification from "./Notification/Notification";
 
 export type TAuthModalType = "login" | "verifyOtp" | "signup";
 
@@ -228,6 +229,8 @@ const Navbar = () => {
                     </div>
                   </Link>
                 )}
+
+                <Notification/>
 
                 {user ? (
                   <div ref={userMenuRef} className="relative">

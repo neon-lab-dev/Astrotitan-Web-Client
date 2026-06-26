@@ -11,7 +11,7 @@ const GemstonePromo = () => {
           <h3 className="font-semibold text-gray-900">Gemstone Guide</h3>
           <p className="text-sm text-gray-500">Find your lucky gemstone</p>
           <Link
-            to="puja-and-products"
+            to="/products"
             className="text-xs text-primary-10 font-medium hover:underline"
           >
             Discover Now →
