@@ -1,4 +1,5 @@
 import type { TAstrologerReview } from "../../../types/astrologer.type";
+import { formatDate } from "../../../utils/formatDate";
 
 type TReviewsProps = {
   rating: number;
@@ -23,27 +24,27 @@ const Reviews: React.FC<TReviewsProps> = ({ rating, reviews, renderStars }) => {
       </div>
 
       <div className="space-y-8">
-        {reviews && reviews.length > 0 ? (
+        {reviews && reviews?.length > 0 ? (
           reviews?.map((review: TAstrologerReview, index: number) => (
             <div key={index} className="group">
               <div className="flex gap-4">
                 <img
-                  src={review.user.profilePicture}
+                  src={review?.user?.profilePicture}
                   className="w-12 h-12 rounded-full object-cover ring-2 ring-slate-100"
                   alt=""
                 />
                 <div className="flex-1">
                   <div className="flex items-center justify-between">
                     <h4 className="font-bold text-slate-900">
-                      {review.user.firstName} {review.user.lastName}
+                      {review?.user?.fullName}
                     </h4>
                     <span className="text-xs text-slate-400 font-medium">
-                      {new Date(review.createdAt).toLocaleDateString()}
+                      {formatDate(review?.createdAt)}
                     </span>
                   </div>
-                  <div className="mt-1 mb-2">{renderStars(review.rating)}</div>
+                  <div className="mt-1 mb-2">{renderStars(review?.rating)}</div>
                   <p className="text-slate-600 text-sm leading-relaxed bg-slate-50 p-4 rounded-xl group-hover:bg-slate-100/50 transition-colors">
-                    {review.review}
+                    {review?.review}
                   </p>
                 </div>
               </div>

@@ -39,6 +39,8 @@ const AstrologerDetails = () => {
       (astrologer: TAstrologer) => astrologer._id !== _id,
     ) || [];
 
+    console.log(reviews);
+
   const renderStars = (rating: number) => {
     const full = Math.floor(rating);
     const half = rating % 1 >= 0.5;

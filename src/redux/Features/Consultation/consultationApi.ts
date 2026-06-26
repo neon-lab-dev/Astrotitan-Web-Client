@@ -59,6 +59,16 @@ const consultationApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["consultation"],
     }),
+
+    addReview: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/consultation/review/add/${id}`,
+        method: "POST",
+        body: data,
+        credentials: "include",
+      }),
+      invalidatesTags: ["consultation"],
+    }),
   }),
 });
 
@@ -67,4 +77,5 @@ export const {
   useGetSingleConsultationBookingsQuery,
   useBookConsultationMutation,
   useEndConsultationSessionMutation,
+  useAddReviewMutation
 } = consultationApi;

@@ -28,6 +28,7 @@ import PujaBookings from "../components/MyProfilePage/PujaBookings/PujaBookings"
 import AccountSettings from "../components/MyProfilePage/AccountSettings/AccountSettings";
 import Chat from "../pages/Chat/Chat";
 import PaymentSuccess from "../pages/PaymentSuccess/PaymentSuccess";
+import RateAstrologer from "../pages/RateAstrologer/RateAstrologer";
 
 export const router = createBrowserRouter([
   {
@@ -118,6 +119,10 @@ export const router = createBrowserRouter([
         path: "chat/:id",
         element: <Chat />,
       },
+      {
+  path: "rate-astrologer/:astrologerId/:consultationId",
+  element: <RateAstrologer />,
+},
     ],
   },
   {

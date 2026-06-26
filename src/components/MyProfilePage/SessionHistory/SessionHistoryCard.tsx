@@ -3,11 +3,12 @@ import {
   IoChatbubblesOutline,
   IoHourglassOutline,
 } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { formatDate } from "../../../utils/formatDate";
 import type { TConsultation } from "../../../types/consultation.type";
 import { useDispatch } from "react-redux";
 import { setSelectedConsultation } from "../../../redux/Features/Consultation/consultationChatSlice";
+import Button from "../../Reusable/Button/Button";
 
 const SessionHistoryCard = ({ booking }: { booking: TConsultation }) => {
   const dispatch = useDispatch();
@@ -144,15 +145,12 @@ const SessionHistoryCard = ({ booking }: { booking: TConsultation }) => {
           )}
 
           {/* Ended - Show Chat Ended */}
-          {booking?.status === "ended" && (
-            <button
-              onClick={handleChatNow}
-              className="w-full flex items-center justify-center gap-2 px-5 py-3 bg-neutral-20/40 text-neutral-25 border border-neutral-20 rounded-xl text-sm font-bold cursor-not-allowed opacity-70"
-              disabled
+          {booking?.status === "ended" && !booking?.review && (
+            <Link
+              to={`/dashboard/user/rate-astrologer/${booking?.astrologer?._id}/${booking?._id}`}
             >
-              <IoChatbubblesOutline size={18} />
-              Chat Ended
-            </button>
+              <Button label="Add Feedback" />
+            </Link>
           )}
 
           {/* Pending - Show Awaiting */}
