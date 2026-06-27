@@ -10,10 +10,11 @@ import AuthorInfo from "../../components/BlogDetailsPage/AuthorInfo/AuthorInfo";
 import { useParams } from "react-router-dom";
 import { useGetSingleBlogByIdQuery } from "../../redux/Features/Blog/blogApi";
 import { formatDate } from "../../utils/formatDate";
+import LogoLoader from "../../components/Reusable/LogoLoader/LogoLoader";
 
 const BlogDetails = () => {
   const { id } = useParams();
-  const { data } = useGetSingleBlogByIdQuery(id);
+  const { data, isLoading } = useGetSingleBlogByIdQuery(id);
   const blog = data?.data || {};
   const {
     title,
@@ -24,6 +25,10 @@ const BlogDetails = () => {
     createdAt,
     content,
   } = blog;
+
+  if (isLoading) {
+    return <LogoLoader />;
+  }
 
   return (
     <div className="pt-10 pb-14">

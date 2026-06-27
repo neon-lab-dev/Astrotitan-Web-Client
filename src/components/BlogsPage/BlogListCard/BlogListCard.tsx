@@ -26,11 +26,11 @@ const BlogListCard = ({ blog }: { blog: TBlog }) => {
   const plainText = typeof content === "string" ? stripHtml(content) : "";
 
   return (
-    <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 p-5">
+    <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 p-4 md:p-5">
       <img
         src={thumbnail}
         alt="Blog"
-        className="rounded-lg w-full h-100 object-cover"
+        className="rounded-lg w-full h-40 md:h-100 object-cover"
       />
 
       {/* Meta Info */}

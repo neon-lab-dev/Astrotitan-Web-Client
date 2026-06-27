@@ -1,12 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import {
-  IoArrowBack,
-  IoHeartOutline,
-  IoHeart,
-  IoCheckmarkCircle,
-} from "react-icons/io5";
+import { IoArrowBack, IoCheckmarkCircle } from "react-icons/io5";
 import { FaStar, FaRegStar, FaStarHalfAlt, FaUserCircle } from "react-icons/fa";
 import { FaOm } from "react-icons/fa6";
 import Breadcrumb from "../../components/Reusable/Breadcrumb/Breadcrumb";
@@ -25,12 +20,12 @@ import {
   useGetSinglePujaByIdQuery,
 } from "../../redux/Features/Puja/pujaApi";
 import type { TPuja } from "../../types/puja.type";
+import LogoLoader from "../../components/Reusable/LogoLoader/LogoLoader";
 
 const PujaDetails = () => {
   const { id } = useParams();
-  const { data } = useGetSinglePujaByIdQuery(id);
+  const { data, isLoading } = useGetSinglePujaByIdQuery(id);
   const puja = data?.data || {};
-  const [isWishlisted, setIsWishlisted] = useState(false);
   const [activeTab, setActiveTab] = useState<
     "description" | "howToPerform" | "reviews"
   >("description");
@@ -38,7 +33,7 @@ const PujaDetails = () => {
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
   const [isBookPujaModalOpen, setIsBookPujaModalOpen] =
     useState<boolean>(false);
-  const { data: alPuja } = useGetAllPujaQuery({});
+  const { data: alPuja, isLoading: isAllPujaLoading } = useGetAllPujaQuery({});
 
   // Other Pujas
   const otherPujas = alPuja?.data?.pujas?.filter(
@@ -83,6 +78,10 @@ const PujaDetails = () => {
   const displayedReviews = showAllReviews
     ? puja?.reviews
     : puja?.reviews?.slice(0, 3);
+
+  if (isLoading || isAllPujaLoading) {
+    return <LogoLoader />;
+  }
 
   return (
     <div className="pt-10 pb-14">
@@ -146,30 +145,18 @@ const PujaDetails = () => {
 
             {/* Title & Basic Info */}
             <div className="bg-white rounded-2xl shadow-sm border border-neutral-30 p-6">
-              <div className="flex items-start justify-between">
-                <div>
-                  <h1 className="text-2xl font-bold text-neutral-5 leading-tight">
-                    {puja?.name}
-                  </h1>
-                  <div className="flex items-center gap-3 mt-2">
-                    <span className="text-xs text-neutral-25 bg-neutral-30 px-2.5 py-0.5 rounded-full">
-                      {puja?.category}
-                    </span>
-                    <span className="text-xs text-purple-600 bg-purple-50 px-2.5 py-0.5 rounded-full">
-                      {puja?.intent}
-                    </span>
-                  </div>
+              <div>
+                <h1 className="text-2xl font-bold text-neutral-5 leading-tight">
+                  {puja?.name}
+                </h1>
+                <div className="flex items-center gap-3 mt-2">
+                  <span className="text-xs text-neutral-25 bg-neutral-30 px-2.5 py-0.5 rounded-full">
+                    {puja?.category}
+                  </span>
+                  <span className="text-xs text-purple-600 bg-purple-50 px-2.5 py-0.5 rounded-full">
+                    {puja?.intent}
+                  </span>
                 </div>
-                <button
-                  onClick={() => setIsWishlisted(!isWishlisted)}
-                  className="p-2.5 rounded-full bg-neutral-30 hover:bg-neutral-15 transition-colors shrink-0 ml-3"
-                >
-                  {isWishlisted ? (
-                    <IoHeart className="w-5 h-5 text-red-500" />
-                  ) : (
-                    <IoHeartOutline className="w-5 h-5 text-neutral-10" />
-                  )}
-                </button>
               </div>
 
               <div className="flex items-center gap-4 mt-3">
@@ -455,66 +442,63 @@ const PujaDetails = () => {
             </div> */}
 
             {/* Related Pujas */}
-            {
-              otherPujas?.length > 0 && (
-                <div className="bg-white rounded-2xl shadow-sm border border-neutral-30 p-5">
-              <h3 className="text-sm font-semibold text-neutral-5 mb-3">
-                Other Pujas You May Like
-              </h3>
-              <div className="space-y-3">
-                {otherPujas?.map((puja: TPuja) => (
-                  <Link
-                    key={puja._id}
-                    to={`/puja/${puja?._id}`}
-                    className="flex items-center gap-3 p-2 rounded-xl hover:bg-neutral-30 transition-colors group"
-                  >
-                    <img
-                      src={puja?.imageUrls[0]}
-                      alt={puja?.name}
-                      className="w-14 h-14 rounded-lg object-cover shrink-0"
-                    />
-                    <div className="flex-1 min-w-0">
-                      <h4 className="text-sm font-medium text-neutral-5 group-hover:text-primary-5 transition-colors line-clamp-1">
-                        {puja?.name}
-                      </h4>
-                      <div className="flex items-center gap-2 mt-0.5">
-                        <div className="flex items-center gap-0.5">
-                          {[...Array(5)].map((_, i) => (
-                            <FaStar
-                              key={i}
-                              className={`w-3 h-3 ${i < Math.floor(puja?.rating ?? 0) ? "text-yellow-400 fill-current" : "text-neutral-35"}`}
-                            />
-                          ))}
+            {otherPujas?.length > 0 && (
+              <div className="bg-white rounded-2xl shadow-sm border border-neutral-30 p-5">
+                <h3 className="text-sm font-semibold text-neutral-5 mb-3">
+                  Other Pujas You May Like
+                </h3>
+                <div className="space-y-3">
+                  {otherPujas?.map((puja: TPuja) => (
+                    <Link
+                      key={puja._id}
+                      to={`/puja/${puja?._id}`}
+                      className="flex items-center gap-3 p-2 rounded-xl hover:bg-neutral-30 transition-colors group"
+                    >
+                      <img
+                        src={puja?.imageUrls[0]}
+                        alt={puja?.name}
+                        className="w-14 h-14 rounded-lg object-cover shrink-0"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <h4 className="text-sm font-medium text-neutral-5 group-hover:text-primary-5 transition-colors line-clamp-1">
+                          {puja?.name}
+                        </h4>
+                        <div className="flex items-center gap-2 mt-0.5">
+                          <div className="flex items-center gap-0.5">
+                            {[...Array(5)].map((_, i) => (
+                              <FaStar
+                                key={i}
+                                className={`w-3 h-3 ${i < Math.floor(puja?.rating ?? 0) ? "text-yellow-400 fill-current" : "text-neutral-35"}`}
+                              />
+                            ))}
+                          </div>
+                          <span className="text-xs text-neutral-25">
+                            {puja?.rating}
+                          </span>
                         </div>
-                        <span className="text-xs text-neutral-25">
-                          {puja?.rating}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-2 mt-0.5">
-                        {puja?.discountedPrice ? (
-                          <>
+                        <div className="flex items-center gap-2 mt-0.5">
+                          {puja?.discountedPrice ? (
+                            <>
+                              <span className="text-sm font-bold text-primary-5">
+                                ₹{puja?.discountedPrice}
+                              </span>
+                              <span className="text-xs text-neutral-35 line-through">
+                                ₹{puja?.basePrice}
+                              </span>
+                            </>
+                          ) : (
                             <span className="text-sm font-bold text-primary-5">
-                              ₹{puja?.discountedPrice}
-                            </span>
-                            <span className="text-xs text-neutral-35 line-through">
                               ₹{puja?.basePrice}
                             </span>
-                          </>
-                        ) : (
-                          <span className="text-sm font-bold text-primary-5">
-                            ₹{puja?.basePrice}
-                          </span>
-                        )}
+                          )}
+                        </div>
                       </div>
-                    </div>
-                    <IoArrowBack className="w-4 h-4 text-neutral-35 rotate-180 group-hover:text-primary-5 transition-colors shrink-0" />
-                  </Link>
-                ))}
+                      <IoArrowBack className="w-4 h-4 text-neutral-35 rotate-180 group-hover:text-primary-5 transition-colors shrink-0" />
+                    </Link>
+                  ))}
+                </div>
               </div>
-            </div>
-              )
-            }
-            
+            )}
           </div>
         </div>
       </Container>
@@ -540,7 +524,6 @@ const PujaDetails = () => {
         isModalOpen={isBookPujaModalOpen}
         setIsModalOpen={setIsBookPujaModalOpen}
       >
-       
         <BookPujaForm pujaId={puja._id} />
       </Modal>
     </div>

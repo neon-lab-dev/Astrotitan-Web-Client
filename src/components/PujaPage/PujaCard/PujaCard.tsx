@@ -104,7 +104,7 @@ const PujaCard = ({ puja }: { puja: TPuja }) => {
           </div>
 
           {/* Price & Actions */}
-          <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-0 mt-4 pt-4 border-t border-gray-100">
             <div>
               {puja?.discountedPrice ? (
                 <div className="flex items-center gap-2">
