@@ -20,9 +20,10 @@ import UpdatePersonalInfo from "./UpdatePersonalInfo";
 import UpdateBirthInfo from "./UpdateBirthInfo";
 import UpdateIntentsInfo from "./UpdateIntentsInfo";
 import UpdateZodiacSignModal from "../../UserDashboardHomePage/UpdateZodiacSignModal/UpdateZodiacSignModal";
+import Loader from "../../Shared/Loader/Loader";
 
 const PersonalDetails = () => {
-  const { data } = useGetMeQuery({});
+  const { data, isLoading } = useGetMeQuery({});
   const profile = data?.data?.profile || {};
   const account = data?.data?.account || {};
 
@@ -34,8 +35,16 @@ const PersonalDetails = () => {
   const [isUpdateZodiacSignModalOpen, setIsUpdateZodiacSignModalOpen] =
     useState<boolean>(false);
 
-  const labelTextStyle = "text-[13px] font-medium text-neutral-10";
-  const valueTextStyle = "font-medium text-neutral-5";
+  const labelTextStyle = "text-xs md:text-[13px] font-medium text-neutral-10";
+  const valueTextStyle = "text-sm md:text-base font-medium text-neutral-5";
+
+  if (isLoading) {
+    return (
+      <div className="min-h-150 flex items-center justify-center">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -43,7 +52,7 @@ const PersonalDetails = () => {
         {/* Header Section */}
         <div className="flex items-center justify-between mb-12">
           <div>
-            <h3 className="text-2xl font-semibold text-neutral-5/80 tracking-tight">
+            <h3 className="text-xl md:text-2xl font-semibold text-neutral-5/80 tracking-tight">
               Personal Details
             </h3>
             <p className="text-sm text-neutral-10 font-Satoshi mt-1">
@@ -61,7 +70,7 @@ const PersonalDetails = () => {
               className="text-primary-5 group-hover:text-white group-hover:scale-110 transition-transform"
               size={16}
             />
-            Edit Personal Info
+            Update
           </button>
         </div>
 
@@ -96,7 +105,7 @@ const PersonalDetails = () => {
                   {item.icon}
                 </div>
                 <p
-                  className={`font-medium text-neutral-5 ${item?.label === "Gender" ? "capitalize" : ""}`}
+                  className={`text-sm md:text-base font-medium text-neutral-5 ${item?.label === "Gender" ? "capitalize" : ""}`}
                 >
                   {item.value}
                 </p>
@@ -107,7 +116,7 @@ const PersonalDetails = () => {
 
         {/* Astrological Data Section */}
         <div className="flex items-center justify-between mb-5 mt-10">
-          <h3 className="text-2xl font-semibold text-neutral-5/80 tracking-tight flex items-center gap-3">
+          <h3 className="text-xl md:text-2xl font-semibold text-neutral-5/80 tracking-tight flex items-center gap-3">
             <span className="w-10 h-10 rounded-2xl bg-primary-5/10 text-primary-5 flex items-center justify-center shadow-sm shadow-primary-5/20">
               <FaRegCompass size={20} />
             </span>
@@ -124,7 +133,7 @@ const PersonalDetails = () => {
               className="text-primary-5 group-hover:text-white group-hover:scale-110 transition-transform"
               size={16}
             />
-            Update Birth Info
+            Update
           </button>
         </div>
 
@@ -180,7 +189,7 @@ const PersonalDetails = () => {
         </div>
 
         {/* Focus Areas */}
-        <div className="mt-12 bg-neutral-20/30 p-6 rounded-4xl border border-neutral-20/50 relative">
+        <div className="mt-6 md:mt-12 bg-neutral-20/30 p-6 rounded-2xl md:rounded-4xl border border-neutral-20/50 relative">
           <button
             onClick={() => {
               setUpdateFor("intentsInfo");

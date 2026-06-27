@@ -74,9 +74,9 @@ const AstrologerDetails = () => {
           ]}
         />
 
-        <div className="flex gap-8 mt-5">
+        <div className="flex flex-col lg:flex-row gap-8 mt-5">
           {/* LEFT COLUMN */}
-          <div className="w-[65%] space-y-6">
+          <div className="w-full lg:w-[65%] space-y-6">
             <AstrologerProfileInfo
               data={{
                 profilePicture,
@@ -102,7 +102,7 @@ const AstrologerDetails = () => {
           </div>
 
           {/* RIGHT COLUMN */}
-          <div className="w-[35%]">
+          <div className="w-full lg:w-[35%]">
             <MoreConsultants data={astrologersExceptCurrent} />
           </div>
         </div>

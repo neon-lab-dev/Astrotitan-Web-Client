@@ -75,7 +75,7 @@ const Subscriptions = () => {
         <div className="font-GeneralSans animate-in fade-in slide-in-from-bottom-4 duration-700">
           {/* Header */}
           <div>
-            <h3 className="text-2xl font-semibold text-neutral-5/80 tracking-tight">
+            <h3 className="text-xl md:text-2xl font-semibold text-neutral-5/80 tracking-tight">
               My Subscription
             </h3>
             <p className="text-sm text-neutral-10 font-Satoshi mt-1">
@@ -84,7 +84,7 @@ const Subscriptions = () => {
           </div>
 
           <div className="max-w-2xl mx-auto lg:mx-0 mt-8">
-            <div className="bg-white rounded-[2.5rem] border-2 border-primary-5 shadow-2xl shadow-primary-5/10 p-8 relative overflow-hidden">
+            <div className="bg-white rounded-none lg:rounded-[2.5rem] lg:border-2 lg:border-primary-5 border-0 shadow-2xl shadow-primary-5/10 p-0 lg:p-8 relative overflow-hidden">
               {/* Status Badge */}
               <div className="absolute top-4 right-4">
                 <span className="flex items-center gap-1.5 px-3 py-1 bg-green-50 text-green-700 rounded-full text-xs font-semibold">
@@ -111,7 +111,7 @@ const Subscriptions = () => {
               </div>
 
               {/* Subscription Details */}
-              <div className="grid grid-cols-2 gap-4 p-4 bg-neutral-20/30 rounded-2xl mb-6">
+              <div className="grid grid-cols-2 gap-4 p-4 bg-neutral-20/30 rounded-xl md:rounded-2xl mb-6">
                 <div>
                   <p className="text-xs text-neutral-10">Start Date</p>
                   <p className="text-sm font-semibold text-neutral-5">
@@ -154,7 +154,7 @@ const Subscriptions = () => {
               </div>
 
               {/* Features */}
-              <ul className="grid grid-cols-2 space-y-3 mb-6">
+              <ul className="grid grid-cols-1 md:grid-cols-2 space-y-3 mb-6">
                 {plans[1].features.map((feature, i) => (
                   <li key={i} className="flex items-center gap-3">
                     <IoCheckmarkCircle
@@ -209,7 +209,7 @@ const Subscriptions = () => {
     ) : (
       <div className="font-GeneralSans animate-in fade-in slide-in-from-bottom-4 duration-700">
         <div>
-          <h3 className="text-2xl font-semibold text-neutral-5/80 tracking-tight">
+          <h3 className="text-xl md:text-2xl font-semibold text-neutral-5/80 tracking-tight">
             Subscription Cancelled
           </h3>
           <p className="text-sm text-neutral-10 font-Satoshi mt-1">
@@ -256,7 +256,7 @@ const Subscriptions = () => {
     ) : (
       <div className="font-GeneralSans animate-in fade-in slide-in-from-bottom-4 duration-700">
         <div>
-          <h3 className="text-2xl font-semibold text-neutral-5/80 tracking-tight">
+          <h3 className="text-xl md:text-2xl font-semibold text-neutral-5/80 tracking-tight">
             Subscription Expired
           </h3>
           <p className="text-sm text-neutral-10 font-Satoshi mt-1">

@@ -3,18 +3,26 @@ import { IoReceiptOutline, IoFilterOutline } from "react-icons/io5";
 import SessionHistoryCard from "./SessionHistoryCard";
 import { useGetMyConsultationBookingsQuery } from "../../../redux/Features/Consultation/consultationApi";
 import type { TConsultation } from "../../../types/consultation.type";
+import Loader from "../../Shared/Loader/Loader";
 const SessionHistory = () => {
   const [status, setStatus] = useState("All");
-  const { data } = useGetMyConsultationBookingsQuery({ status });
+  const { data, isLoading } = useGetMyConsultationBookingsQuery({ status });
   const bookings = data?.data?.data || [];
-  console.log(data);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-150 flex items-center justify-center">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className="font-GeneralSans animate-in fade-in slide-in-from-bottom-4 duration-700">
       {/* Header with Filter */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
         <div>
-          <h3 className="text-2xl font-semibold text-neutral-5/80 tracking-tight">
+          <h3 className="text-xl md:text-2xl font-semibold text-neutral-5/80 tracking-tight">
             My Bookings
           </h3>
           <p className="text-sm text-neutral-10 font-Satoshi mt-1">
@@ -44,7 +52,7 @@ const SessionHistory = () => {
 
       {/* Session History List */}
       <div className="space-y-4">
-        {bookings?.map((booking:TConsultation) => (
+        {bookings?.map((booking: TConsultation) => (
           <SessionHistoryCard key={booking?._id} booking={booking} />
         ))}
       </div>

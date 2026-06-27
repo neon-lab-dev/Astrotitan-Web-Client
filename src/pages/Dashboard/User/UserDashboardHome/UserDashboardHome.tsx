@@ -38,9 +38,7 @@ const UserDashboardHome = () => {
       <Container>
         <h3 className="text-neutral-5 text-xl font-medium">
           Good morning,{" "}
-          <span className="font-semibold">
-            {myProfile?.fullName}
-          </span>
+          <span className="font-semibold">{myProfile?.fullName}</span>
         </h3>
         <p className="text-neutral-5 text-sm mt-1.5">
           A quick overview of how today’s planetary positions may influence your
@@ -93,35 +91,37 @@ const UserDashboardHome = () => {
             areas of life.
           </p>
 
-          <div className="flex items-center gap-4 mt-6">
-            {[1, 2, 3, 4, 5, 6, 7]?.map((_, index) => (
-              <div
-                key={index}
-                className="relative w-46 overflow-hidden bg-neutral-15 border border-primary-5 rounded-xl"
-              >
-                <div className="p-4">
-                  <div
-                    className="relative size-8 rounded-full transition-all duration-500 ease-out"
-                    style={{
-                      background: `conic-gradient(from 0deg, #D4AF37 0deg 50deg, #E8DFC8 80deg 360deg)`,
-                    }}
-                  >
-                    <div className="absolute inset-1.5 rounded-full bg-[#F5F2EA] flex items-center justify-center"></div>
+          <div className="flex w-full overflow-x-auto items-center gap-4 mt-6">
+            <div className="flex gap-4 min-w-max">
+              {[1, 2, 3, 4, 5, 6, 7]?.map((_, index) => (
+                <div
+                  key={index}
+                  className="relative w-46 flex-shrink-0 overflow-hidden bg-neutral-15 border border-primary-5 rounded-xl"
+                >
+                  <div className="p-4">
+                    <div
+                      className="relative size-8 rounded-full transition-all duration-500 ease-out"
+                      style={{
+                        background: `conic-gradient(from 0deg, #D4AF37 0deg 50deg, #E8DFC8 80deg 360deg)`,
+                      }}
+                    >
+                      <div className="absolute inset-1.5 rounded-full bg-[#F5F2EA] flex items-center justify-center"></div>
+                    </div>
+
+                    <h3 className="text-neutral-5 text-xl font-semibold mt-2">
+                      75%
+                    </h3>
+                    <p className="text-neutral-10 text-sm mt-1">Love</p>
                   </div>
 
-                  <h3 className="text-neutral-5 text-xl font-semibold mt-2">
-                    75%
-                  </h3>
-                  <p className="text-neutral-10 text-sm mt-1">Love</p>
+                  <img
+                    src={ICONS.love}
+                    alt=""
+                    className="absolute -top-4 -right-5 w-28 opacity-10"
+                  />
                 </div>
-
-                <img
-                  src={ICONS.love}
-                  alt=""
-                  className="absolute -top-4 -right-5 w-28 opacity-10"
-                />
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 
@@ -168,9 +168,11 @@ const UserDashboardHome = () => {
               View All <img src={ICONS.arrowRight} alt="" className="size-5" />
             </Link>
           </div>
-          <div className="grid grid-cols-5 gap-4 mt-6">
+          <div className="flex overflow-x-auto gap-4 mt-6 hide-scrollbar">
             {astrologers?.data?.astrologers?.map((astrologer: TAstrologer) => (
-              <AstrologerCard key={astrologer._id} astrologer={astrologer} />
+              <div key={astrologer._id} className="flex-shrink-0 w-64">
+                <AstrologerCard astrologer={astrologer} />
+              </div>
             ))}
           </div>
         </div>

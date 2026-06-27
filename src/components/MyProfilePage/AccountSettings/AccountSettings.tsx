@@ -36,7 +36,7 @@ const AccountSettings = () => {
         {/* Header Section */}
         <div className="flex items-center justify-between mb-10">
           <div>
-            <h3 className="text-2xl font-semibold text-neutral-5/80 tracking-tight">
+            <h3 className="text-xl md:text-2xl font-semibold text-neutral-5/80 tracking-tight">
               Account Settings
             </h3>
             <p className="text-sm text-neutral-10 font-Satoshi mt-1">
@@ -160,7 +160,7 @@ const AccountSettings = () => {
           <div className="flex gap-3 w-full mt-6">
             <button
               onClick={() => setIsDeleteAccountConfirmationModalOpen(false)}
-              className="flex-1 px-4 py-3 bg-neutral-30 hover:bg-neutral-35 text-neutral-10 rounded-xl font-medium transition-colors text-sm"
+              className="flex-1 md:px-4 py-3 bg-neutral-30 hover:bg-neutral-35 text-neutral-10 rounded-xl font-medium transition-colors text-xs md:text-sm"
             >
               Cancel
             </button>
@@ -168,14 +168,14 @@ const AccountSettings = () => {
               onClick={() => {
                 handleDeleteAccount();
               }}
-              className="flex-1 px-4 py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl font-medium transition-colors text-sm flex items-center justify-center gap-2"
+              className="flex-1 px-2 md:px-4 py-1 bg-red-500 hover:bg-red-600 text-white rounded-xl font-medium transition-colors text-xs md:text-sm flex items-center justify-center gap-2"
             >
               {isLoading ? (
                 "Please wait..."
               ) : (
                 <span className="flex gap-1 items-center">
                   <IoTrashOutline className="w-4 h-4" />
-                  Yes, Delete Account
+                  Delete Account
                 </span>
               )}
             </button>

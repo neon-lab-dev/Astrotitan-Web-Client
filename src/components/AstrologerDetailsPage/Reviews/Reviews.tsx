@@ -43,11 +43,15 @@ const Reviews: React.FC<TReviewsProps> = ({ rating, reviews, renderStars }) => {
                     </span>
                   </div>
                   <div className="mt-1 mb-2">{renderStars(review?.rating)}</div>
-                  <p className="text-slate-600 text-sm leading-relaxed bg-slate-50 p-4 rounded-xl group-hover:bg-slate-100/50 transition-colors">
+                  <p className="hidden md:block text-neutral-10 text-sm leading-relaxed bg-slate-50 p-4 rounded-xl group-hover:bg-slate-100/50 transition-colors">
                     {review?.review}
                   </p>
                 </div>
               </div>
+
+              <p className="text-neutral-10 text-sm leading-relaxed mt-4 block md:hidden">
+                {review?.review}
+              </p>
             </div>
           ))
         ) : (

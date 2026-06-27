@@ -20,7 +20,7 @@ import { formatDate } from "../../../utils/formatDate";
 import toast from "react-hot-toast";
 
 const ProfileTab = () => {
-  const { data, refetch } = useGetMeQuery({});
+  const { data, isLoading, refetch } = useGetMeQuery({});
   const [updateProfile, { isLoading: isUploading }] =
     useUpdateProfileMutation();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -108,28 +108,36 @@ const ProfileTab = () => {
   };
 
   return (
-    <div className="lg:w-1/3 space-y-6 font-GeneralSans sticky top-26 h-fit">
-      <div className="bg-white rounded-4xl p-8 shadow-sm border border-slate-100">
+    <div className="w-full lg:w-1/3 space-y-6 font-GeneralSans lg:sticky top-26 h-fit">
+      <div className="bg-none lg:bg-white rounded-4xl p-0 lg:p-8 shadow-none lg:shadow-sm border-none lg:border border-slate-100">
         <div className="flex flex-col items-center text-center">
           <div className="relative group">
-            <img
-              src={profile?.profilePicture || "https://via.placeholder.com/128"}
-              className="w-32 h-32 rounded-3xl object-cover ring-4 ring-primary-5/10"
-              alt="Profile"
-            />
+            {isLoading ? (
+              <div className="w-32 h-32 rounded-3xl bg-gray-200 animate-pulse ring-4 ring-primary-5/10" />
+            ) : (
+              <img
+                src={
+                  profile?.profilePicture || "https://via.placeholder.com/128"
+                }
+                className="w-32 h-32 rounded-3xl object-cover ring-4 ring-primary-5/10"
+                alt="Profile"
+              />
+            )}
 
-            {/* Upload Button */}
-            <button
-              onClick={handleEditClick}
-              disabled={isUploading}
-              className="absolute -bottom-2 -right-2 p-2 border border-primary-5/50 bg-white text-primary-5 hover:text-white rounded-xl shadow-lg hover:bg-primary-5 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isUploading ? (
-                <div className="z-20 animate-spin h-4 w-4 border-2 border-primary-5 border-t-transparent rounded-full" />
-              ) : (
-                <HiPencil size={18} />
-              )}
-            </button>
+            {/* Upload Button - Hidden when loading */}
+            {!isLoading && (
+              <button
+                onClick={handleEditClick}
+                disabled={isUploading}
+                className="absolute -bottom-2 -right-2 p-2 border border-primary-5/50 bg-white text-primary-5 hover:text-white rounded-xl shadow-lg hover:bg-primary-5 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isUploading ? (
+                  <div className="z-20 animate-spin h-4 w-4 border-2 border-primary-5 border-t-transparent rounded-full" />
+                ) : (
+                  <HiPencil size={18} />
+                )}
+              </button>
+            )}
 
             {/* Hidden File Input */}
             <input
@@ -141,21 +149,31 @@ const ProfileTab = () => {
             />
           </div>
 
-          <h2 className="mt-6 text-2xl font-semibold text-neutral-5">
-            {profile?.fullName ||
-              profile?.firstName + " " + profile?.lastName ||
-              "User"}
-          </h2>
-          <p className="text-neutral-10 text-sm mt-1">
-            Joined: {formatDate(profile?.createdAt)}
-          </p>
+          {isLoading ? (
+            <>
+              <div className="mt-6 h-8 w-48 bg-gray-200 rounded-lg animate-pulse" />
+              <div className="mt-1 h-4 w-32 bg-gray-200 rounded-lg animate-pulse" />
+              <div className="mt-2 h-6 w-32 bg-gray-200 rounded-full animate-pulse" />
+            </>
+          ) : (
+            <>
+              <h2 className="mt-6 text-2xl font-semibold text-neutral-5">
+                {profile?.fullName ||
+                  profile?.firstName + " " + profile?.lastName ||
+                  "User"}
+              </h2>
+              <p className="text-neutral-10 text-sm mt-1">
+                Joined: {formatDate(profile?.createdAt)}
+              </p>
 
-          {/* Premium Status Text */}
-          {profile?.isPremiumUser && (
-            <div className="mt-2 flex items-center gap-1.5 px-3 py-1 bg-primary-5/10 text-primary-5 rounded-full text-xs font-semibold">
-              <FaCrown size={12} />
-              Premium Member
-            </div>
+              {/* Premium Status Text */}
+              {profile?.isPremiumUser && (
+                <div className="mt-2 flex items-center gap-1.5 px-3 py-1 bg-primary-5/10 text-primary-5 rounded-full text-xs font-semibold">
+                  <FaCrown size={12} />
+                  Premium Member
+                </div>
+              )}
+            </>
           )}
 
           {/* Upload Status */}

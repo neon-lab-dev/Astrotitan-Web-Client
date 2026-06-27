@@ -41,11 +41,11 @@ const AstrologerProfileInfo = ({
     <>
       <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
         <div className="flex flex-col md:flex-row gap-6">
-          <div className="relative">
+          <div className="relative size-32">
             <img
               src={profilePicture}
               alt={displayName}
-              className="w-32 h-32 rounded-2xl object-cover border-4 border-white shadow-lg shadow-black/5"
+              className="rounded-2xl object-cover border-4 border-white shadow-lg shadow-black/5"
             />
             <div className="absolute -bottom-2 -right-2 bg-blue-500 text-white p-1.5 rounded-full border-4 border-white">
               <MdVerified size={18} />
@@ -83,7 +83,7 @@ const AstrologerProfileInfo = ({
 
           <button
             onClick={handleOpenBookingModal}
-            className="flex items-center gap-2 px-5 py-2 text-sm font-medium text-white bg-primary-5 rounded-lg hover:bg-primary-10] transition-colors shadow-sm h-fit"
+            className="flex items-center justify-center gap-2 px-5 py-2 text-sm font-medium text-white bg-primary-5 rounded-lg hover:bg-primary-10] transition-colors shadow-sm h-fit"
           >
             Consult Now
           </button>

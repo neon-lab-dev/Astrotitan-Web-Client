@@ -1,27 +1,33 @@
 import { useState } from "react";
 import { IoAdd } from "react-icons/io5";
 import AddressCard from "./AddressCard";
-import {
-  useGetMyAddressesQuery,
-} from "../../../redux/Features/Address/addressApi";
+import { useGetMyAddressesQuery } from "../../../redux/Features/Address/addressApi";
 import Drawer from "../../Reusable/Drawer/Drawer";
 import AddOrEditAddressForm from "./AddOrEditAddressForm";
 import type { TAddress } from "../../../types/address.type";
+import Loader from "../../Shared/Loader/Loader";
 
 const MyAddresses = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [actionType, setActionType] = useState<"add" | "edit">("add");
   const [selectedAddressId, setSelectedAddressId] = useState<string>("");
-  const { data } = useGetMyAddressesQuery({});
+  const { data, isLoading } = useGetMyAddressesQuery({});
   const addresses = data?.data || [];
-  
+
+  if (isLoading) {
+    return (
+      <div className="min-h-150 flex items-center justify-center">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className="font-GeneralSans animate-in fade-in slide-in-from-bottom-4 duration-700">
       {/* Header - Styled as requested */}
-      <div className="flex items-center justify-between mb-10">
+      <div className="flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-0 justify-between mb-10">
         <div>
-          <h3 className="text-2xl font-semibold text-neutral-5/80 tracking-tight">
+          <h3 className="text-xl md:text-2xl font-semibold text-neutral-5/80 tracking-tight">
             My Addresses
           </h3>
           <p className="text-sm text-neutral-10 font-Satoshi mt-1">

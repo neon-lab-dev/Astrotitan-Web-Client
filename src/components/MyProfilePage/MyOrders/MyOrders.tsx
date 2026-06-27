@@ -3,19 +3,28 @@ import { IoBagHandleOutline, IoFilterOutline } from "react-icons/io5";
 import MyOrderCard from "./MyOrderCard";
 import { useGetMyProductOrdersQuery } from "../../../redux/Features/ProductOrders/productOrdersApi";
 import type { TProductOrder } from "../../../types/productOrder.type";
+import Loader from "../../Shared/Loader/Loader";
 
 const MyOrders = () => {
   const [status, setStatus] = useState("All");
-  const { data } = useGetMyProductOrdersQuery({ status });
+  const { data, isLoading } = useGetMyProductOrdersQuery({ status });
 
   const orders = data?.data?.orders || [];
+
+  if (isLoading) {
+    return (
+      <div className="min-h-150 flex items-center justify-center">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className="font-Satoshi animate-in fade-in slide-in-from-bottom-4 duration-700">
       {/* Header with Filter */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
         <div className="font-GeneralSans">
-          <h3 className="text-2xl font-semibold text-neutral-5/80 tracking-tight">
+          <h3 className="text-xl md:text-2xl font-semibold text-neutral-5/80 tracking-tight">
             My Orders
           </h3>
           <p className="text-sm text-neutral-10 font-Satoshi mt-1">

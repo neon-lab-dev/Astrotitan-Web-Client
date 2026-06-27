@@ -3,17 +3,26 @@ import PujaBookingCard from "./PujaBookingCard";
 import { Link } from "react-router-dom";
 import { useGetMyPujaBookingsQuery } from "../../../redux/Features/Puja/pujaBookingApi";
 import type { TPujaBooking } from "../../../types/pujaBooking.type";
+import Loader from "../../Shared/Loader/Loader";
 
 const PujaBookings = () => {
-  const { data } = useGetMyPujaBookingsQuery({});
+  const { data, isLoading } = useGetMyPujaBookingsQuery({});
   const pujaBookings = data?.data?.data || [];
+
+  if (isLoading) {
+    return (
+      <div className="min-h-150 flex items-center justify-center">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className="font-GeneralSans animate-in fade-in slide-in-from-bottom-4 duration-700">
       {/* Header Section */}
-      <div className="flex items-center justify-between mb-12">
+      <div className="flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-0  justify-between mb-12">
         <div>
-          <h3 className="text-2xl font-semibold text-neutral-5/80 tracking-tight">
+          <h3 className="text-xl md:text-2xl font-semibold text-neutral-5/80 tracking-tight">
             Puja Bookings
           </h3>
           <p className="text-sm text-neutral-10 font-Satoshi mt-1">

@@ -24,8 +24,8 @@ const UserProfileLayout = () => {
           <ProfileTab />
 
           {/* RIGHT CONTENT - The Detail View */}
-          <div className="lg:w-2/3">
-            <div className="bg-white rounded-4xl p-8 shadow-sm border border-slate-100">
+          <div className="w-full lg:lg:w-2/3 border-t pt-5 border-slate-100">
+            <div className="bg-none lg:bg-white rounded-4xl p-0 lg:p-8 shadow-none lg:shadow-sm border-none lg:border border-slate-100 min-h-150">
               <Outlet />
             </div>
           </div>
