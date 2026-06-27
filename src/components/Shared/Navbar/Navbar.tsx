@@ -19,8 +19,12 @@ import {
   IoSettingsOutline,
 } from "react-icons/io5";
 import { FaStar, FaGem, FaComments } from "react-icons/fa";
-import { useDispatch } from "react-redux";
-import { logout } from "../../../redux/Features/Auth/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  logout,
+  useCurrentUser,
+  type TLoggedInUser,
+} from "../../../redux/Features/Auth/authSlice";
 import { useCart } from "../../../providers/CartProvider/CartProvider";
 import Notification from "./Notification/Notification";
 import { useGetMeQuery } from "../../../redux/Features/User/userApi";
@@ -30,9 +34,11 @@ export type TAuthModalType = "login" | "verifyOtp" | "signup";
 const Navbar = () => {
   const { cartItems } = useCart();
   const pathname = useLocation().pathname;
+  const user = useSelector(useCurrentUser) as TLoggedInUser;
   const { data: myProfile } = useGetMeQuery({});
 
   const profile = myProfile?.data?.profile || {};
+  console.log(profile);
   const dispatch = useDispatch();
 
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
@@ -236,9 +242,9 @@ const Navbar = () => {
                     </Link>
                   )}
 
-                  <Notification />
+                  {user && <Notification />}
 
-                  {profile ? (
+                  {user ? (
                     <div ref={userMenuRef} className="relative">
                       <button
                         onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
