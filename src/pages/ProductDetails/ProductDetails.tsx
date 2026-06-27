@@ -30,12 +30,13 @@ import {
 import type { TProduct } from "../../types/product.type";
 import toast from "react-hot-toast";
 import { useCart } from "../../providers/CartProvider/CartProvider";
+import LogoLoader from "../../components/Reusable/LogoLoader/LogoLoader";
 
 const ProductDetails = () => {
   const { addToCart } = useCart();
   const { id } = useParams();
   const navigate = useNavigate();
-  const { data } = useGetSingleProductByIdQuery(id);
+  const { data, isLoading } = useGetSingleProductByIdQuery(id);
   const product = data?.data || {};
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState<
@@ -90,7 +91,8 @@ const ProductDetails = () => {
     ? product?.reviews
     : product?.reviews?.slice(0, 3);
 
-  const { data: allProducts } = useGetAllProductsQuery({});
+  const { data: allProducts, isLoading: isAllProductsLoading } =
+    useGetAllProductsQuery({});
 
   const otherProducts = allProducts?.data?.data?.filter(
     (product: any) => product._id !== id,
@@ -125,37 +127,41 @@ const ProductDetails = () => {
   }
 
   const handleShare = async () => {
-  const shareData = {
-    title: product?.name || "Check out this product",
-    text: `Check out ${product?.name} - ${product?.description?.substring(0, 100) || ''}`,
-    url: window.location.href,
-  };
+    const shareData = {
+      title: product?.name || "Check out this product",
+      text: `Check out ${product?.name} - ${product?.description?.substring(0, 100) || ""}`,
+      url: window.location.href,
+    };
 
-  try {
-    // Check if Web Share API is supported
-    if (navigator.share) {
-      // Mobile - Use native share dialog
-      await navigator.share(shareData);
-    } else {
-      // Desktop - Copy link to clipboard and show toast
-      await navigator.clipboard.writeText(window.location.href);
-      toast.success("Product link copied to clipboard!");
-    }
-  } catch (error) {
-    // User cancelled or error occurred
-    if (error instanceof Error && error.name !== 'AbortError') {
-      console.error('Error sharing:', error);
-      // Fallback: copy to clipboard
-      try {
+    try {
+      // Check if Web Share API is supported
+      if (navigator.share) {
+        // Mobile - Use native share dialog
+        await navigator.share(shareData);
+      } else {
+        // Desktop - Copy link to clipboard and show toast
         await navigator.clipboard.writeText(window.location.href);
         toast.success("Product link copied to clipboard!");
-      } catch (clipboardError: any) {
-        console.log(clipboardError);
-        toast.error("Unable to share or copy link");
+      }
+    } catch (error) {
+      // User cancelled or error occurred
+      if (error instanceof Error && error.name !== "AbortError") {
+        console.error("Error sharing:", error);
+        // Fallback: copy to clipboard
+        try {
+          await navigator.clipboard.writeText(window.location.href);
+          toast.success("Product link copied to clipboard!");
+        } catch (clipboardError: any) {
+          console.log(clipboardError);
+          toast.error("Unable to share or copy link");
+        }
       }
     }
+  };
+
+  if (isLoading || isAllProductsLoading) {
+    return <LogoLoader />;
   }
-};
 
   return (
     <div className="pt-10 pb-14 font-GeneralSans">
@@ -177,7 +183,7 @@ const ProductDetails = () => {
                 modules={[Thumbs, Autoplay]} // Removed Pagination and Navigation
                 autoplay={{ delay: 4000, disableOnInteraction: false }}
                 thumbs={{ swiper: thumbsSwiper }}
-                className="h-[400px]"
+                className="h-[300px] md:h-[400px]"
               >
                 {product?.imageUrls?.map((image: string, index: number) => (
                   <SwiperSlide key={index}>
@@ -224,7 +230,10 @@ const ProductDetails = () => {
                 <h1 className="text-2xl md:text-3xl font-bold text-gray-900 leading-tight">
                   {product?.name}
                 </h1>
-                <button onClick={handleShare} className="p-2.5 rounded-full bg-neutral-25/20 hover:bg-gray-200 transition-colors shrink-0 ml-3">
+                <button
+                  onClick={handleShare}
+                  className="p-2.5 rounded-full bg-neutral-25/20 hover:bg-gray-200 transition-colors shrink-0 ml-3"
+                >
                   <IoShareSocial />
                 </button>
               </div>
@@ -319,7 +328,7 @@ const ProductDetails = () => {
                   handleAddProductToCart();
                   navigate("/cart");
                 }}
-                className="px-6 py-3 bg-primary-5 hover:bg-primary-5/80 text-white rounded-xl font-medium transition-colors shadow-sm flex items-center gap-2"
+                className="w-full sm:w-fit px-6 py-3 bg-primary-5 hover:bg-primary-5/80 text-white rounded-xl font-medium transition-colors shadow-sm flex justify-center items-center gap-2"
               >
                 Buy Now
               </button>
@@ -427,8 +436,8 @@ const ProductDetails = () => {
                     <h4 className="font-medium text-neutral-5 mb-2 capitalize">
                       Who can use this product
                     </h4>
-                    <div className="flex flex-wrap gap-1.5">
-                      <span className="px-2.5 py-1 bg-gray-100 text-gray-700 rounded-full text-xs">
+                    <div className="flex flex-wrap gap-1.5 px-2.5 py-1 bg-gray-100">
+                      <span className="text-neutral-10 rounded-full text-xs">
                         {product?.targetAudience}
                       </span>
                     </div>
@@ -582,7 +591,7 @@ const ProductDetails = () => {
                     </span>
                   </div>
                   <div className="flex items-center justify-between mt-3">
-                    <div className="flex items-center gap-0.5">
+                    <div className="hidden sm:flex items-center gap-0.5">
                       <IoStar className="w-3.5 h-3.5 text-yellow-400 fill-current" />
                       <span className="text-sm text-gray-600">
                         {item?.rating === 0 ? "Not Rated Yet" : item?.rating}

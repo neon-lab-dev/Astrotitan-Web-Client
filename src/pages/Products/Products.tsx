@@ -25,7 +25,6 @@ const Products = () => {
   });
 
   const products = data?.data?.data || [];
-  console.log(data);
   // Categories Data
   const categories = [
     { label: "All", value: "All" },
@@ -51,7 +50,7 @@ const Products = () => {
 
         {/* Filters and Search */}
         <div className="mt-6 ">
-          <div className="flex flex-col lg:flex-row lg:items-center gap-4">
+          <div className="flex flex-col md:flex-row lg:items-center gap-4">
             {/* Search */}
             <div className="relative flex-1">
               <IoSearchOutline className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 w-4.5 h-4.5" />
@@ -94,7 +93,7 @@ const Products = () => {
               </div>
 
               {/* View Toggle */}
-              <div className="flex items-center gap-1 bg-white rounded-xl p-1 border border-gray-200">
+              <div className="hidden xl:flex items-center gap-1 bg-white rounded-xl p-1 border border-gray-200">
                 <button
                   onClick={() => setViewMode("grid")}
                   className={`p-2 rounded-lg transition-all duration-300 ${
@@ -169,7 +168,7 @@ const Products = () => {
                 : "space-y-4"
             }`}
           >
-            {products.map((product:TProduct) => (
+            {products.map((product: TProduct) => (
               <ProductCard
                 key={product?._id}
                 product={product}

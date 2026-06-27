@@ -46,7 +46,7 @@ const AstrologerListCard = ({
     <>
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300 p-6">
         {/* Profile Section */}
-        <div className="flex flex-col mf:flex-row items-start gap-4">
+        <div className="flex flex-col md:flex-row items-start gap-4">
           {profilePicture ? (
             <img
               src={profilePicture}
@@ -103,7 +103,7 @@ const AstrologerListCard = ({
         <div className="flex flex-wrap gap-4 items-center justify-between">
           {/* Left - Availability & Languages */}
           <div className="flex-1">
-            <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-4 text-sm">
+            <div className="flex flex-col xl:flex-row items-start xl:items-center gap-2 xl:gap-4 text-sm">
               {availability?.availableDays && availability?.availableTime && (
                 <div className="flex items-center gap-1.5">
                   <img src={ICONS.time} alt="" className="size-5" />
@@ -126,7 +126,7 @@ const AstrologerListCard = ({
                 </div>
               )}
 
-              <div className="flex items-center gap-1.5">
+              <div className="flex md:hidden 2xl:flex items-center gap-1.5">
                 <img src={ICONS.language} alt="" className="size-5" />
                 <span className="text-neutral-10">
                   {consultLanguages?.join(", ")}

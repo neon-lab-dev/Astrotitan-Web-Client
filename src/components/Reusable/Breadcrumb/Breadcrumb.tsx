@@ -43,7 +43,7 @@ const Breadcrumb = ({
               {item.label}
             </Link>
           ) : (
-            <span className="text-primary-5 font-medium">{item.label}</span>
+            <span className="text-primary-5 font-medium">{item.label.slice(0, 25).concat("...")}</span>
           )}
         </div>
       ))}
