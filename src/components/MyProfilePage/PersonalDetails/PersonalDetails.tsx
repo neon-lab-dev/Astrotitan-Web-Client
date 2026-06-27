@@ -189,7 +189,7 @@ const PersonalDetails = () => {
         </div>
 
         {/* Focus Areas */}
-        <div className="mt-6 md:mt-12 bg-neutral-20/30 p-6 rounded-2xl md:rounded-4xl border border-neutral-20/50 relative">
+        <div className="mt-6 md:mt-6 bg-neutral-20/30 p-6 rounded-2xl md:rounded-4xl border border-neutral-20/50 relative">
           <button
             onClick={() => {
               setUpdateFor("intentsInfo");

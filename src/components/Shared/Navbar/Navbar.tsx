@@ -19,21 +19,20 @@ import {
   IoSettingsOutline,
 } from "react-icons/io5";
 import { FaStar, FaGem, FaComments } from "react-icons/fa";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  useCurrentUser,
-  logout,
-  type TLoggedInUser,
-} from "../../../redux/Features/Auth/authSlice";
+import { useDispatch } from "react-redux";
+import { logout } from "../../../redux/Features/Auth/authSlice";
 import { useCart } from "../../../providers/CartProvider/CartProvider";
 import Notification from "./Notification/Notification";
+import { useGetMeQuery } from "../../../redux/Features/User/userApi";
 
 export type TAuthModalType = "login" | "verifyOtp" | "signup";
 
 const Navbar = () => {
   const { cartItems } = useCart();
   const pathname = useLocation().pathname;
-  const user = useSelector(useCurrentUser) as TLoggedInUser;
+  const { data: myProfile } = useGetMeQuery({});
+
+  const profile = myProfile?.data?.profile || {};
   const dispatch = useDispatch();
 
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
@@ -149,170 +148,172 @@ const Navbar = () => {
     <>
       <div className="py-6 bg-white/90 border-b border-neutral-10/15 font-Satoshi sticky top-0 z-50 backdrop-blur-md">
         <div className="relative">
-<Container>
-          <div className="flex items-center justify-between">
-            <Link to="/" className="flex items-center gap-3">
-              <img src={IMAGES.logo} alt="" className="size-9" />
-              <p className="text-primary-5 text-[28px] font-bold">Astrotitan</p>
-            </Link>
+          <Container>
+            <div className="flex items-center justify-between">
+              <Link to="/" className="flex items-center gap-3">
+                <img src={IMAGES.logo} alt="" className="size-9" />
+                <p className="text-primary-5 text-[28px] font-bold">
+                  Astrotitan
+                </p>
+              </Link>
 
-            <div className="hidden lg:flex items-center gap-8">
-              {navLinks?.map((item, index) => (
-                <Link
-                  key={index}
-                  to={item?.path}
-                  className="relative text-neutral-5 pb-1 group text-lg"
-                >
-                  {item?.label}
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-5 transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              ))}
-
-              {/* Services Dropdown */}
-              <div ref={dropdownRef} className="relative">
-                <button
-                  onMouseEnter={() => setIsServicesOpen(true)}
-                  className="text-neutral-5 pb-1 group text-lg flex items-center gap-1"
-                >
-                  Services
-                  <IoChevronDown
-                    className={`text-sm mt-0.5 transition-transform duration-300 ${isServicesOpen ? "rotate-180" : ""}`}
-                  />
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-5 transition-all duration-300 group-hover:w-full"></span>
-                </button>
-
-                <AnimatePresence>
-                  {isServicesOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
-                      onMouseLeave={() => setIsServicesOpen(false)}
-                      className="absolute top-[calc(100%+10px)] left-0 w-64 p-2 bg-white rounded-2xl shadow-xl border border-neutral-35/20 z-50"
-                    >
-                      {services.map((service, idx) => (
-                        <Link
-                          key={idx}
-                          to={service.path}
-                          className="flex items-center gap-3 p-3 rounded-xl hover:bg-primary-5/5 transition-all group"
-                          onClick={() => setIsServicesOpen(false)}
-                        >
-                          <div className="size-8 rounded-lg bg-primary-5/10 flex items-center justify-center text-primary-5">
-                            <service.icon />
-                          </div>
-                          <div>
-                            <p className="text-sm font-semibold text-neutral-5">
-                              {service.label}
-                            </p>
-                            <p className="text-[10px] text-neutral-10 leading-tight">
-                              {service.description}
-                            </p>
-                          </div>
-                        </Link>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              {/* Action Area */}
-              <div className="flex items-center gap-3">
-                {(pathname === "/products" ||
-                  pathname.startsWith("/product/") ||
-                  pathname === "/cart") && (
+              <div className="hidden lg:flex items-center gap-8">
+                {navLinks?.map((item, index) => (
                   <Link
-                    to="/cart"
-                    className="size-10 rounded-full border border-primary-5 hover:bg-primary-5 text-primary-5 hover:text-white transition-all flex items-center justify-center relative"
+                    key={index}
+                    to={item?.path}
+                    className="relative text-neutral-5 pb-1 group text-lg"
                   >
-                    <img
-                      src={ICONS.cart}
-                      className="size-5 brightness-0 group-hover:brightness-100"
-                      alt=""
-                    />
-                    <div className="size-4 flex items-center justify-center bg-primary-5 text-white text-xs absolute -top-1 -right-1 rounded-full">
-                      {cartItems?.length || 0}
-                    </div>
+                    {item?.label}
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-5 transition-all duration-300 group-hover:w-full"></span>
                   </Link>
-                )}
+                ))}
 
-                <Notification />
+                {/* Services Dropdown */}
+                <div ref={dropdownRef} className="relative">
+                  <button
+                    onMouseEnter={() => setIsServicesOpen(true)}
+                    className="text-neutral-5 pb-1 group text-lg flex items-center gap-1"
+                  >
+                    Services
+                    <IoChevronDown
+                      className={`text-sm mt-0.5 transition-transform duration-300 ${isServicesOpen ? "rotate-180" : ""}`}
+                    />
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-5 transition-all duration-300 group-hover:w-full"></span>
+                  </button>
 
-                {user ? (
-                  <div ref={userMenuRef} className="relative">
-                    <button
-                      onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                      className="flex items-center gap-3 p-1 rounded-full sm:rounded-xl sm:pr-3 hover:bg-neutral-20/50 transition-all duration-300 group"
+                  <AnimatePresence>
+                    {isServicesOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        onMouseLeave={() => setIsServicesOpen(false)}
+                        className="absolute top-[calc(100%+10px)] left-0 w-64 p-2 bg-white rounded-2xl shadow-xl border border-neutral-35/20 z-50"
+                      >
+                        {services.map((service, idx) => (
+                          <Link
+                            key={idx}
+                            to={service.path}
+                            className="flex items-center gap-3 p-3 rounded-xl hover:bg-primary-5/5 transition-all group"
+                            onClick={() => setIsServicesOpen(false)}
+                          >
+                            <div className="size-8 rounded-lg bg-primary-5/10 flex items-center justify-center text-primary-5">
+                              <service.icon />
+                            </div>
+                            <div>
+                              <p className="text-sm font-semibold text-neutral-5">
+                                {service.label}
+                              </p>
+                              <p className="text-[10px] text-neutral-10 leading-tight">
+                                {service.description}
+                              </p>
+                            </div>
+                          </Link>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                {/* Action Area */}
+                <div className="flex items-center gap-3">
+                  {(pathname === "/products" ||
+                    pathname.startsWith("/product/") ||
+                    pathname === "/cart") && (
+                    <Link
+                      to="/cart"
+                      className="size-10 rounded-full border border-primary-5 hover:bg-primary-5 text-primary-5 hover:text-white transition-all flex items-center justify-center relative"
                     >
-                      <div className="relative size-9 shrink-0">
-                        <img
-                          src={IMAGES.rahul}
-                          className="size-full rounded-full object-cover ring-2 ring-primary-5/10"
-                          alt="Profile"
-                        />
-                        <div className="absolute bottom-0 right-0 size-2.5 bg-green-500 border-2 border-white rounded-full"></div>
-                      </div>
-                      <div className="hidden sm:block text-left leading-tight">
-                        <h4 className="text-sm font-bold text-neutral-5">
-                          {user?.name}
-                        </h4>
-                        <p className="text-[10px] text-neutral-10">
-                          {user?.email}
-                        </p>
-                      </div>
-                      <IoChevronDown
-                        className={`size-4 text-neutral-10 transition-transform ${isUserMenuOpen ? "rotate-180" : ""}`}
+                      <img
+                        src={ICONS.cart}
+                        className="size-5 brightness-0 group-hover:brightness-100"
+                        alt=""
                       />
-                    </button>
+                      <div className="size-4 flex items-center justify-center bg-primary-5 text-white text-xs absolute -top-1 -right-1 rounded-full">
+                        {cartItems?.length || 0}
+                      </div>
+                    </Link>
+                  )}
 
-                    <AnimatePresence>
-                      {isUserMenuOpen && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                          className="absolute top-[calc(100%+15px)] right-0 w-56 bg-white rounded-2xl shadow-2xl border border-neutral-35/20 overflow-hidden z-60"
-                        >
-                          <div className="p-2">
-                            {userMenuItems.map((item, idx) => (
-                              <Link
-                                key={idx}
-                                to={item.path}
-                                onClick={() => setIsUserMenuOpen(false)}
-                                className="flex items-center gap-3 p-3 rounded-xl text-neutral-5 hover:bg-primary-5/5 hover:text-primary-5 transition-all font-medium text-sm"
+                  <Notification />
+
+                  {profile ? (
+                    <div ref={userMenuRef} className="relative">
+                      <button
+                        onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                        className="flex items-center gap-3 p-1 rounded-full sm:rounded-xl sm:pr-3 hover:bg-neutral-20/50 transition-all duration-300 group"
+                      >
+                        <div className="relative size-9 shrink-0">
+                          <img
+                            src={IMAGES.rahul}
+                            className="size-full rounded-full object-cover ring-2 ring-primary-5/10"
+                            alt="Profile"
+                          />
+                          <div className="absolute bottom-0 right-0 size-2.5 bg-green-500 border-2 border-white rounded-full"></div>
+                        </div>
+                        <div className="hidden sm:block text-left leading-tight">
+                          <h4 className="text-sm font-bold text-neutral-5">
+                            {profile?.fullName}
+                          </h4>
+                          <p className="text-[11px] text-neutral-10">
+                            {myProfile?.data?.account?.email}
+                          </p>
+                        </div>
+                        <IoChevronDown
+                          className={`size-4 text-neutral-10 transition-transform ${isUserMenuOpen ? "rotate-180" : ""}`}
+                        />
+                      </button>
+
+                      <AnimatePresence>
+                        {isUserMenuOpen && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                            className="absolute top-[calc(100%+15px)] right-0 w-56 bg-white rounded-2xl shadow-2xl border border-neutral-35/20 overflow-hidden z-60"
+                          >
+                            <div className="p-2">
+                              {userMenuItems.map((item, idx) => (
+                                <Link
+                                  key={idx}
+                                  to={item.path}
+                                  onClick={() => setIsUserMenuOpen(false)}
+                                  className="flex items-center gap-3 p-3 rounded-xl text-neutral-5 hover:bg-primary-5/5 hover:text-primary-5 transition-all font-medium text-sm"
+                                >
+                                  {item.icon}
+                                  {item.label}
+                                </Link>
+                              ))}
+
+                              <div className="h-px bg-neutral-10/10 my-2 mx-2" />
+
+                              <button
+                                onClick={handleLogout}
+                                className="w-full flex items-center gap-3 p-3 rounded-xl text-red-500 hover:bg-red-50 transition-all font-bold text-sm"
                               >
-                                {item.icon}
-                                {item.label}
-                              </Link>
-                            ))}
-
-                            <div className="h-px bg-neutral-10/10 my-2 mx-2" />
-
-                            <button
-                              onClick={handleLogout}
-                              className="w-full flex items-center gap-3 p-3 rounded-xl text-red-500 hover:bg-red-50 transition-all font-bold text-sm"
-                            >
-                              <IoLogOutOutline size={18} />
-                              Logout
-                            </button>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                ) : (
-                  <Button
-                    onClick={() => {
-                      setAuthModalType("login");
-                      setIsAuthModalOpen(true);
-                    }}
-                    label="Login"
-                  />
-                )}
+                                <IoLogOutOutline size={18} />
+                                Logout
+                              </button>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  ) : (
+                    <Button
+                      onClick={() => {
+                        setAuthModalType("login");
+                        setIsAuthModalOpen(true);
+                      }}
+                      label="Login"
+                    />
+                  )}
+                </div>
               </div>
+              <HamburgerMenu />
             </div>
-            {/* <HamburgerMenu /> */}
-          </div>
-        </Container>
+          </Container>
         </div>
       </div>
 
