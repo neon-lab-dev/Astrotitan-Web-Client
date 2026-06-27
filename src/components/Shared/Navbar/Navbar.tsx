@@ -245,11 +245,20 @@ const Navbar = () => {
                         className="flex items-center gap-3 p-1 rounded-full sm:rounded-xl sm:pr-3 hover:bg-neutral-20/50 transition-all duration-300 group"
                       >
                         <div className="relative size-9 shrink-0">
-                          <img
-                            src={IMAGES.rahul}
-                            className="size-full rounded-full object-cover ring-2 ring-primary-5/10"
-                            alt="Profile"
-                          />
+                          {profile?.profilePicture ? (
+                            <img
+                              src={profile?.profilePicture}
+                              className="size-full rounded-full object-cover ring-2 ring-primary-5/10"
+                              alt="Profile"
+                            />
+                          ) : (
+                            <img
+                              src={ICONS.user}
+                              className="size-full rounded-full object-cover ring-2 ring-primary-5/10"
+                              alt="Profile"
+                            />
+                          )}
+
                           <div className="absolute bottom-0 right-0 size-2.5 bg-green-500 border-2 border-white rounded-full"></div>
                         </div>
                         <div className="hidden sm:block text-left leading-tight">

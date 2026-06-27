@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useState, useEffect } from "react";
 import { ICONS } from "../../../assets";
@@ -10,6 +11,7 @@ import { FormProvider, useProfileForm } from "../../../contexts/FormContext";
 import Button from "../../Reusable/Button/Button";
 import { useCompleteUserProfileMutation } from "../../../redux/Features/Auth/authApi";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 type TModalProps = {
   isModalOpen: boolean;
@@ -22,6 +24,7 @@ const ModalContent = () => {
   const [step, setStep] = useState<number>(1);
   const [progress, setProgress] = useState<number>(20);
   const [countdown, setCountdown] = useState<number>(5);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const { trigger, getValues } = useProfileForm();
   const [completeUserProfile] = useCompleteUserProfileMutation();
 
@@ -60,6 +63,7 @@ const ModalContent = () => {
     const isStepValid = await validateStep(step);
 
     if (!isStepValid) {
+      toast.error("Please fill in all required fields");
       return;
     }
 
@@ -73,6 +77,20 @@ const ModalContent = () => {
 
   const handleSubmit = async () => {
     const formData = getValues();
+    
+    // Check if all required fields are filled
+    const requiredFields = ["firstName", "lastName", "gender", "dateOfBirth", "timeOfBirth", "placeOfBirth", "intents"];
+    const allFieldsFilled = requiredFields.every(field => {
+      const value = formData[field as keyof typeof formData];
+      return value !== undefined && value !== null && value !== "";
+    });
+
+    if (!allFieldsFilled) {
+      toast.error("Please fill in all required fields before submitting");
+      return;
+    }
+
+    setIsSubmitting(true);
 
     try {
       const response = await completeUserProfile(formData).unwrap();
@@ -80,9 +98,13 @@ const ModalContent = () => {
       if (response.success) {
         setStep(5);
         setCountdown(5);
+        toast.success("Profile completed successfully!");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error submitting profile:", error);
+      toast.error(error?.data?.message || "Failed to complete profile. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -129,6 +151,23 @@ const ModalContent = () => {
 
   const { heading, description } = getModalContent();
   const endAngle = (progress / 100) * 360;
+
+  // Check if current step is valid for button
+  const isStepValid = () => {
+    const formValues = getValues();
+    switch (step) {
+      case 1:
+        return !!(formValues.firstName && formValues.lastName);
+      case 2:
+        return !!formValues.gender;
+      case 3:
+        return !!(formValues.dateOfBirth && formValues.timeOfBirth && formValues.placeOfBirth);
+      case 4:
+        return !!(formValues.intents && formValues.intents.length > 0);
+      default:
+        return true;
+    }
+  };
 
   return (
     <div
@@ -181,22 +220,26 @@ const ModalContent = () => {
           {step === 5 && <ProfileCompleted />}
 
           <div>
-            <Button
-              type="button"
-              label={
-                step === 4
-                  ? "Submit"
-                  : step === 5
-                    ? "Go To Dashboard"
-                    : "Continue"
-              }
-              variant="primary"
-              rightIcon={step === 5 ? undefined : ICONS.arrowRight}
-              className="w-full"
-              onClick={handleNextStep}
-              // isLoading={isSubmitting}
-              // isDisabled={isSubmitting}
-            />
+            {step !== 5 ? (
+              <Button
+                type="button"
+                label="Continue"
+                variant="primary"
+                rightIcon={ICONS.arrowRight}
+                className="w-full"
+                onClick={handleNextStep}
+                isLoading={isSubmitting}
+                isDisabled={isSubmitting || !isStepValid()}
+              />
+            ) : (
+              <Button
+                type="button"
+                label="Go To Dashboard"
+                variant="primary"
+                className="w-full"
+                onClick={() => navigate("/dashboard/user")}
+              />
+            )}
             {step === 5 && (
               <p className="text-center text-neutral-5 font-GeneralSans text-sm mt-2">
                 Redirecting to dashboard in{" "}
