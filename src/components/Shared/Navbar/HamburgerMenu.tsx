@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { ICONS, IMAGES } from "../../../assets";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { navLinks } from "./navlinks";
 import { RxCross2 } from "react-icons/rx";
 import { IoChevronDown } from "react-icons/io5";
@@ -15,6 +15,7 @@ const HamburgerMenu = () => {
   const location = useLocation();
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const services = [
     {
@@ -37,16 +38,12 @@ const HamburgerMenu = () => {
     },
   ];
 
-  const toggleHamburgerMenu = () => {
-    setIsHamburgerOpen(!isHamburgerOpen);
-    // Close services dropdown when closing hamburger
-    if (!isHamburgerOpen) {
-      setIsServicesOpen(false);
-    }
-  };
-
   const toggleServices = () => {
     setIsServicesOpen(!isServicesOpen);
+  };
+
+  const toggleHamburgerMenu = () => {
+    setIsHamburgerOpen(!isHamburgerOpen);
   };
 
   useEffect(() => {
@@ -55,7 +52,6 @@ const HamburgerMenu = () => {
       const closestDropdown = target.closest(".hamburgerMenu");
       if (isHamburgerOpen && closestDropdown === null) {
         setIsHamburgerOpen(false);
-        setIsServicesOpen(false);
       }
     };
 
@@ -81,21 +77,25 @@ const HamburgerMenu = () => {
 
   return (
     <div className="relative hamburgerMenu flex lg:hidden">
-      <button onClick={toggleHamburgerMenu}>
+      <button
+        className="bg-white py-2 px-3 border border-primary-10 cursor-pointer w-fit rounded-lg flex items-center justify-center"
+        onClick={toggleHamburgerMenu}
+      >
         <img src={ICONS.menu} alt="menu-icon" />
       </button>
 
       {/* Background Overlay */}
       <div
         onClick={toggleHamburgerMenu}
-        className={`fixed inset-0 bg-black z-50 transition-opacity duration-300 ${
-          isHamburgerOpen ? "opacity-50" : "opacity-0 pointer-events-none"
+        className={`fixed inset-0 bg-black/50 z-50 h-screen transition-opacity duration-300 ${
+          isHamburgerOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
-      ></div>
+      />
 
       {/* Side Menu */}
       <div
-        className={`fixed inset-y-0 right-0 z-50 bg-white py-8 p-6 w-77 overflow-y-auto transition-all duration-300 transform flex flex-col items-start justify-between ${
+        ref={menuRef}
+        className={`fixed top-0 right-0 z-9999 bg-white w-77 h-screen py-8 px-6 overflow-y-auto transition-transform duration-300 transform flex flex-col items-start justify-between ${
           isHamburgerOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -161,9 +161,9 @@ const HamburgerMenu = () => {
                           onClick={toggleHamburgerMenu}
                           className="flex items-center gap-3 py-2 px-3 rounded-lg hover:bg-primary-5/5 transition-all duration-200 group"
                         >
-                            <p className="text-sm font-medium text-neutral-10 group-hover:text-primary-5 transition-colors">
-                              {service.label}
-                            </p>
+                          <p className="text-sm font-medium text-neutral-10 group-hover:text-primary-5 transition-colors">
+                            {service.label}
+                          </p>
                         </Link>
                       ))}
                     </div>

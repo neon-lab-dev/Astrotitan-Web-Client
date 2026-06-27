@@ -20,7 +20,11 @@ import {
 } from "react-icons/io5";
 import { FaStar, FaGem, FaComments } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
-import { useCurrentUser, logout, type TLoggedInUser } from "../../../redux/Features/Auth/authSlice";
+import {
+  useCurrentUser,
+  logout,
+  type TLoggedInUser,
+} from "../../../redux/Features/Auth/authSlice";
 import { useCart } from "../../../providers/CartProvider/CartProvider";
 import Notification from "./Notification/Notification";
 
@@ -144,7 +148,8 @@ const Navbar = () => {
   return (
     <>
       <div className="py-6 bg-white/90 border-b border-neutral-10/15 font-Satoshi sticky top-0 z-50 backdrop-blur-md">
-        <Container>
+        <div className="relative">
+<Container>
           <div className="flex items-center justify-between">
             <Link to="/" className="flex items-center gap-3">
               <img src={IMAGES.logo} alt="" className="size-9" />
@@ -230,7 +235,7 @@ const Navbar = () => {
                   </Link>
                 )}
 
-                <Notification/>
+                <Notification />
 
                 {user ? (
                   <div ref={userMenuRef} className="relative">
@@ -305,9 +310,10 @@ const Navbar = () => {
                 )}
               </div>
             </div>
-            <HamburgerMenu />
+            {/* <HamburgerMenu /> */}
           </div>
         </Container>
+        </div>
       </div>
 
       <Modal isModalOpen={isAuthModalOpen} setIsModalOpen={setIsAuthModalOpen}>
@@ -328,7 +334,10 @@ const Navbar = () => {
           />
         )}
         {authModalType === "verifyOtp" && (
-          <VerifyOtp verifyOtpFor={verifyOtpFor} setIsAuthModalOpen={setIsAuthModalOpen} />
+          <VerifyOtp
+            verifyOtpFor={verifyOtpFor}
+            setIsAuthModalOpen={setIsAuthModalOpen}
+          />
         )}
       </Modal>
     </>

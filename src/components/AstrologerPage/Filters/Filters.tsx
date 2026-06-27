@@ -105,11 +105,11 @@ const Filters: React.FC<TFilters> = ({
           <span className="text-neutral-10/90 text-[15px] font-medium">
             Sort By:
           </span>
-          <div className="flex items-center gap-4 mt-2">
+          <div className="flex items-center w-full overflow-x-auto gap-4 mt-2">
             {sortByOptions.map((option) => (
               <label
                 key={option.value}
-                className="flex items-center gap-2 cursor-pointer group"
+                className="flex items-center gap-2 cursor-pointer group text-nowrap"
               >
                 <input
                   type="radio"

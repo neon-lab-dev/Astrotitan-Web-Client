@@ -46,7 +46,7 @@ const AstrologerListCard = ({
     <>
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300 p-6">
         {/* Profile Section */}
-        <div className="flex items-start gap-4">
+        <div className="flex flex-col mf:flex-row items-start gap-4">
           {profilePicture ? (
             <img
               src={profilePicture}
@@ -103,7 +103,7 @@ const AstrologerListCard = ({
         <div className="flex flex-wrap gap-4 items-center justify-between">
           {/* Left - Availability & Languages */}
           <div className="flex-1">
-            <div className="flex items-center gap-4 text-sm">
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-4 text-sm">
               {availability?.availableDays && availability?.availableTime && (
                 <div className="flex items-center gap-1.5">
                   <img src={ICONS.time} alt="" className="size-5" />
@@ -140,7 +140,7 @@ const AstrologerListCard = ({
             <div className="flex items-center gap-3 shrink-0">
               <Link
                 to={`/astrologer/${_id}`}
-                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary-5 border border-primary-5 rounded-lg hover:bg-primary-5/5 transition-colors"
+                className="flex items-center gap-2 px-2 sm:px-4 py-2 text-xs sm:text-sm font-medium text-primary-5 border border-primary-5 rounded-lg hover:bg-primary-5/5 transition-colors"
               >
                 <IoEyeOutline className="w-4 h-4" />
                 Know More

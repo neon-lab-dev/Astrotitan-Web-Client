@@ -38,9 +38,9 @@ const Astrologer = () => {
           items={[{ label: "Astrologer", path: "/astrologer", isActive: true }]}
         />
 
-        <div className="flex gap-8 font-GeneralSans mt-5">
+        <div className="flex flex-col lg:flex-row gap-8 font-GeneralSans mt-5">
           {/* Filters Sidebar - Sticky */}
-          <div className="w-[35%] sticky top-26 h-fit max-h-[calc(100vh-100px)] overflow-y-auto">
+          <div className="w-full lg:w-[35%] lg:sticky top-26 h-fit max-h-[calc(100vh-100px)] overflow-y-auto">
             <Filters
               setGender={setGender}
               setAreaOfPractice={setAreaOfPractice}
@@ -54,7 +54,7 @@ const Astrologer = () => {
           </div>
 
           {/* Main Content */}
-          <div className="w-[65%] space-y-6">
+          <div className="w-full lg:w-[65%] space-y-6">
             <div className="relative w-full">
               <IoSearchOutline className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
