@@ -13,6 +13,7 @@ const baseQuery = fetchBaseQuery({
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
+    console.log(token);
 
     if (token) {
       headers.set("authorization", `${token}`);
@@ -30,20 +31,42 @@ const baseQueryWithRefreshToken: BaseQueryFn<
   let result = await baseQuery(args, api, extraOptions);
 
   if (result.error?.status === 401) {
-    const res = await fetch(`${backendBaseUrl}/api/v1/auth/refresh-token`, {
-      credentials: "include",
-      method: "POST",
-    });
+    console.log("Received 401, attempting to refresh token...");
 
-    const data = await res.json();
-    // const user = (api.getState() as RootState).auth.user;
-    api.dispatch(
-      setUser({
-        user: data?.data?.user,
-        token: data?.data?.accessToken,
-      })
-    );
-    result = await baseQuery(args, api, extraOptions);
+    try {
+      const res = await fetch(`${backendBaseUrl}/api/v1/account/refresh-token`, {
+        credentials: "include", // ✅ Send cookies with the request
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await res.json();
+      console.log("Refresh token response:", data);
+
+      if (data?.success && data?.data?.accessToken) {
+        console.log("Token refreshed successfully");
+
+        // ✅ Update the token in Redux
+        const currentUser = (api.getState() as RootState).auth.user;
+        api.dispatch(
+          setUser({
+            user: data?.data?.user || currentUser,
+            token: data?.data?.accessToken,
+          })
+        );
+
+        // ✅ Retry the original request with new token
+        result = await baseQuery(args, api, extraOptions);
+      } else {
+        console.warn("Refresh token failed:", data?.message);
+        // ❌ Only logout if refresh token is expired
+        // api.dispatch(logout());
+      }
+    } catch (error) {
+      console.error("Error during refresh token:", error);
+    }
   }
 
   return result;
