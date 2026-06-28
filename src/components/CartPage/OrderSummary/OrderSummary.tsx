@@ -1,7 +1,13 @@
-import { useState } from "react";
+/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState, useEffect } from "react";
 import { FaShieldAlt, FaShoppingBag } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { useCurrentUser, type TLoggedInUser } from "../../../redux/Features/Auth/authSlice";
+import { useNavigate } from "react-router-dom";
+import {
+  useCurrentUser,
+  type TLoggedInUser,
+} from "../../../redux/Features/Auth/authSlice";
 import { useCart } from "../../../providers/CartProvider/CartProvider";
 import Drawer from "../../Reusable/Drawer/Drawer";
 import type { TAddress } from "../../../types/address.type";
@@ -9,11 +15,19 @@ import AddressCard from "../../MyProfilePage/MyAddresses/AddressCard";
 import { useGetMyAddressesQuery } from "../../../redux/Features/Address/addressApi";
 import { Link } from "react-router-dom";
 import { IoAdd } from "react-icons/io5";
-import { backendBaseUrl } from "../../../redux/Api/baseApi";
-import { useGetRazorpayKeyQuery } from "../../../redux/Features/User/userApi";
 import toast from "react-hot-toast";
-import { useProductCheckoutMutation } from "../../../redux/Features/ProductOrders/productOrdersApi";
+import {
+  useCreateProductOrderMutation,
+  useVerifyPaymentMutation,
+} from "../../../redux/Features/ProductOrders/productOrdersApi";
 import Button from "../../Reusable/Button/Button";
+import { useGetRazorpayKeyQuery } from "../../../redux/Features/User/userApi";
+
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
 
 type TOrderSummary = {
   total: number;
@@ -21,112 +35,237 @@ type TOrderSummary = {
   shipping: number;
   tax: number;
 };
+
 const OrderSummary: React.FC<TOrderSummary> = ({
   total,
   subtotal,
   shipping,
   tax,
 }) => {
+  const navigate = useNavigate();
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const { cartItems } = useCart();
+  const { cartItems, clearCart } = useCart();
   const user = useSelector(useCurrentUser) as TLoggedInUser;
   const [loading, setLoading] = useState<boolean>(false);
-
   const [selectedAddressId, setSelectedAddressId] = useState<string | null>(
     null,
   );
+  const [isPlacingOrder, setIsPlacingOrder] = useState<boolean>(false);
+  const [isRazorpayLoaded, setIsRazorpayLoaded] = useState<boolean>(false);
 
-  const { data } = useGetMyAddressesQuery({});
-  const addresses = data?.data || [];
-  const { data: apiKey } = useGetRazorpayKeyQuery({});
-  const [productCheckout] = useProductCheckoutMutation();
+  const { data: addressesData } = useGetMyAddressesQuery({});
+  const { data: razorpayKeyData } = useGetRazorpayKeyQuery({});
+  const [createProductOrder] = useCreateProductOrderMutation();
+  const [verifyPayment] = useVerifyPaymentMutation();
+
+  const addresses = addressesData?.data || [];
+  const razorpayKey = razorpayKeyData?.key;
+
+  // Check if Razorpay is loaded
+  useEffect(() => {
+    const checkRazorpay = () => {
+      if (window.Razorpay) {
+        setIsRazorpayLoaded(true);
+        console.log("Razorpay is loaded");
+      } else {
+        console.log("⏳ Waiting for Razorpay to load...");
+        // Check again after 1 second
+        setTimeout(checkRazorpay, 1000);
+      }
+    };
+
+    // Check immediately
+    if (window.Razorpay) {
+      setIsRazorpayLoaded(true);
+      console.log("Razorpay already loaded");
+    } else {
+      // Wait for Razorpay to load
+      checkRazorpay();
+    }
+
+    // Also listen for Razorpay loading event
+    const handleRazorpayLoad = () => {
+      setIsRazorpayLoaded(true);
+      console.log("Razorpay loaded via event");
+    };
+
+    window.addEventListener("razorpay-loaded", handleRazorpayLoad);
+
+    return () => {
+      window.removeEventListener("razorpay-loaded", handleRazorpayLoad);
+    };
+  }, []);
 
   const handleSelectAddress = (id: string) => {
     setSelectedAddressId(id);
-    console.log("Selected Address ID:", id);
   };
 
-  const totalToPay = cartItems.reduce(
-    (sum, item) => sum + item?.basePrice * item?.quantity,
-    0,
-  );
+  // Open drawer
+  const handleOpenDrawer = () => {
+    setSelectedAddressId(null);
+    setIsDrawerOpen(true);
+  };
+
+  // Continue after selecting address
+  const handleContinue = async () => {
+    if (!selectedAddressId) {
+      toast.error("Please select an address");
+      return;
+    }
+
+    // Check if Razorpay is loaded
+    if (!isRazorpayLoaded) {
+      toast.error("Payment system is loading. Please wait...");
+      return;
+    }
+
+    if (!razorpayKey) {
+      toast.error("Payment key not found. Please try again.");
+      return;
+    }
+
+    // Close drawer
+    setIsDrawerOpen(false);
+
+    // Small delay to allow drawer close animation
+    setTimeout(() => {
+      handlePlaceProductOrder();
+    }, 300);
+  };
 
   const handlePlaceProductOrder = async () => {
-    setIsDrawerOpen(true);
-    if (!selectedAddressId) {
-      return;
-    } else {
-      setIsDrawerOpen(false);
-    }
-    if (!user) {
-      toast.error("Please login to proceed");
-      // dispatch(openModal("login"));
-      // dispatch(setRedirectPath("/cart"));
+    // Double-check Razorpay is loaded
+    if (!isRazorpayLoaded) {
+      toast.error("Payment system is not ready. Please refresh and try again.");
       return;
     }
 
-    if (cartItems?.length < 1) {
+    // Validate user
+    if (!user) {
+      toast.error("Please login to proceed");
+      return;
+    }
+
+    // Validate cart
+    if (cartItems.length === 0) {
       toast.error("Cart is empty");
       return;
     }
-    setLoading(true);
 
-    const payload = {
-      amount: totalToPay,
-    };
-
-    let response;
-    try {
-      response = await productCheckout(payload).unwrap();
-    } catch (error) {
-      console.error(error);
-      setLoading(false);
+    // Validate address
+    if (!selectedAddressId) {
+      toast.error("Please select a delivery address");
       return;
     }
 
+    setLoading(true);
+    setIsPlacingOrder(true);
+
     try {
-      const options = {
-        key: apiKey?.key,
-        amount: response?.data?.amount,
-        currency: "INR",
-        name: "Astrotitan",
-        description: "Test Transaction",
-        image: "https://i.ibb.co.com/6JsDTXJh/logo.webp",
-        order_id: response?.data?.id,
-        callback_url: `${backendBaseUrl}/api/v1/product-order/verify-payment`,
-        prefill: {
-          name: user?.name,
-          email: user?.email,
-          userId: user?._id,
-        },
-        theme: { color: "#3b82f6" },
-      };
-
-      const rzp = new window.Razorpay(options);
-      rzp.open();
-
+      // Prepare order items
       const orderedItems = cartItems.map((item) => ({
         productId: item.productId,
         name: item.name,
         quantity: item.quantity,
-        price: item.basePrice,
+        price: item.basePrice || 0,
       }));
 
-      const productOrderData = {
+      // Calculate total
+      const totalAmount = cartItems.reduce(
+        (sum, item) => sum + (item.basePrice || 0) * (item.quantity || 0),
+        0,
+      );
+
+      // Create order in backend
+      const orderResponse = await createProductOrder({
         orderedItems,
-        totalAmount: totalToPay,
+        totalAmount: totalAmount,
         addressId: selectedAddressId,
+      }).unwrap();
+
+      if (!orderResponse?.success) {
+        throw new Error("Failed to create order");
+      }
+
+      const { order, razorpayOrder } = orderResponse.data;
+
+      console.log("Order created:", order);
+      console.log("Razorpay Order:", razorpayOrder);
+
+      // Open Razorpay Checkout
+      const options = {
+        key: razorpayKey,
+        amount: razorpayOrder.amount,
+        currency: razorpayOrder.currency,
+        name: "Astrotitan",
+        description: `Order #${order.orderId}`,
+        image: "https://i.ibb.co.com/6JsDTXJh/logo.webp",
+        order_id: razorpayOrder.id,
+        prefill: {
+          name: user.name || "User",
+          email: user.email || "",
+          contact: user.phoneNumber || "",
+        },
+        theme: {
+          color: "#d4af37",
+        },
+        modal: {
+          ondismiss: function () {
+            setLoading(false);
+            setIsPlacingOrder(false);
+            toast.error("Payment cancelled");
+          },
+        },
+        handler: function (response: any) {
+          console.log("Payment success:", response);
+          handleVerifyPayment(
+            response.razorpay_order_id,
+            response.razorpay_payment_id,
+            response.razorpay_signature,
+            order._id,
+          );
+        },
       };
 
-      localStorage.setItem(
-        "productOrderData",
-        JSON.stringify(productOrderData),
-      );
-    } catch (error) {
-      console.error(error);
+      const razorpayInstance = new window.Razorpay(options);
+      razorpayInstance.open();
+
       setLoading(false);
+      setIsPlacingOrder(false);
+    } catch (error: any) {
+      console.error("❌ Order creation error:", error);
+      toast.error(error?.message || "Failed to place order");
+      setLoading(false);
+      setIsPlacingOrder(false);
+    }
+  };
+
+  const handleVerifyPayment = async (
+    razorpayOrderId: string,
+    razorpayPaymentId: string,
+    razorpaySignature: string,
+    orderId: string,
+  ) => {
+    try {
+      const payload = {
+        razorpayOrderId,
+        razorpayPaymentId,
+        razorpaySignature,
+        orderId,
+      };
+      const response = await verifyPayment(payload).unwrap();
+      console.log(response);
+      if (response.success) {
+        clearCart();
+        navigate(`/payment-success?orderId=${orderId}`);
+      }
+    } catch (error: any) {
+      console.error("❌ Payment verification error:", error);
+      toast.error("Payment verification failed");
+      navigate("/payment-failed");
     } finally {
       setLoading(false);
+      setIsPlacingOrder(false);
     }
   };
 
@@ -169,11 +308,12 @@ const OrderSummary: React.FC<TOrderSummary> = ({
 
         {/* Checkout Button */}
         <button
-          onClick={handlePlaceProductOrder}
-          className="w-full mt-4 py-3.5 bg-primary-5 hover:bg-[#b8941f] text-white rounded-xl font-semibold transition-colors shadow-sm flex items-center justify-center gap-2"
+          onClick={handleOpenDrawer}
+          disabled={loading || isPlacingOrder}
+          className="w-full mt-4 py-3.5 bg-primary-5 hover:bg-[#b8941f] text-white rounded-xl font-semibold transition-colors shadow-sm flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <FaShoppingBag className="w-4 h-4" />
-          {loading ? "Please wait..." : <span>Proceed to Checkout</span>}
+          {loading || isPlacingOrder ? "Processing..." : "Proceed to Checkout"}
         </button>
 
         {/* Trust Badges */}
@@ -217,6 +357,8 @@ const OrderSummary: React.FC<TOrderSummary> = ({
           </div>
         </div>
       </div>
+
+      {/* Address Drawer */}
       <Drawer
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
@@ -258,10 +400,10 @@ const OrderSummary: React.FC<TOrderSummary> = ({
                 className="py-2"
               />
               <Button
-                onClick={handlePlaceProductOrder}
+                onClick={handleContinue}
                 label="Continue"
                 className="py-2"
-                isDisabled={!selectedAddressId}
+                isDisabled={!selectedAddressId || loading || isPlacingOrder}
               />
             </div>
           </div>
