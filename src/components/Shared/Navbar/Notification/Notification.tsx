@@ -95,7 +95,7 @@ const Notification = () => {
 
     console.log("🔌 Connecting socket for user:", user._id);
 
-    // ✅ Create and connect socket
+    // Create and connect socket
     const socket = connectSocket(user._id);
     console.log("📡 Socket instance:", socket);
     console.log("📡 Socket connected:", socket?.connected);
@@ -105,7 +105,7 @@ const Notification = () => {
       return;
     }
 
-    // ✅ Set up event listeners
+    // Set up event listeners
     const onConnect = () => {
       console.log("🔌 Socket connected:", socket.id);
     };
@@ -123,9 +123,9 @@ const Notification = () => {
     socket.on("new-notification", onNotification);
     socket.on("onlineUsers", onOnlineUsers);
 
-    // ✅ If socket is already connected, log it
+    // If socket is already connected, log it
     if (socket.connected) {
-      console.log("✅ Socket already connected:", socket.id);
+      console.log("Socket already connected:", socket.id);
     }
 
     return () => {

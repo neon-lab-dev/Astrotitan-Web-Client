@@ -6,8 +6,8 @@ import type { FetchArgs } from "@reduxjs/toolkit/query/react";
 import { setUser } from "../Features/Auth/authSlice";
 import type { RootState } from "../store";
 
-export const backendBaseUrl = "http://localhost:5000";
-// export const backendBaseUrl = "https://astrotitan-server.onrender.com";
+// export const backendBaseUrl = "http://localhost:5000";
+export const backendBaseUrl = "https://astrotitan-server.onrender.com";
 const baseQuery = fetchBaseQuery({
   baseUrl: `${backendBaseUrl}/api/v1`,
   credentials: "include",
@@ -35,7 +35,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 
     try {
       const res = await fetch(`${backendBaseUrl}/api/v1/account/refresh-token`, {
-        credentials: "include", // ✅ Send cookies with the request
+        credentials: "include", // Send cookies with the request
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -48,7 +48,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
       if (data?.success && data?.data?.accessToken) {
         console.log("Token refreshed successfully");
 
-        // ✅ Update the token in Redux
+        // Update the token in Redux
         const currentUser = (api.getState() as RootState).auth.user;
         api.dispatch(
           setUser({
@@ -57,7 +57,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
           })
         );
 
-        // ✅ Retry the original request with new token
+        // Retry the original request with new token
         result = await baseQuery(args, api, extraOptions);
       } else {
         console.warn("Refresh token failed:", data?.message);

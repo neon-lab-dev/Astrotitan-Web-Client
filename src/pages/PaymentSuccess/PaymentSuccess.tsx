@@ -15,7 +15,7 @@ const PaymentSuccess = () => {
   const [navigatePath, setNavigatePath] = useState<string>("/");
   const hasRun = useRef(false);
 
-  // ✅ Get order status
+  // Get order status
   const { data: orderData, isLoading: isOrderLoading } = useGetOrderStatusQuery(
     orderId,
     { skip: !orderId },
@@ -39,7 +39,7 @@ const PaymentSuccess = () => {
     };
   }, [counter, navigate, navigatePath]);
 
-  // ✅ Clear cart and redirect
+  // Clear cart and redirect
   useEffect(() => {
     if (orderData?.data?.paymentStatus === "paid" && !hasRun.current) {
       hasRun.current = true;

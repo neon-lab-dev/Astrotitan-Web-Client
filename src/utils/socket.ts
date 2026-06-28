@@ -16,7 +16,7 @@ export const createSocket = (userId?: string) => {
     });
 
     socket.on("connect", () => {
-      console.log("✅ Socket connected:", socket?.id);
+      console.log("Socket connected:", socket?.id);
     });
 
     socket.on("disconnect", (reason) => {

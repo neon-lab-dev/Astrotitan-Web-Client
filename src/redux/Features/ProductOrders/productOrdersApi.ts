@@ -38,16 +38,6 @@ const productOrdersApi = baseApi.injectEndpoints({
       providesTags: ["productOrder"],
     }),
 
-    productCheckout: builder.mutation({
-      query: (data) => ({
-        url: `/product-order/checkout`,
-        method: "POST",
-        body: data,
-        credentials: "include",
-      }),
-      invalidatesTags: ["productOrder"],
-    }),
-
     verifyPayment: builder.mutation({
       query: (data) => ({
         url: `/product-order/verify-payment`,
@@ -73,7 +63,6 @@ const productOrdersApi = baseApi.injectEndpoints({
 export const {
   useGetMyProductOrdersQuery,
   useGetOrderStatusQuery,
-  useProductCheckoutMutation,
   useVerifyPaymentMutation,
   useCreateProductOrderMutation
 } = productOrdersApi;
