@@ -195,12 +195,12 @@ const OrderSummary: React.FC<TOrderSummary> = ({
       // Open Razorpay Checkout
       const options = {
         key: razorpayKey,
-        amount: razorpayOrder.amount,
-        currency: razorpayOrder.currency,
+        amount: razorpayOrder?.amount,
+        currency: razorpayOrder?.currency,
         name: "Astrotitan",
-        description: `Order #${order.orderId}`,
+        description: `Order #${order?.orderId}`,
         image: "https://i.ibb.co.com/6JsDTXJh/logo.webp",
-        order_id: razorpayOrder.id,
+        order_id: razorpayOrder?.id,
         prefill: {
           name: user.name || "User",
           email: user.email || "",
