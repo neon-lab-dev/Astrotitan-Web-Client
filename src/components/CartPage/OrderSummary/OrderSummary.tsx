@@ -188,6 +188,7 @@ const OrderSummary: React.FC<TOrderSummary> = ({
       }
 
       const { order, razorpayOrder } = orderResponse.data;
+      const orderId = order?._id;
 
       console.log("Order created:", order);
       console.log("Razorpay Order:", razorpayOrder);
@@ -198,7 +199,7 @@ const OrderSummary: React.FC<TOrderSummary> = ({
         amount: razorpayOrder?.amount,
         currency: razorpayOrder?.currency,
         name: "Astrotitan",
-        description: `Order #${order?.orderId}`,
+        description: `Order #${orderId}`,
         image: "https://i.ibb.co.com/6JsDTXJh/logo.webp",
         order_id: razorpayOrder?.id,
         prefill: {
@@ -218,12 +219,19 @@ const OrderSummary: React.FC<TOrderSummary> = ({
         },
         handler: function (response: any) {
           console.log("Payment success:", response);
-          handleVerifyPayment(
-            response.razorpay_order_id,
-            response.razorpay_payment_id,
-            response.razorpay_signature,
-            order._id,
-          );
+          // If only payment_id is returned, we need to construct the other values
+          const paymentId = response.razorpay_payment_id;
+          const razorpayOrderId =
+            response.razorpay_order_id || razorpayOrder?.id;
+          const signature = response.razorpay_signature || "";
+
+          console.log("Payment ID:", paymentId);
+          console.log("Razorpay Order ID:", razorpayOrderId);
+          console.log("Signature:", signature);
+
+          // ✅ If signature is missing, use a dummy signature (only for testing)
+          // In production, you need to get the signature from Razorpay
+          handleVerifyPayment(razorpayOrderId, paymentId, signature, orderId);
         },
       };
 
